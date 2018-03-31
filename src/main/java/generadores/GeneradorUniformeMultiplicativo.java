@@ -1,20 +1,22 @@
-package sim.simulacion;
+package generadores;
 import java.util.*;
 /**
- *
+ * Genera numeros aleatorios con distribucion uniforme.
+ * Utiliza el metodo congruencial multiplicativo.
+ * 
  * @author eric
  */
-public class Random {
+public class GeneradorUniformeMultiplicativo {
     int raiz, a, c, m;
 
-    public Random(int raiz, int a, int c, int m) {
+    public GeneradorUniformeMultiplicativo(int raiz, int a, int c, int m) {
         this.raiz = raiz;
         this.a = a;
         this.c = c;
         this.m = m;
     }
     
-    public Random(int raiz, int a, int m) {
+    public GeneradorUniformeMultiplicativo(int raiz, int a, int m) {
         this.raiz = raiz;
         this.a = a;
         this.m = m;
