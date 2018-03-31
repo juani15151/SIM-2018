@@ -1,6 +1,4 @@
 package generadores;
-import java.util.ArrayList;
-import java.util.List;
 /**
  * Genera numeros aleatorios con distribucion uniforme.
  * Utiliza el metodo congruencial lineal (multiplicativo mixto).
@@ -8,26 +6,18 @@ import java.util.List;
  * @author eric
  */
 public class GeneradorUniformeMixto {
-    int raiz, a, c, m;
+    double semilla;
+    int a, c, m;
 
-    public GeneradorUniformeMixto(int raiz, int a, int c, int m) {
-        this.raiz = raiz;
-        this.a = a;
-        this.c = c;
-        this.m = m;
+    public GeneradorUniformeMixto(double semilla, int a, int c, int m) {
+        this.semilla = semilla;
+        this.a = a; // Se recomienda sea 1 + 4 * k
+        this.c = c; // Se recomienda ser primo relativo a M (creo que M - 1 es siempre primo relativo)
+        this.m = m; // Se recomienda ser 2**g
     }   
-
-    public List generar(){
-
-        List<Integer> x = new ArrayList<>();
-        List<Float> r = new ArrayList<>();
-
-        x.add((a * raiz + c) % m);
-        r.add(x.get(0) / (float)(m));
-        for (int i = 1; i < 20; i++) {
-            x.add((a * x.get(i-1) + c) % m);
-            r.add(x.get(i) / (float) (m) );  
-        }
-        return r;  
+    
+    public double nextDouble(){
+        this.semilla = (this.a * this.semilla + this.c) % this.m;               
+        return this.semilla / (double) this.m;
     }
 }

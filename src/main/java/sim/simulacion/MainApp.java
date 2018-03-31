@@ -4,6 +4,7 @@ import generadores.GeneradorUniformeMixto;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Scanner;
 import javafx.application.Application;
@@ -12,6 +13,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import utils.Round;
 
 
 public class MainApp extends Application {
@@ -39,10 +41,13 @@ public class MainApp extends Application {
     public void consoleMode() throws IOException {        
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         Scanner sc = new Scanner(System.in);
-        int raiz, a, c, m;
+        double semilla;
+        int a, c, m;
         
+        // Configurar generador.
+        // TODO: Debe poder seleccionar el generador (multiplicativo o mixto).
         System.out.print("Ingrese el valor semilla:");
-        raiz = sc.nextInt();
+        semilla = sc.nextDouble();
         System.out.print("Ingrese la constante multiplicativa A:");
         a = sc.nextInt();
         System.out.print("Ingrese la constante aditiva C:");
@@ -50,13 +55,22 @@ public class MainApp extends Application {
         System.out.print("Ingrese el valor del modulo M:");
         m = sc.nextInt();
         
-        GeneradorUniformeMixto generador = new GeneradorUniformeMixto(raiz,a, c, m);
-        List<Float> r = generador.generar();
+        GeneradorUniformeMixto generador = new GeneradorUniformeMixto(semilla,a, c, m);
         
-        System.out.print("presione enter para ver valores uno a uno.");
-        for (int i = 0; i < r.size(); i++) {
-            String enter = br.readLine();
-            System.out.println("valor " + (i+1)+": " + r.get(i)); 
+        // Mostrar primeros 20 valores.
+        System.out.println("Primeros 20 valores: ");
+        DecimalFormat df = new DecimalFormat();
+        for(int i = 0; i < 20; i++){
+            System.out.print(Round.truncate(generador.nextDouble(), m));
+            System.out.print(", ");
+        }
+        System.out.println("");               
+        
+        // Mostrar los siguientes de a uno.
+        System.out.println("Presione enter para ver los siguientes valores uno a uno.");
+        while(true){
+            sc.nextLine();
+            System.out.print(Round.truncate(generador.nextDouble(), m)); 
         }
     }
 
