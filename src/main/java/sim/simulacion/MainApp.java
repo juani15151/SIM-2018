@@ -49,7 +49,7 @@ public class MainApp extends Application {
         System.out.print("Ingrese el valor del modulo M:");
         m = sc.nextInt();
         
-        RandomMixto generador = new RandomMixto(raiz,a, c, m);
+        GeneradorUniformeMixto generador = new GeneradorUniformeMixto(raiz,a, c, m);
         List<Float> r = generador.generar();
         
         System.out.print("presione enter para ver valores uno a uno.");

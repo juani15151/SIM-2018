@@ -4,24 +4,21 @@
  * and open the template in the editor.
  */
 package sim.simulacion;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 /**
  *
  * @author eric
  */
-public class RandomMixto {
+public class GeneradorUniformeMixto {
     int raiz, a, c, m;
 
-    public RandomMixto() {
-    }
-
-    public RandomMixto(int raiz, int a, int c, int m) {
+    public GeneradorUniformeMixto(int raiz, int a, int c, int m) {
         this.raiz = raiz;
         this.a = a;
         this.c = c;
         this.m = m;
-    }
-   
+    }   
 
     public List generar(){
 

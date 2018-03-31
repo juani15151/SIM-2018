@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sim.simulacion;
 import java.util.*;
 /**
@@ -11,9 +6,6 @@ import java.util.*;
  */
 public class Random {
     int raiz, a, c, m;
-
-    public Random() {
-    }
 
     public Random(int raiz, int a, int c, int m) {
         this.raiz = raiz;
