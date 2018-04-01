@@ -1,27 +1,20 @@
 package sim.simulacion;
 
-import generadores.GeneradorUniformeMixto;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import generadores.GeneradorUniforme;
+import generadores.GeneradorUniforme;
 import java.text.DecimalFormat;
-import java.util.List;
 import java.util.Scanner;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 import utils.Round;
-
 
 public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
         this.consoleMode();
-        
+
         /* // Codigo por defecto del proyecto JavaFX. Se usa para ventanas. 
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/Scene.fxml"));
         
@@ -33,42 +26,50 @@ public class MainApp extends Application {
         stage.show();
         // */
     }
-    
+
     /**
      * Ejecutar el programa en consola hasta que tengamos interfaz grafica.
-     * @throws IOException
      */
-    public void consoleMode() throws IOException {        
+    public void consoleMode() {
         Scanner sc = new Scanner(System.in);
-        int semilla, a, c, m;
-        
+        int semilla, a, c = 0, m;
+
         // Configurar generador.
-        // TODO: Debe poder seleccionar el generador (multiplicativo o mixto).
+        System.out.println("Seleccione el generador a usar:");
+        System.out.println("1- Generador Uniforme por metodo congruencial mixto.");
+        System.out.println("2- Generador Uniforme por metodo congruencial.");
+        int generador_choice = sc.nextInt();
+
         System.out.print("Ingrese el valor semilla:");
         semilla = sc.nextInt();
         System.out.print("Ingrese la constante multiplicativa A:");
         a = sc.nextInt();
-        System.out.print("Ingrese la constante aditiva C:");
-        c = sc.nextInt();
         System.out.print("Ingrese el valor del modulo M:");
         m = sc.nextInt();
+
+        if (generador_choice == 1) {
+            System.out.print("Ingrese la constante aditiva C:");
+            c = sc.nextInt();
+        } else {
+            c = 0;
+        }
         
-        GeneradorUniformeMixto generador = new GeneradorUniformeMixto(semilla,a, c, m);
-        
+        GeneradorUniforme generador = new GeneradorUniforme(semilla, a, c, m);      
+
         // Mostrar primeros 20 valores.
         System.out.println("Primeros 20 valores: ");
         DecimalFormat df = new DecimalFormat();
-        for(int i = 0; i < 20; i++){
+        for (int i = 0; i < 20; i++) {
             System.out.print(Round.truncate(generador.nextDouble(), m));
             System.out.print(", ");
         }
-        System.out.println("");               
-        
+        System.out.println("");
+
         // Mostrar los siguientes de a uno.
         System.out.println("Presione enter para ver los siguientes valores uno a uno.");
-        while(true){
+        while (true) {
             sc.nextLine();
-            System.out.print(Round.truncate(generador.nextDouble(), m)); 
+            System.out.print(Round.truncate(generador.nextDouble(), m));
         }
     }
 

@@ -12,10 +12,10 @@ import static org.junit.Assert.*;
  *
  * @author juani
  */
-public class GeneradorUniformeMixtoTest {
+public class GeneradorUniformeTest {
     int MUESTRAS = 1000;
     
-    public GeneradorUniformeMixtoTest() {
+    public GeneradorUniformeTest() {
     }
 
     /**
@@ -23,8 +23,8 @@ public class GeneradorUniformeMixtoTest {
      */
     @Test
     public void testSeed() {
-        GeneradorUniformeMixto instance1 = new GeneradorUniformeMixto(100);
-        GeneradorUniformeMixto instance2 = new GeneradorUniformeMixto(100);
+        GeneradorUniforme instance1 = new GeneradorUniforme(100);
+        GeneradorUniforme instance2 = new GeneradorUniforme(100);
         
         for(int i = 0; i < 100; i++){
             assertEquals(instance1.nextDouble(), instance2.nextDouble(), 0.0);
@@ -37,7 +37,7 @@ public class GeneradorUniformeMixtoTest {
         // La media de un generador lineal debe ser 0.5
         double TOLERANCIA = 0.05;
         
-        GeneradorUniformeMixto instance = new GeneradorUniformeMixto(100);
+        GeneradorUniforme instance = new GeneradorUniforme(100);
         double suma = 0;
         for(int i = 0; i < this.MUESTRAS; i++){
             suma += instance.nextDouble();
@@ -50,7 +50,7 @@ public class GeneradorUniformeMixtoTest {
     public void testVarianza() {
         // La varianza de un generador lineal debe ser 1/12       
         double TOLERANCIA = 0.25;
-                GeneradorUniformeMixto instance = new GeneradorUniformeMixto(100);
+                GeneradorUniforme instance = new GeneradorUniforme(100);
         double sumatoriaDesviaciones = 0;
         for(int i=0; i < this.MUESTRAS; i++){
             sumatoriaDesviaciones += Math.pow(instance.nextDouble() - 0.5, 2);
