@@ -6,18 +6,23 @@ package generadores;
  * @author eric
  */
 public class GeneradorUniformeMixto {
-    double semilla;
-    int a, c, m;
+    int semilla;
+    int A; // Se recomienda sea 1 + 4 * k
+    int M; // Se recomienda ser primo relativo a M (creo que M - 1 es siempre primo relativo)
+    int C; // Se recomienda ser 2**g
 
-    public GeneradorUniformeMixto(double semilla, int a, int c, int m) {
-        this.semilla = semilla;
-        this.a = a; // Se recomienda sea 1 + 4 * k
-        this.c = c; // Se recomienda ser primo relativo a M (creo que M - 1 es siempre primo relativo)
-        this.m = m; // Se recomienda ser 2**g
+    public GeneradorUniformeMixto(int semilla, int A, int C, int M) {
+        if(semilla < 0 || A < 0 || C < 0 || M < 0){
+            throw new IllegalArgumentException("Las constances A, C y M, y la semilla, deben ser enteros positivos.");
+        }
+        this.semilla = semilla;        
+        this.A = A; 
+        this.C = C; 
+        this.M = M; 
     }   
     
     public double nextDouble(){
-        this.semilla = (this.a * this.semilla + this.c) % this.m;               
-        return this.semilla / (double) this.m;
+        this.semilla = (this.A * this.semilla + this.C) % this.M;               
+        return (double) this.semilla / this.M;
     }
 }

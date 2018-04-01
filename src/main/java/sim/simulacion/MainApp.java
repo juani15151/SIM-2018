@@ -39,15 +39,13 @@ public class MainApp extends Application {
      * @throws IOException
      */
     public void consoleMode() throws IOException {        
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         Scanner sc = new Scanner(System.in);
-        double semilla;
-        int a, c, m;
+        int semilla, a, c, m;
         
         // Configurar generador.
         // TODO: Debe poder seleccionar el generador (multiplicativo o mixto).
         System.out.print("Ingrese el valor semilla:");
-        semilla = sc.nextDouble();
+        semilla = sc.nextInt();
         System.out.print("Ingrese la constante multiplicativa A:");
         a = sc.nextInt();
         System.out.print("Ingrese la constante aditiva C:");
