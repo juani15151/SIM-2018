@@ -5,7 +5,7 @@ package generadores;
  * 
  * @author eric
  */
-public class GeneradorUniformeMixto {
+public class GeneradorUniformeMixto implements GeneradorUniforme {
     private int semilla;
     private int A; // Se recomienda sea 1 + 4 * k
     private int M; // Se recomienda ser primo relativo a M (creo que M - 1 es siempre primo relativo)
@@ -22,10 +22,10 @@ public class GeneradorUniformeMixto {
     }   
     
     public GeneradorUniformeMixto(int semilla){
-        // Las operaciones son calculadas al compilar.
         this(semilla, 1 + 4 * 10, (int) Math.pow(2, 10) - 1, (int) Math.pow(2, 10));
     }
     
+    @Override
     public double nextDouble(){
         this.semilla = (this.A * this.semilla + this.C) % this.M;               
         return (double) this.semilla / this.M;
