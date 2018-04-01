@@ -21,6 +21,11 @@ public class GeneradorUniformeMixto {
         this.M = M; 
     }   
     
+    public GeneradorUniformeMixto(int semilla){
+        // Las operaciones son calculadas al compilar.
+        this(semilla, 1 + 4 * 10, (int) Math.pow(2, 10) - 1, (int) Math.pow(2, 10));
+    }
+    
     public double nextDouble(){
         this.semilla = (this.A * this.semilla + this.C) % this.M;               
         return (double) this.semilla / this.M;
