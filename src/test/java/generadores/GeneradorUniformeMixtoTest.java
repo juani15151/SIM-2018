@@ -13,6 +13,7 @@ import static org.junit.Assert.*;
  * @author juani
  */
 public class GeneradorUniformeMixtoTest {
+    int MUESTRAS = 1000;
     
     public GeneradorUniformeMixtoTest() {
     }
@@ -29,6 +30,33 @@ public class GeneradorUniformeMixtoTest {
             assertEquals(instance1.nextDouble(), instance2.nextDouble(), 0.0);
         }
         
+    }
+    
+    @Test
+    public void testMedia() {
+        // La media de un generador lineal debe ser 0.5
+        double TOLERANCIA = 0.05;
+        
+        GeneradorUniformeMixto instance = new GeneradorUniformeMixto(100);
+        double suma = 0;
+        for(int i = 0; i < this.MUESTRAS; i++){
+            suma += instance.nextDouble();
+        }
+        double media = suma / this.MUESTRAS;
+        assertTrue(media >= 0.5 * (1 - TOLERANCIA) && media <= 0.5 * (1 + TOLERANCIA));        
+    }
+    
+    @Test
+    public void testVarianza() {
+        // La varianza de un generador lineal debe ser 1/12       
+        double TOLERANCIA = 0.25;
+                GeneradorUniformeMixto instance = new GeneradorUniformeMixto(100);
+        double sumatoriaDesviaciones = 0;
+        for(int i=0; i < this.MUESTRAS; i++){
+            sumatoriaDesviaciones += Math.pow(instance.nextDouble() - 0.5, 2);
+        }
+        double varianza = sumatoriaDesviaciones / this.MUESTRAS;
+        assertTrue(varianza >= 0.5 * ((double)1/12 - TOLERANCIA) && varianza <= 0.5 * ((double)1/12 + TOLERANCIA));        
     }
     
 }

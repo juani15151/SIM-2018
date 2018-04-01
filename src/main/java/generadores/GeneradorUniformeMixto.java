@@ -6,10 +6,10 @@ package generadores;
  * @author eric
  */
 public class GeneradorUniformeMixto {
-    int semilla;
-    int A; // Se recomienda sea 1 + 4 * k
-    int M; // Se recomienda ser primo relativo a M (creo que M - 1 es siempre primo relativo)
-    int C; // Se recomienda ser 2**g
+    private int semilla;
+    private int A; // Se recomienda sea 1 + 4 * k
+    private int M; // Se recomienda ser primo relativo a M (creo que M - 1 es siempre primo relativo)
+    private int C; // Se recomienda ser 2**g
 
     public GeneradorUniformeMixto(int semilla, int A, int C, int M) {
         if(semilla < 0 || A < 0 || C < 0 || M < 0){
