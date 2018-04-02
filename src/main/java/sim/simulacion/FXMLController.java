@@ -50,7 +50,7 @@ public class FXMLController implements Initializable {
         System.out.println("Primeros 20 valores: ");
         DecimalFormat df = new DecimalFormat();
         for (int i = 0; i < 20; i++) {
-            System.out.print(Round.truncate(generador.nextDouble(), this.parametroM.get()));
+            System.out.print(Round.truncate(generador.nextDouble(), 4));
             System.out.print(", ");
         }
         System.out.println("");
