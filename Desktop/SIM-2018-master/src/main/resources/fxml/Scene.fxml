@@ -9,10 +9,10 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="229.0" prefWidth="490.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sim.simulacion.FXMLController">
+<AnchorPane id="AnchorPane" prefHeight="220.0" prefWidth="512.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sim.simulacion.FXMLController">
     <children>
-        <Button layoutX="202.0" layoutY="164.0" onAction="#generarPorConsola" text="Generar" />
-      <VBox layoutX="14.0" layoutY="48.0" prefWidth="274.0">
+        <Button layoutX="207.0" layoutY="154.0" onAction="#generarPorConsola" text="Generar" />
+      <VBox layoutX="14.0" layoutY="46.0" prefWidth="274.0">
          <children>
             <HBox prefWidth="165.0">
                <children>
@@ -21,7 +21,7 @@
                         <Insets right="10.0" />
                      </padding>
                   </Label>
-                  <TextField fx:id="fieldA" prefHeight="25.0" prefWidth="152.0" />
+                  <TextField fx:id="fieldA" prefHeight="21.0" />
                </children>
                <padding>
                   <Insets bottom="5.0" top="5.0" />
@@ -34,7 +34,7 @@
                         <Insets right="10.0" />
                      </padding>
                   </Label>
-                  <TextField fx:id="fieldM" prefHeight="25.0" prefWidth="154.0" />
+                  <TextField fx:id="fieldM" prefHeight="21.0" />
                </children>
                <padding>
                   <Insets bottom="5.0" top="5.0" />
@@ -47,7 +47,7 @@
                         <Insets right="10.0" />
                      </padding>
                   </Label>
-                  <TextField fx:id="fieldC" prefHeight="25.0" prefWidth="155.0" />
+                  <TextField fx:id="fieldC" prefHeight="21.0" />
                </children>
                <padding>
                   <Insets bottom="5.0" top="5.0" />
@@ -55,8 +55,8 @@
             </HBox>
          </children>
       </VBox>
-      <TextField layoutX="109.0" layoutY="23.0" prefHeight="25.0" prefWidth="152.0" text="0" />
-      <Label layoutX="14.0" layoutY="27.0" text="Semilla" />
-      <ListView layoutX="274.0" layoutY="15.0" prefHeight="200.0" prefWidth="200.0" />
+      <Label layoutX="14.0" layoutY="22.0" text="Semilla" />
+      <TextField layoutX="109.0" layoutY="18.0" text="0" />
+      <ListView layoutX="288.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" />
     </children>
 </AnchorPane>
