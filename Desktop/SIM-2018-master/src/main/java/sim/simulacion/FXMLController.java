@@ -13,6 +13,7 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.scene.control.TextArea;
 import javafx.util.converter.NumberStringConverter;
 import utils.Round;
 
@@ -28,6 +29,7 @@ public class FXMLController implements Initializable {
     private TextField fieldM;
     @FXML
     private TextField fieldC;
+   
 
     public FXMLController() {
         this.parametroA = new SimpleIntegerProperty(0);
@@ -50,6 +52,7 @@ public class FXMLController implements Initializable {
         System.out.println("Primeros 20 valores: ");
         DecimalFormat df = new DecimalFormat();
         for (int i = 0; i < 20; i++) {
+
             System.out.print(Round.truncate(generador.nextDouble(), 4));
             System.out.print(", ");
         }
