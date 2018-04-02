@@ -46,11 +46,14 @@ public abstract class PruebaChiCuadrado {
      */
     public boolean runTest() {
         // calcular frecuencias de cada intervalo
-        int[] frecuenciaIntervalos = this.observarFrecuenciasPorIntervalo();
+        return this.runTest(this.observarFrecuenciasPorIntervalo());
+    }
+    
+    public boolean runTest(int[] frecuenciaIntervalos){
         return this.calcularChi(frecuenciaIntervalos) <= this.chiAceptado();
     }
 
-    private int[] observarFrecuenciasPorIntervalo() {
+    public int[] observarFrecuenciasPorIntervalo() {
         // Usamos intervalos uniformes, pero no necesariamente deben serlo.
         double tamañoInter = (double) 1.0 / this.cantidadIntervalos;
         int[] frecuenciaIntervalos = new int[this.cantidadIntervalos];
