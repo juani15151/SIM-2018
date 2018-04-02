@@ -18,8 +18,7 @@ public class MainApp extends Application {
         //this.consoleMode();
 
         // Codigo por defecto del proyecto JavaFX. Se usa para ventanas. 
-        //Parent root = FXMLLoader.load(getClass().getResource("/fxml/Scene.fxml"));
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/GraficoBarras.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/Menu.fxml"));
         
         Scene scene = new Scene(root);
         scene.getStylesheets().add("/styles/Styles.css");
