@@ -15,11 +15,11 @@
         <URL value="@/styles/Styles.css" />
     </stylesheets>
    <children>
-      <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox maxHeight="0.0" maxWidth="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <BarChart fx:id="chart" prefHeight="400.0" prefWidth="600.0">
+            <BarChart fx:id="chart" prefHeight="99999.0" prefWidth="600.0">
               <xAxis>
-                <CategoryAxis fx:id="chartXAxis" side="BOTTOM" />
+                <CategoryAxis fx:id="chartXAxis" label="Intervalo" />
               </xAxis>
               <yAxis>
                 <NumberAxis side="LEFT" />

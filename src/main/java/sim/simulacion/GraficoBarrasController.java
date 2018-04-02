@@ -50,6 +50,10 @@ public class GraficoBarrasController implements Initializable {
 
         // Assign the month names as categories for the horizontal axis.
         chartXAxis.setCategories(labels);
+        
+        // Cambia el Ancho de las barras.
+        chart.categoryGapProperty().set(0);
+        chart.barGapProperty().set(0);
     }
 
     @FXML
