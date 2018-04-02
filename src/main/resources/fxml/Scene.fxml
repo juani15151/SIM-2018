@@ -20,7 +20,7 @@
                         <Insets right="10.0" />
                      </padding>
                   </Label>
-                  <TextField fx:id="fieldA" prefHeight="21.0" text="0" />
+                  <TextField fx:id="fieldA" prefHeight="21.0" />
                </children>
                <padding>
                   <Insets bottom="5.0" top="5.0" />
@@ -33,7 +33,7 @@
                         <Insets right="10.0" />
                      </padding>
                   </Label>
-                  <TextField fx:id="fieldM" prefHeight="21.0" text="0" />
+                  <TextField fx:id="fieldM" prefHeight="21.0" />
                </children>
                <padding>
                   <Insets bottom="5.0" top="5.0" />
@@ -46,7 +46,7 @@
                         <Insets right="10.0" />
                      </padding>
                   </Label>
-                  <TextField fx:id="fieldC" prefHeight="21.0" text="0" />
+                  <TextField fx:id="fieldC" prefHeight="21.0" />
                </children>
                <padding>
                   <Insets bottom="5.0" top="5.0" />
