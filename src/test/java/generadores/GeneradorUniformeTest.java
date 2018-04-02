@@ -8,7 +8,7 @@ package generadores;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
-import sim.simulacion.PruebaChiCuadradoUniforme;
+import pruebas.PruebaChiCuadradoUniforme;
 
 /**
  *
