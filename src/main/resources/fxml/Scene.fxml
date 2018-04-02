@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane id="AnchorPane" prefHeight="200" prefWidth="320" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.141" fx:controller="sim.simulacion.FXMLController">
+    <children>
+        <Button layoutX="208.0" layoutY="155.0" onAction="#generarPorConsola" text="Generar" />
+      <VBox layoutX="13.0" layoutY="18.0" prefWidth="274.0">
+         <children>
+            <HBox prefWidth="165.0">
+               <children>
+                    <Label minHeight="26.0" minWidth="90.0" prefHeight="26.0" prefWidth="95.0" text="Constante A">
+                     <padding>
+                        <Insets right="10.0" />
+                     </padding>
+                  </Label>
+                  <TextField fx:id="fieldA" prefHeight="21.0" />
+               </children>
+               <padding>
+                  <Insets bottom="5.0" top="5.0" />
+               </padding>
+            </HBox>
+            <HBox prefWidth="165.0">
+               <children>
+                  <Label minHeight="26.0" minWidth="90.0" prefHeight="21.0" prefWidth="95.0" text="Constante M">
+                     <padding>
+                        <Insets right="10.0" />
+                     </padding>
+                  </Label>
+                  <TextField fx:id="fieldM" prefHeight="21.0" />
+               </children>
+               <padding>
+                  <Insets bottom="5.0" top="5.0" />
+               </padding>
+            </HBox>
+            <HBox>
+               <children>
+                  <Label minHeight="26.0" minWidth="90.0" prefHeight="26.0" prefWidth="95.0" text="Constante C">
+                     <padding>
+                        <Insets right="10.0" />
+                     </padding>
+                  </Label>
+                  <TextField fx:id="fieldC" prefHeight="21.0" />
+               </children>
+               <padding>
+                  <Insets bottom="5.0" top="5.0" />
+               </padding>
+            </HBox>
+         </children>
+      </VBox>
+    </children>
+</AnchorPane>
