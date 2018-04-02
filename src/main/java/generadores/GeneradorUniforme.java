@@ -1,4 +1,7 @@
 package generadores;
+
+import java.util.Random;
+
 /**
  * Genera numeros aleatorios con distribucion uniforme.
  * Utiliza el metodo congruencial lineal (multiplicativo mixto).
@@ -24,6 +27,10 @@ public class GeneradorUniforme implements IGenerador {
     
     public GeneradorUniforme(int semilla){
         this(semilla, 1 + 4 * 10, (int) Math.pow(2, 10) - 1, (int) Math.pow(2, 10));
+    }
+    
+    public GeneradorUniforme(){
+        this(new Random().nextInt(1000));
     }
     
     @Override

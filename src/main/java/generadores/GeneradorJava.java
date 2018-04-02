@@ -14,6 +14,9 @@ import java.util.Random;
  */
 public class GeneradorJava extends Random implements IGenerador {    
 
+    public GeneradorJava() {
+    }
+
     public GeneradorJava(long seed) {
         super(seed);
     }
