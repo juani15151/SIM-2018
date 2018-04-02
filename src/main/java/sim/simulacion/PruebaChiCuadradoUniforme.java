@@ -1,98 +1,78 @@
 package sim.simulacion;
 
-import java.text.DecimalFormat;
+import generadores.GeneradorUniforme;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author Camila
- */
+
 public class PruebaChiCuadradoUniforme {
-
-    // decimal forma permite que mostremos los numero en el formate que querramos
-    DecimalFormat dec = new DecimalFormat("#.####");
+    private final int TAMAÑOMUESTRA = 1000;
+    
     //private double serie[];
-    List<Double> serie = new ArrayList<>();
-    private int cant_intervalos;
-    private double frecObservada;
+    private List<Double> serie;
+    private final int[] frecuenciaIntervalos; // Cada item almacena la frecuencia del intervalo.
     private double frecEsperada;
-    private double limiteInf;
-    private double limiteSup;
-    List<Double> frecObs; 
 
-    public PruebaChiCuadradoUniforme(ArrayList<Double> serie, int cant_intervalos) {
+    public PruebaChiCuadradoUniforme(ArrayList<Double> serie, int cantidadIntervalos) {
         this.serie = serie;
-        this.cant_intervalos = cant_intervalos;
-        this.frecObservada = 0;
-        this.frecEsperada = (double) serie.size() / cant_intervalos;
-        this.frecObs = new ArrayList<>(cant_intervalos);
-    }
-
-    public int FrecObservada(double limiteInf, double limiteSup) {
-        int frec = 0;
-        for (int i = 0; i < serie.size(); i++) {
-            if (serie.get(i) >= limiteInf && serie.get(i) < limiteSup) {
-                frec++;
-            }
+        this.frecuenciaIntervalos = new int[cantidadIntervalos]; 
+        this.frecEsperada = (double) serie.size() / cantidadIntervalos;
+    }   
+    
+    public PruebaChiCuadradoUniforme(GeneradorUniforme generador, int cantidadIntervalos){
+        this.serie = new ArrayList<>(this.TAMAÑOMUESTRA);
+        for(int i=0; i < this.TAMAÑOMUESTRA; i++){
+            this.serie.add(generador.nextDouble());
         }
-        return frec;
+        this.frecuenciaIntervalos = new int[cantidadIntervalos];
+        this.frecEsperada = (double) serie.size() / cantidadIntervalos;
     }
+        
+    /**
+     * @return Si paso el test de ChiCuadrado o no.
+     */
+    public boolean runTest(){
+        // calcular frecuencias de cada intervalo
+        this.observarFrecuenciasPorIntervalo();
+        return this.calcularChi() <= this.chiAceptado();
+    }    
+    
+    private int cantIntervalos(){
+        return this.frecuenciaIntervalos.length;
+    }
+    
+    private void observarFrecuenciasPorIntervalo() {
+        // Usamos intervalos uniformes, pero no necesariamente deben serlo.
+        double tamañoInter = (double) 1.0 / this.cantIntervalos();
 
-    public List<Double> FrecObservada(ArrayList<Double> serie, int cant_intervalos) {
-        float tamañoInter = (float) 0.9999 / cant_intervalos;
-        limiteInf = 0;
-        limiteSup = 0;
-        frecObservada = 0;
-
-        for (int i = 0; i < cant_intervalos; i++) {
-            if (i < 1) {
-
-                limiteSup = Double.parseDouble(dec.format(limiteInf + tamañoInter));
-                frecObservada = this.FrecObservada(limiteInf, limiteSup);
-                frecObs.add(i, frecObservada);
-                System.out.println("inf: " + limiteInf);
-                System.out.println("sup: " + limiteSup);
-                System.out.println("frec " + frecObservada);
-
-            } else if (i >= 1) {
-
-                limiteInf = Double.parseDouble(dec.format(limiteSup));
-                limiteSup = Double.parseDouble(dec.format(limiteInf + tamañoInter));
-                frecObservada = this.FrecObservada(limiteInf, limiteSup);
-//                frecObs[i] = frecObservada ;
-                frecObs.add(i, frecObservada);
-                System.out.println("inf: " + limiteInf);
-                System.out.println("sup: " + limiteSup);
-                System.out.println("frec " + frecObservada);
+        for(double valorObservado : this.serie){ 
+            for(int i = 0; i < this.cantIntervalos(); i++){
+                if(valorObservado > tamañoInter * i && valorObservado <= tamañoInter * (i + 1)){
+                    this.frecuenciaIntervalos[i]++;
+                }
             }
-        }
-        return frecObs;
-    }
+        }        
+    }  
 
-    public double calcularChi(ArrayList frecObs) {
+    public double calcularChi() {
         double chiCalculado = 0;
-        for (int i = 0; i < frecObs.size(); i++) {
-            frecObservada = (int) frecObs.get(i);
-            chiCalculado = chiCalculado + Double.parseDouble(dec.format(Math.pow(frecObservada
-                    - frecEsperada, 2) / frecEsperada));
+        double sumatoriaDesviaciones = 0.0;
+        for (int i = 0; i < this.cantIntervalos(); i++) {
+            int frecObservada = this.frecuenciaIntervalos[i];
+            sumatoriaDesviaciones += Math.pow(frecObservada - this.frecEsperada, 2);
         }
-        return chiCalculado;
+        // Se simplifica la formula de la sumatoria, dividiendo todo junto al final.
+        return sumatoriaDesviaciones / this.frecEsperada;
     }
 
-    public double tabularChi() {
-        double chiTabulado = 0;
-        int gradosLibertad = cant_intervalos - 1;
-        double nivelConfianza = 0.95;
+    public double chiAceptado() {
+        // Tabla tabulada de ChiCuadrado con nivel de confianza = 0.95
+        double[] tablaChi95 = {3.8, 6, 7.8, 9.5, 11.1, 12.6, 14.1, 15.5, 16.9, 
+            18.3, 19.7, 21, 22.4, 23.7, 25, 26.3, 27.6,28.9,30.1,31.4,32.7,33.9,
+            35.2,36.4,37.7,38.9,41.1,41.3,42.6,43.8};
 
-        return chiTabulado;
-    }
-
-    public Boolean TestChiCuadrado(double chiCalculado, double chiTabulado) {
-        if (chiCalculado <= chiTabulado) {
-            return true;
-        } else {
-            return false;
-        }
+        int gradosLibertad = this.cantIntervalos() - 1; // No tiene valores fijos.
+        assert gradosLibertad <= tablaChi95.length; // Solo tabulamos hasta 30 grados libertad.
+        return tablaChi95[gradosLibertad];
     }
 }
