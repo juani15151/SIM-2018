@@ -63,12 +63,12 @@ public abstract class PruebaChiCuadrado {
 
     public int[] observarFrecuenciasPorIntervalo() {
         // Usamos intervalos uniformes, pero no necesariamente deben serlo.
-        double tamañoInter = (double) 1.0 / this.cantidadIntervalos;
+        double tamañoInter = 1.0 / this.cantidadIntervalos;
         int[] frecuenciaIntervalos = new int[this.cantidadIntervalos];
 
         for (double valorObservado : this.generarValores()) {
             for (int i = 0; i < this.cantidadIntervalos; i++) {
-                if (valorObservado > tamañoInter * i && valorObservado <= tamañoInter * (i + 1)) {
+                if (valorObservado >= tamañoInter * i && valorObservado < tamañoInter * (i + 1)) {
                     frecuenciaIntervalos[i]++;
                 }
             }
