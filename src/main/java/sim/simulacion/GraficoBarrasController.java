@@ -41,8 +41,8 @@ import pruebas.PruebaChiCuadradoUniforme;
  */
 public class GraficoBarrasController implements Initializable {
 
-    private final IntegerProperty tamañoMuestra = new SimpleIntegerProperty(1000);
-    private final IntegerProperty cantidadIntervalos = new SimpleIntegerProperty(10);
+    private final IntegerProperty tamañoMuestra = new SimpleIntegerProperty(1024);
+    private final IntegerProperty cantidadIntervalos = new SimpleIntegerProperty(16);
 
     private final DoubleProperty frecuenciaEsperada = new SimpleDoubleProperty();
     private final DoubleProperty chiObservado = new SimpleDoubleProperty();

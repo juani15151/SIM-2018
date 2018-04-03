@@ -17,7 +17,7 @@ public class GeneradorUniforme implements IGenerador {
     private int C; // Se recomienda ser primo relativo a M (creo que M - 1 es siempre primo relativo)    
 
     public GeneradorUniforme() {
-        this(new Random().nextInt(1000));
+        this(new Random().nextInt(1024));
     }
 
     public GeneradorUniforme(int semilla) {
@@ -39,12 +39,14 @@ public class GeneradorUniforme implements IGenerador {
         if (semilla < 0 || A < 0 || C < 0 || M < 0) {
             throw new IllegalArgumentException("Las constances A, C y M, y la semilla, deben ser enteros positivos.");
         }
-        this.semilla = semilla;
+        // Semilla par y C == 0 generan una secuencia erronea.
+        this.semilla = semilla; 
         this.A = A;
         this.C = C;
         this.M = M;
+        System.out.println("Nuevo generador uniforme con semilla " + String.valueOf(this.semilla));
     }
-
+    
     @Override
     public double nextDouble() {
         this.semilla = (this.A * this.semilla + this.C) % this.M;
