@@ -14,7 +14,9 @@ import javafx.beans.property.StringProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.util.converter.NumberStringConverter;
+import javax.swing.JOptionPane;
 import utils.Round;
+import utils.Validaciones;
 
 public class FXMLController implements Initializable {
 
@@ -44,15 +46,48 @@ public class FXMLController implements Initializable {
 
     @FXML
     private void generarPorConsola(ActionEvent event) {
-        IGenerador generador = new GeneradorUniforme(100, this.parametroA.get(), this.parametroC.get(), this.parametroM.get());
 
-        // Mostrar primeros 20 valores.
-        System.out.println("Primeros 20 valores: ");
-        DecimalFormat df = new DecimalFormat();
-        for (int i = 0; i < 20; i++) {
-            System.out.print(Round.truncate(generador.nextDouble(), 4));
-            System.out.print(", ");
+        if (ValidarCamposNumericos()) {
+            if (ValidarNoNegativo()) {
+                IGenerador generador = new GeneradorUniforme(100, this.parametroA.get(), this.parametroC.get(), this.parametroM.get());
+
+                // Mostrar primeros 20 valores.
+                System.out.println("Primeros 20 valores: ");
+                DecimalFormat df = new DecimalFormat();
+                for (int i = 0; i < 20; i++) {
+                    System.out.print(Round.truncate(generador.nextDouble(), 4));
+                    System.out.print(", ");
+                }
+                System.out.println("");
+            } else {
+                JOptionPane.showMessageDialog(null, "ERROR, INGRESE BIEN LOS DATOS, SOLO VALORES POSITIVOS");
+                limpiarCampos();
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "ERROR, INGRESE BIEN LOS DATOS, SOLO VALORES NUMERICOS");
+            limpiarCampos();
         }
-        System.out.println("");
+
     }
+
+    private void limpiarCampos() {
+        fieldA.setText("0");
+        fieldM.setText("0");
+        fieldC.setText("0");
+    }
+
+    private boolean ValidarCamposNumericos() {
+        return Validaciones.isNumeric(fieldA.getText())
+                && Validaciones.isNumeric(fieldM.getText()) && Validaciones.isNumeric(fieldC.getText());
+        // && Validaciones.isNumeric(semilla.getText())
+    }
+
+    private boolean ValidarNoNegativo() {
+        return (Validaciones.isPositive(Integer.parseInt(fieldA.getText()))
+                && Validaciones.isPositive(Integer.parseInt(fieldM.getText()))
+                && Integer.parseInt(fieldC.getText()) >= 0);
+
+        // && Validaciones.isPositive(Integer.parseInt(semilla.getText())
+    }
+
 }

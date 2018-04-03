@@ -10,7 +10,7 @@ public class PruebaChiCuadradoUniforme extends PruebaChiCuadrado {
 
     @Override
     double getFrecuenciaEsperada(int numeroIntervalo) {
-        return (double) this.tamañoMuestra / this.cantidadIntervalos;
+        return (double) this.TAMAÑOMUESTRA / this.cantidadIntervalos;
     }
 
     @Override
