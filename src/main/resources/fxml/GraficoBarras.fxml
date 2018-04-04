@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="800.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sim.simulacion.GraficoBarrasController">
+<AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="1200.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sim.simulacion.GraficoBarrasController">
     <stylesheets>
         <URL value="@/styles/Styles.css" />
     </stylesheets>
@@ -21,10 +21,10 @@
          <children>
             <BarChart fx:id="chart" animated="false" prefHeight="99999.0" prefWidth="600.0" title="Frecuencias observadas por intervalo">
               <xAxis>
-                <CategoryAxis fx:id="chartXAxis" label="Intervalo" />
+                <CategoryAxis fx:id="chartXAxis" label="Intervalo (Etiqueta truncada a 2 decimales)" />
               </xAxis>
               <yAxis>
-                <NumberAxis side="LEFT" />
+                <NumberAxis side="LEFT" label="Frecuencia" />
               </yAxis>
             </BarChart>
             <HBox>

@@ -91,6 +91,9 @@ public class GraficoBarrasController implements Initializable {
     }
 
     private void generate(IGenerador generador) {
+        resetChart();
+        setXAxis();
+        
         PruebaChiCuadrado test = new PruebaChiCuadradoUniforme(generador, cantidadIntervalos.get());
         test.setTamañoMuestra(tamañoMuestra.get());
         int[] frecuencias = test.observarFrecuenciasPorIntervalo();
@@ -101,11 +104,10 @@ public class GraficoBarrasController implements Initializable {
         XYChart.Series<String, Double> barras = new XYChart.Series<>();
         barras.setName("Distribucion Generada");
         for (int i = 0; i < cantidadIntervalos.get(); i++) {
-            barras.getData().add(new XYChart.Data<>(String.valueOf(i), (double) frecuencias[i]));
+            barras.getData().add(new XYChart.Data<>(chartXAxis.getCategories().get(i), (double) frecuencias[i]));
         }
 
-        resetChart();
-        setXAxis();
+        
         chart.getData().add(barras);
         chart.getData().add(generarDistribucionUniforme());
     }
@@ -114,7 +116,7 @@ public class GraficoBarrasController implements Initializable {
         XYChart.Series<String, Double> barras = new XYChart.Series<>();
         barras.setName("Distribucion Uniforme");
         for (int i = 0; i < cantidadIntervalos.get(); i++) {
-            barras.getData().add(new XYChart.Data<>(String.valueOf(i), frecuenciaEsperada.get()));
+            barras.getData().add(new XYChart.Data<>(chartXAxis.getCategories().get(i), frecuenciaEsperada.get()));
         }
 
         return barras;
@@ -122,8 +124,10 @@ public class GraficoBarrasController implements Initializable {
 
     private void setXAxis() {
         List<String> labelList = new ArrayList(cantidadIntervalos.get());
+        double tamañoIntervalo =  1.0 / this.cantidadIntervalos.doubleValue();
         for (int i = 0; i < cantidadIntervalos.get(); i++) {
-            labelList.add(String.valueOf(i));
+            String limites = String.format("%1.2f-%1.2f", tamañoIntervalo * i, tamañoIntervalo * (i+1));
+            labelList.add(limites);
         }
 
         ObservableList<String> labels = FXCollections.observableArrayList();
