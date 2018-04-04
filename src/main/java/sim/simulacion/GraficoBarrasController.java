@@ -49,7 +49,7 @@ public class GraficoBarrasController implements Initializable {
     private final BooleanProperty pasoChi = new SimpleBooleanProperty();
 
     @FXML
-    private BarChart<String, Integer> chart;
+    private BarChart<String, Double> chart;
     @FXML
     private CategoryAxis chartXAxis;
     @FXML
@@ -98,15 +98,26 @@ public class GraficoBarrasController implements Initializable {
         this.chiObservado.set(test.calcularChi(frecuencias));
         this.pasoChi.set(test.runTest(frecuencias));
 
-        XYChart.Series<String, Integer> barras = new XYChart.Series<>();
-
+        XYChart.Series<String, Double> barras = new XYChart.Series<>();
+        barras.setName("Distribucion Generada");
         for (int i = 0; i < cantidadIntervalos.get(); i++) {
-            barras.getData().add(new XYChart.Data<>(String.valueOf(i), frecuencias[i]));
+            barras.getData().add(new XYChart.Data<>(String.valueOf(i), (double) frecuencias[i]));
         }
 
         resetChart();
         setXAxis();
         chart.getData().add(barras);
+        chart.getData().add(generarDistribucionUniforme());
+    }
+
+    private XYChart.Series<String, Double> generarDistribucionUniforme() {
+        XYChart.Series<String, Double> barras = new XYChart.Series<>();
+        barras.setName("Distribucion Uniforme");
+        for (int i = 0; i < cantidadIntervalos.get(); i++) {
+            barras.getData().add(new XYChart.Data<>(String.valueOf(i), frecuenciaEsperada.get()));
+        }
+
+        return barras;
     }
 
     private void setXAxis() {
