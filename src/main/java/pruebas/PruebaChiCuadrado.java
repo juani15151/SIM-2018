@@ -63,12 +63,12 @@ public abstract class PruebaChiCuadrado {
 
     public int[] observarFrecuenciasPorIntervalo() {
         // Usamos intervalos uniformes, pero no necesariamente deben serlo.
-        double tamañoInter = (double) 1.0 / this.cantidadIntervalos;
+        double tamañoInter = 1.0 / this.cantidadIntervalos;
         int[] frecuenciaIntervalos = new int[this.cantidadIntervalos];
 
         for (double valorObservado : this.generarValores()) {
             for (int i = 0; i < this.cantidadIntervalos; i++) {
-                if (valorObservado > tamañoInter * i && valorObservado <= tamañoInter * (i + 1)) {
+                if (valorObservado >= tamañoInter * i && valorObservado < tamañoInter * (i + 1)) {
                     frecuenciaIntervalos[i]++;
                 }
             }
@@ -78,8 +78,16 @@ public abstract class PruebaChiCuadrado {
 
     private List<Double> generarValores() {
         List<Double> valores = new ArrayList<>(this.tamañoMuestra);
+        System.out.println(String.format("Generando %d valores aleatorios", tamañoMuestra));
         for (int i = 0; i < this.tamañoMuestra; i++) {
-            valores.add(this.generador.nextDouble());
+            double muestra = this.generador.nextDouble();
+            valores.add(muestra);
+            // Mostrar por consola (10 por linea).
+            if(i % 10 == 0) {
+                System.out.println(String.format("%1.4f, ", muestra));
+            } else {
+                System.out.print(String.format("%1.4f, ", muestra));
+            }            
         }
         return valores;
     }
