@@ -15,4 +15,7 @@ public interface IGenerador {
      * Retorna un numero pseudo-aleatorio segun la distribucion del generador.
      */
     public abstract double nextDouble();
+
 }
+
+

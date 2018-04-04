@@ -58,6 +58,6 @@
       <Label layoutX="14.0" layoutY="30.0" text="Semilla" />
       <TextField fx:id="semilla" layoutX="109.0" layoutY="26.0" />
       <ListView fx:id="listView1" layoutX="268.0" layoutY="26.0" prefHeight="200.0" prefWidth="200.0" />
-      <Button layoutX="195.0" layoutY="163.0" mnemonicParsing="false" text="Siguiente" />
+      <Button layoutX="195.0" layoutY="163.0" onAction="#mostrarSerie" mnemonicParsing="false" text="Mostrar" />
     </children>
 </AnchorPane>

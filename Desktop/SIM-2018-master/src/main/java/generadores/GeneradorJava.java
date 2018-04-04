@@ -20,5 +20,6 @@ public class GeneradorJava extends Random implements IGenerador {
     public GeneradorJava(long seed) {
         super(seed);
     }
+
     
 }
