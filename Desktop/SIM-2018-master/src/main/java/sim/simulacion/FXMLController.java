@@ -13,6 +13,8 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.util.converter.NumberStringConverter;
 import javax.swing.JOptionPane;
 import utils.Round;
@@ -23,6 +25,7 @@ public class FXMLController implements Initializable {
     private final IntegerProperty parametroA;
     private final IntegerProperty parametroM;
     private final IntegerProperty parametroC;
+    private final IntegerProperty semillaParam;
 
     @FXML
     private TextField fieldA;
@@ -30,11 +33,16 @@ public class FXMLController implements Initializable {
     private TextField fieldM;
     @FXML
     private TextField fieldC;
+    @FXML
+    private TextField semilla;
+    @FXML
+    private ListView<?> listView1;
 
     public FXMLController() {
         this.parametroA = new SimpleIntegerProperty(0);
         this.parametroM = new SimpleIntegerProperty(0);
         this.parametroC = new SimpleIntegerProperty(0);
+        this.semillaParam = new SimpleIntegerProperty(0);
     }
 
     @Override
@@ -42,6 +50,7 @@ public class FXMLController implements Initializable {
         fieldA.textProperty().bindBidirectional(this.parametroA, new NumberStringConverter());
         fieldM.textProperty().bindBidirectional(this.parametroM, new NumberStringConverter());
         fieldC.textProperty().bindBidirectional(this.parametroC, new NumberStringConverter());
+        semilla.textProperty().bindBidirectional(this.semillaParam, new NumberStringConverter());
     }
 
     @FXML
@@ -49,12 +58,13 @@ public class FXMLController implements Initializable {
 
         if (ValidarCamposNumericos()) {
             if (ValidarNoNegativo()) {
-                IGenerador generador = new GeneradorUniforme(100, this.parametroA.get(), this.parametroC.get(), this.parametroM.get());
+                IGenerador generador = new GeneradorUniforme(this.semillaParam.get(), this.parametroA.get(), this.parametroC.get(), this.parametroM.get());
 
                 // Mostrar primeros 20 valores.
                 System.out.println("Primeros 20 valores: ");
                 DecimalFormat df = new DecimalFormat();
                 for (int i = 0; i < 20; i++) {
+                    
                     System.out.print(Round.truncate(generador.nextDouble(), 4));
                     System.out.print(", ");
                 }
@@ -78,16 +88,16 @@ public class FXMLController implements Initializable {
 
     private boolean ValidarCamposNumericos() {
         return Validaciones.isNumeric(fieldA.getText())
-                && Validaciones.isNumeric(fieldM.getText()) && Validaciones.isNumeric(fieldC.getText());
-        // && Validaciones.isNumeric(semilla.getText())
+                && Validaciones.isNumeric(fieldM.getText()) && Validaciones.isNumeric(fieldC.getText()) 
+                && Validaciones.isNumeric(semilla.getText());
+       
     }
 
     private boolean ValidarNoNegativo() {
         return (Validaciones.isPositive(Integer.parseInt(fieldA.getText()))
                 && Validaciones.isPositive(Integer.parseInt(fieldM.getText()))
-                && Integer.parseInt(fieldC.getText()) >= 0);
+                && Integer.parseInt(fieldC.getText()) >= 0) && Validaciones.isPositive(Integer.parseInt(semilla.getText()));
 
-        // && Validaciones.isPositive(Integer.parseInt(semilla.getText())
     }
 
 }
