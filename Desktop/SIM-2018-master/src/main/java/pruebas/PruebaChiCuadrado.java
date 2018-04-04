@@ -15,7 +15,7 @@ import java.util.List;
  */
 public abstract class PruebaChiCuadrado {
 
-    protected final int TAMAÑOMUESTRA = 1000;
+    protected int tamañoMuestra = 1000;
 
     protected IGenerador generador;
     protected final int cantidadIntervalos;
@@ -25,6 +25,14 @@ public abstract class PruebaChiCuadrado {
         this.cantidadIntervalos = cantidadIntervalos;
     }
 
+    public int getTamañoMuestra(){
+        return this.tamañoMuestra;
+    }
+    
+    public void setTamañoMuestra(int value){
+        this.tamañoMuestra = value;
+    }
+    
     /**
      * Son la cantidad de valores definidos por el usuario (ej. media,
      * varianza).
@@ -46,11 +54,14 @@ public abstract class PruebaChiCuadrado {
      */
     public boolean runTest() {
         // calcular frecuencias de cada intervalo
-        int[] frecuenciaIntervalos = this.observarFrecuenciasPorIntervalo();
+        return this.runTest(this.observarFrecuenciasPorIntervalo());
+    }
+    
+    public boolean runTest(int[] frecuenciaIntervalos){
         return this.calcularChi(frecuenciaIntervalos) <= this.chiAceptado();
     }
 
-    private int[] observarFrecuenciasPorIntervalo() {
+    public int[] observarFrecuenciasPorIntervalo() {
         // Usamos intervalos uniformes, pero no necesariamente deben serlo.
         double tamañoInter = (double) 1.0 / this.cantidadIntervalos;
         int[] frecuenciaIntervalos = new int[this.cantidadIntervalos];
@@ -66,8 +77,8 @@ public abstract class PruebaChiCuadrado {
     }
 
     private List<Double> generarValores() {
-        List<Double> valores = new ArrayList<>(this.TAMAÑOMUESTRA);
-        for (int i = 0; i < this.TAMAÑOMUESTRA; i++) {
+        List<Double> valores = new ArrayList<>(this.tamañoMuestra);
+        for (int i = 0; i < this.tamañoMuestra; i++) {
             valores.add(this.generador.nextDouble());
         }
         return valores;
