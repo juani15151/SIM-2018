@@ -13,6 +13,8 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.util.converter.NumberStringConverter;
@@ -26,6 +28,7 @@ public class FXMLController implements Initializable {
     private final IntegerProperty parametroM;
     private final IntegerProperty parametroC;
     private final IntegerProperty semillaParam;
+    private ObservableList<Double> listaNumeros = FXCollections.observableArrayList();
 
     @FXML
     private TextField fieldA;
@@ -36,7 +39,7 @@ public class FXMLController implements Initializable {
     @FXML
     private TextField semilla;
     @FXML
-    private ListView<?> listView1;
+    private ListView<Double> listView1;
 
     public FXMLController() {
         this.parametroA = new SimpleIntegerProperty(0);
@@ -58,17 +61,9 @@ public class FXMLController implements Initializable {
 
         if (ValidarCamposNumericos()) {
             if (ValidarNoNegativo()) {
-                IGenerador generador = new GeneradorUniforme(this.semillaParam.get(), this.parametroA.get(), this.parametroC.get(), this.parametroM.get());
-
-                // Mostrar primeros 20 valores.
-                System.out.println("Primeros 20 valores: ");
-                DecimalFormat df = new DecimalFormat();
-                for (int i = 0; i < 20; i++) {
-                    
-                    System.out.print(Round.truncate(generador.nextDouble(), 4));
-                    System.out.print(", ");
-                }
-                System.out.println("");
+                listView1.getItems().clear();
+                cargarLista();
+                listView1.setItems(listaNumeros);               
             } else {
                 JOptionPane.showMessageDialog(null, "ERROR, INGRESE BIEN LOS DATOS, SOLO VALORES POSITIVOS");
                 limpiarCampos();
@@ -79,11 +74,31 @@ public class FXMLController implements Initializable {
         }
 
     }
+    
+    private void cargarLista() {
+        IGenerador generador = new GeneradorUniforme(this.semillaParam.get(), this.parametroA.get(), this.parametroC.get(), this.parametroM.get());
+        for (int i = 0; i < 20; i++) {
+            listaNumeros.add(Round.truncate(generador.nextDouble(), 4));
+        }      
+    }
+    @FXML
+    private void mostrarSerie(ActionEvent event){
+        if (listaNumeros.size() > 0){
+        for (int i = 0; i < 20; i++) {
+            JOptionPane.showMessageDialog(null,"Valor numero " + (i +1) + ": " + listaNumeros.get(i));
+        }
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "No hay valores en la serie");       
+        }
+    }
 
     private void limpiarCampos() {
         fieldA.setText("0");
         fieldM.setText("0");
         fieldC.setText("0");
+        semilla.setText("0");
+        listView1.getItems().clear();
     }
 
     private boolean ValidarCamposNumericos() {
@@ -100,4 +115,5 @@ public class FXMLController implements Initializable {
 
     }
 
+ 
 }

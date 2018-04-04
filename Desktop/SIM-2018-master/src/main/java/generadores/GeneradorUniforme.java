@@ -50,4 +50,6 @@ public class GeneradorUniforme implements IGenerador {
         this.semilla = (this.A * this.semilla + this.C) % this.M;
         return (double) this.semilla / this.M;
     }
+    
+   
 }
