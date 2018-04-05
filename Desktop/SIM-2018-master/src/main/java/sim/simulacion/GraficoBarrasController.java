@@ -91,7 +91,7 @@ public class GraficoBarrasController implements Initializable {
                 if (menor31()) {
                     this.generate(new GeneradorUniforme());
                 } else {
-                    JOptionPane.showMessageDialog(null, "ERROR, EL TAMAÑO DE MUESTRA DEBE SER MENOR O IGUAL A 31");
+                    JOptionPane.showMessageDialog(null, "ERROR, LA CANTIDAD DE INTERVALOS DEBE SER MENOR O IGUAL A 31");
                     limpiarCampos();
                 }
 

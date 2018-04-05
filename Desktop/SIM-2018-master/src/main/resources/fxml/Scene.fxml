@@ -59,7 +59,7 @@
       <Label layoutX="14.0" layoutY="30.0" text="Semilla" />
       <TextField fx:id="semilla" layoutX="109.0" layoutY="26.0" />
       <ListView fx:id="listView1" layoutX="268.0" layoutY="26.0" prefHeight="200.0" prefWidth="200.0" />
-      <Button layoutX="195.0" layoutY="163.0" mnemonicParsing="false" onAction="#mostrarSerie" text="Mostrar" />
-      <CheckBox layoutX="16.0" layoutY="200.0" mnemonicParsing="false" text="Metodo Congruencial Multiplicativo" />
+      <Button layoutX="195.0" layoutY="163.0" mnemonicParsing="false" onAction="#siguienteNumero" text="Siguiente" />
+      <CheckBox fx:id="chkMetodo" layoutX="16.0" layoutY="200.0" onAction="#cambiarMetodo" mnemonicParsing="false" text="Metodo Congruencial Multiplicativo" />
     </children>
 </AnchorPane>

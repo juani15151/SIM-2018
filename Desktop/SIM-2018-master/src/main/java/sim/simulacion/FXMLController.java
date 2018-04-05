@@ -16,6 +16,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListView;
 import javafx.util.converter.NumberStringConverter;
 import javax.swing.JOptionPane;
@@ -29,6 +30,7 @@ public class FXMLController implements Initializable {
     private final IntegerProperty parametroC;
     private final IntegerProperty semillaParam;
     private ObservableList<Double> listaNumeros = FXCollections.observableArrayList();
+    private int c=20;
 
     @FXML
     private TextField fieldA;
@@ -40,6 +42,8 @@ public class FXMLController implements Initializable {
     private TextField semilla;
     @FXML
     private ListView<Double> listView1;
+    @FXML
+    private CheckBox chkMetodo;
 
     public FXMLController() {
         this.parametroA = new SimpleIntegerProperty(0);
@@ -62,8 +66,10 @@ public class FXMLController implements Initializable {
         if (ValidarCamposNumericos()) {
             if (ValidarNoNegativo()) {
                 listView1.getItems().clear();
-                cargarLista();
-                listView1.setItems(listaNumeros);               
+                listaNumeros.clear();
+                c=20;
+                cargarSerie();
+                listView1.setItems(cargarLista());                     
             } else {
                 JOptionPane.showMessageDialog(null, "ERROR, INGRESE BIEN LOS DATOS, SOLO VALORES POSITIVOS");
                 limpiarCampos();
@@ -75,19 +81,37 @@ public class FXMLController implements Initializable {
 
     }
     
-    private void cargarLista() {
+    @FXML
+    private void cambiarMetodo(ActionEvent event){
+        if (chkMetodo.isSelected()){
+            fieldC.setText("0");
+            fieldC.setEditable(false);
+        }
+        else{
+            fieldC.setEditable(true);
+        }
+    }
+    private void cargarSerie() {
         IGenerador generador = new GeneradorUniforme(this.semillaParam.get(), this.parametroA.get(), this.parametroC.get(), this.parametroM.get());
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 1000; i++) {
             listaNumeros.add(Round.truncate(generador.nextDouble(), 4));
         }      
     }
-    @FXML
-    private void mostrarSerie(ActionEvent event){
-        if (listaNumeros.size() > 0){
+    
+    private ObservableList<Double> cargarLista(){
+        ObservableList<Double> primerosVeinte = FXCollections.observableArrayList();
         for (int i = 0; i < 20; i++) {
-            JOptionPane.showMessageDialog(null,"Valor numero " + (i +1) + ": " + listaNumeros.get(i));
+            primerosVeinte.add(listaNumeros.get(i));         
         }
+        return primerosVeinte;
+    }
+    @FXML
+    private void siguienteNumero(ActionEvent event){  
+        if (listaNumeros.size() > 0){
+            JOptionPane.showMessageDialog(null,"Valor numero " + (c +1) + ": " + listaNumeros.get(c));
+            c++;
         }
+        
         else{
             JOptionPane.showMessageDialog(null, "No hay valores en la serie");       
         }
