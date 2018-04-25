@@ -56,7 +56,7 @@ public class MainApp extends Application {
             c = 0;
         }
         
-        GeneradorUniforme generador = new GeneradorUniforme(semilla, a, c, m);      
+        GeneradorUniforme generador = new GeneradorUniforme(semilla, a, c, m,0,1);      
 
         // Mostrar primeros 20 valores.
         System.out.println("Primeros 20 valores: ");

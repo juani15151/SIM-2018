@@ -92,7 +92,7 @@ public class FXMLController implements Initializable {
         }
     }
     private void cargarSerie() {
-        IGenerador generador = new GeneradorUniforme(this.semillaParam.get(), this.parametroA.get(), this.parametroC.get(), this.parametroM.get());
+        IGenerador generador = new GeneradorUniforme(this.semillaParam.get(), this.parametroA.get(), this.parametroC.get(), this.parametroM.get(),0,1);
         for (int i = 0; i < 1000; i++) {
             listaNumeros.add(Round.truncate(generador.nextDouble(), 4));
             System.out.println(listaNumeros.get(i));
