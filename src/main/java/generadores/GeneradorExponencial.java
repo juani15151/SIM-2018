@@ -14,7 +14,7 @@ import java.util.Random;
 public class GeneradorExponencial implements IGenerador {
 
     private IGenerador random;
-    private int u;  // Tiempo medio entre ocurrencias?
+    private int media; // alias u
 
     public GeneradorExponencial() {
         this(new Random().nextInt(1024));
@@ -26,12 +26,17 @@ public class GeneradorExponencial implements IGenerador {
     
     public GeneradorExponencial(int semilla, int u) {
         this.random = new GeneradorUniforme(semilla);
-        this.u = u;
+        this.media = u;
+    }
+    
+    @Override
+    public double getMedia(){
+        return media;
     }
     
     @Override
     public double nextDouble() {
-        double val = -1.0 * this.u * Math.log(1 - random.nextDouble());
+        double val = -1.0 * this.media * Math.log(1 - random.nextDouble());
         return val;
     }
 }

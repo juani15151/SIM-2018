@@ -9,11 +9,11 @@ package generadores;
  *
  * @author Camila
  */
-public class GeneradorPoisson {
+public class GeneradorPoisson implements IGenerador {
     private  double p;
     private double x ;
     private double a;
-    private double lambda;
+    private double lambda; // equivale a la media en esta distribucion.
     private double RND;
     GeneradorUniforme g = new GeneradorUniforme();
     
@@ -24,12 +24,18 @@ public class GeneradorPoisson {
         
     }
     
-    public double poisson(){
+    @Override
+    public double nextDouble(){
         while(p >= a){
             RND = g.nextDouble();
             p = p * RND ;
             x += 1;
         }
         return x;
+    }
+
+    @Override
+    public double getMedia() {
+        return this.lambda;
     }
 }

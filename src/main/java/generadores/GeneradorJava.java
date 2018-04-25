@@ -20,5 +20,10 @@ public class GeneradorJava extends Random implements IGenerador {
     public GeneradorJava(long seed) {
         super(seed);
     }
-    
+
+    @Override
+    public double getMedia() {
+        return 0.5;  // Se supone que es un generador uniforme 0-1.
+    }
+        
 }

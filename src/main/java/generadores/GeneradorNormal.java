@@ -9,7 +9,7 @@ package generadores;
  *
  * @author eric
  */
-public class GeneradorNormal {
+public class GeneradorNormal implements IGenerador {
     
     private double desv;
     private double media;
@@ -32,6 +32,16 @@ public class GeneradorNormal {
         double n2 = ((Math.sqrt(-2* Math.log(rnd1)))
                 * (Math.sin(2*Math.PI*rnd2))) * desv + media;
         return n2;
+    }
+
+    @Override
+    public double nextDouble() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public double getMedia() {
+        return media;
     }
 
     
