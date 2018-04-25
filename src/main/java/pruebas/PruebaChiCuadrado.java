@@ -41,7 +41,7 @@ public abstract class PruebaChiCuadrado {
 
     /**
      *
-     * @param numeroIntervalo
+     * @param numeroIntervalo el numero de intervalo, a partir de 0 (cero).
      * @return la frecuencia esperada del intervalo indicado.
      */
     abstract double getFrecuenciaEsperada(int numeroIntervalo);
