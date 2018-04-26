@@ -15,17 +15,22 @@ public class GeneradorPoisson implements IGenerador {
     private double a;
     private double lambda; // equivale a la media en esta distribucion.
     private double RND;
-    GeneradorUniforme g = new GeneradorUniforme();
+    GeneradorUniforme g;
     
     public GeneradorPoisson(double lambda) {
+        this.reset();
+        this.a = Math.exp(-lambda);        
+        this.g = new GeneradorUniforme();
+    }
+    
+    private void reset(){
         this.p = 1;
         this.x = -1;
-        this.a = Math.exp(-lambda);
-        
     }
     
     @Override
     public double nextDouble(){
+        this.reset();
         while(p >= a){
             RND = g.nextDouble();
             p = p * RND ;
