@@ -32,7 +32,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.util.converter.BooleanStringConverter;
 import javafx.util.converter.NumberStringConverter;
-import pruebas.PruebaChiCuadradoUniforme;
+import pruebas.PruebaChiCuadradoUniformeAB;
 
 /**
  * FXML Controller class
@@ -94,7 +94,7 @@ public class GraficoBarrasController implements Initializable {
         resetChart();
         setXAxis();
         
-        PruebaChiCuadrado test = new PruebaChiCuadradoUniforme(generador, cantidadIntervalos.get());
+        PruebaChiCuadrado test = new PruebaChiCuadradoUniformeAB(generador, cantidadIntervalos.get());
         test.setTamañoMuestra(tamañoMuestra.get());
         int[] frecuencias = test.observarFrecuenciasPorIntervalo();
         this.frecuenciaEsperada.set((double) tamañoMuestra.get() / cantidadIntervalos.get());
