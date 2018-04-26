@@ -6,6 +6,7 @@
 package generadores;
 
 import org.junit.Test;
+import org.junit.Ignore;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import pruebas.PruebaChiCuadradoUniforme;
@@ -67,6 +68,7 @@ public class GeneradorUniformeTest {
     }
 
     @Test
+    @Ignore
     public void pruebaChiCuadrado() {
         // La prueba ChiCuadrado mide si los valores se aproximan lo suficiente a 
         // la distribucion indicada (uniforme en este caso).
