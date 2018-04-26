@@ -9,7 +9,7 @@ package pruebas;
  *
  * @author juani
  */
-public class Intervalo {
+public class Intervalo implements Comparable {
     private final Double inicio; // incluido
     private final Double fin; // no incluido
 
@@ -40,5 +40,29 @@ public class Intervalo {
     
     public boolean contains(double value){
         return value >= inicio && value < fin;
+    }
+    
+    public Intervalo union(Intervalo intervalo){
+        if(this.fin == intervalo.inicio){
+            return new Intervalo(this.inicio, intervalo.fin);
+        } else if (intervalo.fin == this.inicio){
+            return new Intervalo(intervalo.inicio, this.fin);
+        } else {
+            throw new IllegalArgumentException("El intervalo debe ser contiguo");
+        }
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        Intervalo otro = (Intervalo) o;
+        // Asumimos que en nuestro programa los intervalos nunca se solapan.
+        if(this.getInicio() < otro.getInicio()){
+            return -1;
+        } else if(this.getInicio() > otro.getInicio()){
+            return 1;
+        } else {  // this.getInicio() == o.getInicio()
+            // TODO: Si los inicios coinciden habria que comparar los finales.
+            return 0;
+        }              
     }
 }

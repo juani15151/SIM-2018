@@ -11,9 +11,8 @@ import generadores.IGenerador;
  *
  * @author Camila
  */
-public class PruebaChiCuadradoPoisson extends PruebaChiCuadrado{
-    double x;
-    double lambda;
+public class PruebaChiCuadradoPoisson extends PruebaChiCuadrado {
+
     public PruebaChiCuadradoPoisson(IGenerador generador, int cantidadIntervalos) {
         super(generador, cantidadIntervalos);
     }
@@ -24,23 +23,19 @@ public class PruebaChiCuadradoPoisson extends PruebaChiCuadrado{
     }
 
     @Override
-    double getFrecuenciaEsperada(int numeroIntervalo) {
-        double tamañoIntervalo = this.tamañoMuestra / this.cantidadIntervalos;
-        double inicioIntervalo = tamañoIntervalo * numeroIntervalo;
-        double finIntervalo = inicioIntervalo + tamañoIntervalo;
-        double marcaClase = (inicioIntervalo + finIntervalo) / 2 ;
-        return frecuenciaIntervalo(x,lambda)/marcaClase;
+    double getFrecuenciaEsperada(Intervalo intervalo) {
+        return probabilidadPuntual(intervalo.getMark(), media) * intervalo.getSize() * this.tamañoMuestra;
     }
-    
-    private double frecuenciaIntervalo(double x, double lambda ){
-        return ((Math.pow(lambda,x)) * Math.exp(-lambda))/(this.factorial(x)) ;
+
+    private double probabilidadPuntual(double x, double lambda) {
+        return ((Math.pow(lambda, x)) * Math.exp(-lambda)) / (factorial(x));
     }
-    private double factorial(double x){
-        double fact = 1;
-        for (int i = 0; i <= x; i++) {
-            fact *= i;
-            
+
+    private double factorial(double x) {
+        double resultado = x;        
+        for (double i = x - 1; i > 1; i--) {
+            resultado *= i;
         }
-        return x;
+        return resultado;
     }
 }
