@@ -2,29 +2,30 @@ package pruebas;
 
 import generadores.IGenerador;
 
-public class PruebaChiCuadradoExponencial extends PruebaChiCuadrado {   
+public class PruebaChiCuadradoExponencial extends PruebaChiCuadradoAjustable {
 
     public PruebaChiCuadradoExponencial(IGenerador generador, int cantidadIntervalos) {
         super(generador, cantidadIntervalos);
     }
 
     @Override
-    double getFrecuenciaEsperada(Intervalo intervalo) {
-        // Se asumen intervalos iguales.
-        return probabilidadIntervalo(intervalo.getInicio(), intervalo.getFin()) * this.tamañoMuestra;
+    double probabilidad(Intervalo intervalo, Muestra muestra) {
+        return probabilidadIntervalo(intervalo.getInicio(), intervalo.getFin(), muestra.media());
     }
-    
-    private double probabilidadAcumulada(double x){
-        return 1.0 - Math.pow(Math.E, -1.0/media * x);
+
+    private double probabilidadAcumulada(double x, double media) {
+        return 1.0 - Math.exp(-1.0 / media * x);
     }
-    
-    private double probabilidadIntervalo(double inicio, double fin){
+
+    private double probabilidadIntervalo(double inicio, double fin, double media) {
         // Equivalente a probabilidadAcumulada(fin) - probabilidadAcumulada(inicio);
-        return Math.pow(Math.E, -1.0/media * inicio) - Math.pow(Math.E, -1.0/media * fin);        
+        double lambda = 1.0 / media;
+        return Math.exp(-lambda * inicio) - Math.exp(-lambda * fin);
     }
 
     @Override
-    int getCantidadValoresEmpiricos() {
+    int cantidadValoresEmpiricos() {
+        // El valor empirico es la media o lambda.
         return 1;
     }
 

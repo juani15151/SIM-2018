@@ -47,7 +47,7 @@ public abstract class PruebaChiCuadradoAjustable {
         // Calcular frecuenciasObservadas
         int[] frecuenciasObservadas = muestra.frecuenciaPorIntervalo(intervalos);
         // Calcular chi
-        double chiObservado = calcularChi(intervalos, frecuenciasObservadas);
+        double chiObservado = calcularChi(intervalos, muestra, frecuenciasObservadas);
         double chiMaximoAceptable = chiAceptado(intervalos.size(), this.cantidadValoresEmpiricos());
         // Comparar
         return chiObservado <= chiMaximoAceptable;
@@ -102,10 +102,10 @@ public abstract class PruebaChiCuadradoAjustable {
         intervalos.add(new Intervalo(muestra.maximo(), Double.POSITIVE_INFINITY));
 
         // Valida y une los intervalos pequeños.
-        return unificarIntervalosPequeños(intervalos);
+        return unificarIntervalosPequeños(intervalos, muestra);
     }
 
-    private List<Intervalo> unificarIntervalosPequeños(List<Intervalo> intervalos) {
+    private List<Intervalo> unificarIntervalosPequeños(List<Intervalo> intervalos, Muestra muestra) {
         List<Intervalo> intervalosValidos = new ArrayList<>(intervalos.size());
         Intervalo paraUnir = null;
         for (Intervalo i : intervalos) {
@@ -115,7 +115,7 @@ public abstract class PruebaChiCuadradoAjustable {
                 paraUnir = null;
             }
 
-            if (this.frecuenciaEsperada(i) > 5) {
+            if (this.frecuenciaEsperada(i, muestra) > 5) {
                 // Es Valido
                 intervalosValidos.add(i);
             } else if (intervalosValidos.size() > 0) {
@@ -131,7 +131,7 @@ public abstract class PruebaChiCuadradoAjustable {
         return intervalosValidos;
     }
 
-    private double calcularChi(List<Intervalo> intervalos, int[] frecuenciasObservadas) {
+    private double calcularChi(List<Intervalo> intervalos, Muestra muestra, int[] frecuenciasObservadas) {
         double sumatoriaDesviacionesRelativas = 0.0;
         double desviacionRelativa;
         for (int i = 0; i < intervalos.size(); i++) {
@@ -139,8 +139,8 @@ public abstract class PruebaChiCuadradoAjustable {
             Intervalo intervalo = intervalos.get(i);
             int frecuenciaObservada = frecuenciasObservadas[i];
             // Calcular desviacion relativa
-            desviacionRelativa = Math.pow(frecuenciaObservada - frecuenciaEsperada(intervalo), 2);
-            desviacionRelativa /= this.frecuenciaEsperada(intervalo);
+            desviacionRelativa = Math.pow(frecuenciaObservada - frecuenciaEsperada(intervalo, muestra), 2);
+            desviacionRelativa /= this.frecuenciaEsperada(intervalo, muestra);
             sumatoriaDesviacionesRelativas += desviacionRelativa;
         }
         return sumatoriaDesviacionesRelativas;
@@ -179,15 +179,17 @@ public abstract class PruebaChiCuadradoAjustable {
      * @param intervalo
      * @return la frecuencia esperada del intervalo indicado.
      */
-    private double frecuenciaEsperada(Intervalo intervalo) {
-        return probabilidad(intervalo) * tamañoMuestra;
+    private double frecuenciaEsperada(Intervalo intervalo, Muestra muestra) {
+        return probabilidad(intervalo, muestra) * tamañoMuestra;
     }
 
     /**
-     *
+     * Probabilidad del intervalo en la muestra.
+     * En algunas distribuciones se pueden tomar parametros de la muestra, como
+     * media, maximo y/o minimo.
      * @param Intervalo
      * @return la probabilidad de que un valor pertenezca al intervalo.
      */
-    abstract double probabilidad(Intervalo intervalo);
+    abstract double probabilidad(Intervalo intervalo, Muestra muestra);
 
 }

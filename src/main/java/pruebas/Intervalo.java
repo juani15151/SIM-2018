@@ -27,7 +27,11 @@ public class Intervalo implements Comparable {
         return fin;
     }
 
-    public double getSize() {
+    /**
+     * El tamaño del intervalo.
+     * @return 
+     */
+    public double recorrido() {
         return fin - inicio;
     }
 
@@ -35,7 +39,7 @@ public class Intervalo implements Comparable {
      * Retorna la marca de clase (el valor al medio del intervalo).
      * @return
      */
-    public double getMark() {
+    public double marcaDeClase() {
         return (inicio + fin) / 2.0;
     }
 
