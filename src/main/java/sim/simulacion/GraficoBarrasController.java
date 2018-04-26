@@ -93,8 +93,8 @@ public class GraficoBarrasController implements Initializable {
     private void generate(IGenerador generador) {
         resetChart();
         setXAxis();
-        
-        PruebaChiCuadrado test = new PruebaChiCuadradoUniformeAB(generador, cantidadIntervalos.get());
+        /* Comentado hasta arreglar las Pruebas de Chi.
+        PruebaChiCuadrado test =  new PruebaChiCuadradoUniformeAB(generador, cantidadIntervalos.get());
         test.setTamañoMuestra(tamañoMuestra.get());
         int[] frecuencias = test.observarFrecuenciasPorIntervalo();
         this.frecuenciaEsperada.set((double) tamañoMuestra.get() / cantidadIntervalos.get());
@@ -110,6 +110,7 @@ public class GraficoBarrasController implements Initializable {
         
         chart.getData().add(barras);
         chart.getData().add(generarDistribucionUniforme());
+        */
     }
 
     private XYChart.Series<String, Double> generarDistribucionUniforme() {

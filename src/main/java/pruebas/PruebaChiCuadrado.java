@@ -18,8 +18,13 @@ public abstract class PruebaChiCuadrado {
     protected int tamañoMuestra = 1000;
 
     protected IGenerador generador;
-    protected final int cantidadIntervalos;
-    private ArrayList<Intervalo> intervalos;
+    protected final int cantidadIntervalos;   
+
+    private List<Intervalo> intervalos;
+    private List<Double> frecuenciasObservadas;
+    private List<Double> frecuenciasEsperadas;
+    
+    // Muestra:
     protected double maxValue;
     protected double minValue;
     protected double media;
@@ -29,53 +34,12 @@ public abstract class PruebaChiCuadrado {
         this.cantidadIntervalos = cantidadIntervalos;
     }
 
-    /**
-     * Retorna una lista con intervalos que incluyen todos los valores posibles.
-     * La lista incluye intervalos que van desde - infinito a + infinito.
-     *
-     * @param cantidadIntervalos cantidad deseada de intervalos en el rango
-     * definido.
-     * @return
-     */
-    ArrayList<Intervalo> generarIntervalos(double minValue, double maxValue, int cantidadIntervalos) {
-        intervalos = new ArrayList<>(cantidadIntervalos + 2);
-        double tamañoIntervalo = maxValue - minValue;
-        intervalos.add(new Intervalo(Double.NEGATIVE_INFINITY, minValue));
-        for (int i = 1; i <= cantidadIntervalos; i++) {
-            double limiteInferior = minValue * i;
-            intervalos.add(new Intervalo(limiteInferior, limiteInferior + tamañoIntervalo));
-        }        
-        intervalos.add(new Intervalo(maxValue, Double.POSITIVE_INFINITY));
-        
-        this.unirIntervalosInvalidos(intervalos);
-        return intervalos;
-    }
-
-    private void unirIntervalosInvalidos(ArrayList<Intervalo> intervalos) {      
-        // Los cambios se aplican a la instancia intervalos, no hace falta retornarla.
-        for (int i = 0; i < intervalos.size(); i++) {
-            Intervalo intervalo = intervalos.get(i);
-            while (this.getFrecuenciaEsperada(intervalo) <= 5) {
-                if (i + 1 < intervalos.size()) {
-                    intervalo = intervalo.union(intervalos.remove(i + 1));
-                    intervalos.set(i, intervalo);
-                } else if (i - 1 >= 0) {
-                    intervalo = intervalo.union(intervalos.get(i - 1));
-                    intervalos.set(i - 1, intervalo);
-                    intervalos.remove(i);
-                    i--;
-                } else {
-                    System.out.println("ERROR. Hay un intervalo con frecuencia esperada <= 5.");
-                }
-            }
-        }
-    }
-
     public int getTamañoMuestra() {
         return this.tamañoMuestra;
     }
 
     public void setTamañoMuestra(int value) {
+        // TODO: El tamaño de muestra deberia ir en el constructor.
         this.tamañoMuestra = value;
     }
 
@@ -94,8 +58,49 @@ public abstract class PruebaChiCuadrado {
      * @param numeroIntervalo el numero de intervalo, a partir de 0 (cero).
      * @return la frecuencia esperada del intervalo indicado.
      */
-    abstract double getFrecuenciaEsperada(Intervalo intervalo);
+    abstract double getFrecuenciaEsperada(Intervalo intervalo);    
 
+    
+    /**
+     * Retorna una lista con intervalos que incluyen todos los valores posibles.
+     * La lista incluye intervalos que van desde - infinito a + infinito.
+     *
+     * @param cantidadIntervalos cantidad deseada de intervalos en el rango
+     * definido.
+     * @return
+     */
+    private List<Intervalo> generarIntervalos(double minValue, double maxValue, int cantidadIntervalos) {
+        intervalos = new ArrayList<>(cantidadIntervalos + 2);
+        double tamañoIntervalo = maxValue - minValue;
+        intervalos.add(new Intervalo(Double.NEGATIVE_INFINITY, minValue));
+        for (int i = 1; i <= cantidadIntervalos; i++) {
+            double limiteInferior = minValue * i;
+            intervalos.add(new Intervalo(limiteInferior, limiteInferior + tamañoIntervalo));
+        }        
+        intervalos.add(new Intervalo(maxValue, Double.POSITIVE_INFINITY));
+        
+        this.unirIntervalosInvalidos(intervalos);
+        return intervalos;
+    }
+
+    private void unirIntervalosInvalidos(List<Intervalo> intervalos) {      
+        // Los cambios se aplican a la instancia intervalos, no hace falta retornarla.
+        for (int i = 0; i < intervalos.size(); i++) {
+            Intervalo intervalo = intervalos.get(i);
+            while (this.getFrecuenciaEsperada(intervalo) <= 5) {
+                if (i + 1 < intervalos.size()) {
+                    intervalo.join(intervalos.remove(i + 1));
+                } else if (i - 1 >= 0) {
+                    intervalo.join(intervalos.get(i - 1));
+                    intervalos.remove(i);
+                    i--;
+                } else {
+                    System.out.println("ERROR. Hay un intervalo con frecuencia esperada <= 5.");
+                }
+            }
+        }
+    }
+    
     /**
      * Cada vez que se invoca, genera una serie de numeros aleatorios y hace la
      * prueba de ChiCuadrado sobre esos valores.
@@ -104,11 +109,12 @@ public abstract class PruebaChiCuadrado {
      */
     public boolean runTest() {
         // calcular frecuencias de cada intervalo
+        List<Double> muestra = this.generarValores();
         return this.runTest(this.observarFrecuenciasPorIntervalo());
     }
 
-    public boolean runTest(int[] frecuenciaIntervalos) {
-        return this.calcularChi(frecuenciaIntervalos) <= this.chiAceptado();
+    public boolean runTest(int[] frecuenciasObservadas) {
+        return this.calcularChi(frecuenciasObservadas) <= this.chiAceptado();
     }
 
     /**
@@ -119,26 +125,12 @@ public abstract class PruebaChiCuadrado {
      * @return
      */
     public int[] observarFrecuenciasPorIntervalo() {
-        // Usamos intervalos uniformes, pero no necesariamente deben serlo.
         List<Double> valoresObservados = generarValores();
-        double maximo = Double.NEGATIVE_INFINITY;
-        double minimo = Double.POSITIVE_INFINITY;
-        double suma = 0.0;
-        for (double valorObservado : valoresObservados) {
-            suma += valorObservado;
-            if (valorObservado > maximo) {
-                maximo = valorObservado;
-            }
-            if (valorObservado < minimo) {
-                minimo = valorObservado;
-            }
-        }
-        media = suma / valoresObservados.size();
 
-        intervalos = this.generarIntervalos(minimo, maximo, cantidadIntervalos);
+        intervalos = this.generarIntervalos(minValue, maxValue, cantidadIntervalos);
         int[] frecuenciaIntervalos = new int[intervalos.size()];
 
-        for (double valorObservado : this.generarValores()) {
+        for (double valorObservado : valoresObservados) {
             for (int i = 0; i < this.getCantidadIntervalos(); i++) {
                 if (intervalos.get(i).contains(valorObservado)) {
                     frecuenciaIntervalos[i]++;
@@ -152,9 +144,18 @@ public abstract class PruebaChiCuadrado {
     private List<Double> generarValores() {
         List<Double> valores = new ArrayList<>(this.tamañoMuestra);
         System.out.println(String.format("Generando %d valores aleatorios", tamañoMuestra));
+        this.maxValue = Double.NEGATIVE_INFINITY;
+        this.minValue = Double.POSITIVE_INFINITY;
+        double suma = 0.0;
+                
         for (int i = 0; i < this.tamañoMuestra; i++) {
             double muestra = this.generador.nextDouble();
             valores.add(muestra);
+            
+            suma += muestra;
+            if(muestra < minValue) minValue = muestra;
+            if(muestra > maxValue) maxValue = muestra;
+            
             // Mostrar por consola (10 por linea).
             if (i % 10 == 0) {
                 System.out.println(String.format("%1.4f, ", muestra));
@@ -162,6 +163,7 @@ public abstract class PruebaChiCuadrado {
                 System.out.print(String.format("%1.4f, ", muestra));
             }
         }
+        this.media = suma / this.tamañoMuestra;
         return valores;
     }
 
