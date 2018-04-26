@@ -14,13 +14,6 @@ public interface IGenerador {
     /**
      * Retorna un numero pseudo-aleatorio segun la distribucion del generador.
      */
-    public abstract double nextDouble();
-    
-    
-    /**
-     * Retorna el valor de la media de la distribución, si se conoce.
-     * Si no se puede determinar el valor de la media, lanza una excepcion.
-     */
-    public abstract double getMedia();  
+    public abstract double nextDouble();    
     
 }

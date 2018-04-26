@@ -30,11 +30,6 @@ public class GeneradorExponencial implements IGenerador {
     }
     
     @Override
-    public double getMedia(){
-        return media;
-    }
-    
-    @Override
     public double nextDouble() {
         double val = -1.0 * this.media * Math.log(1 - random.nextDouble());
         return val;

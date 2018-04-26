@@ -33,9 +33,4 @@ public class GeneradorPoisson implements IGenerador {
         }
         return x;
     }
-
-    @Override
-    public double getMedia() {
-        return this.lambda;
-    }
 }

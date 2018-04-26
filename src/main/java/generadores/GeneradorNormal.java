@@ -38,12 +38,5 @@ public class GeneradorNormal implements IGenerador {
     public double nextDouble() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-    @Override
-    public double getMedia() {
-        return media;
-    }
-
-    
     
 }

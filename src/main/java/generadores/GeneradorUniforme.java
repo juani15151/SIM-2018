@@ -58,9 +58,4 @@ public class GeneradorUniforme implements IGenerador {
         double val = (double) this.semilla / this.M;
         return val * (this.limB - this.limA)+ limA;
     }
-
-    @Override
-    public double getMedia() {
-        return ((double) limA + limB) / 2.0;
-    }
 }
