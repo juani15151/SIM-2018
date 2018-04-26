@@ -23,7 +23,7 @@ public class GeneradorUniforme implements IGenerador {
     }
 
     public GeneradorUniforme(int semilla) {
-        this(semilla, 100, 10);
+        this(semilla, 100, 20);
     }
 
     /**
