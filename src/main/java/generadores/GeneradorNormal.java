@@ -13,22 +13,31 @@ public class GeneradorNormal implements IGenerador {
     
     private double desv;
     private double media;
+    private IGenerador gen1;
     private double rnd1;
+    private IGenerador gen2;    
     private double rnd2;
+    private boolean generarAleatorios;
 
     public GeneradorNormal(double desv, double media) {
         this.desv = desv;
         this.media = media;
-        this.rnd1 = Math.random();
-        this.rnd2 = Math.random();
+        this.gen1 = new GeneradorUniforme();
+        this.gen2 = new GeneradorUniforme();
+        this.generarAleatorios = true;
     }
     
-    public double getN1(){
+    private void generarValoresRandom(){
+        this.rnd1 = gen1.nextDouble();
+        this.rnd2 = gen2.nextDouble();
+    }
+    
+    private double calcularN1(){
         double n1 = ((Math.sqrt(-2* Math.log(rnd1)))
                 * (Math.cos(2*Math.PI*rnd2))) * desv + media;
         return n1;
     }
-    public double getN2(){
+    private double calcularN2(){
         double n2 = ((Math.sqrt(-2* Math.log(rnd1)))
                 * (Math.sin(2*Math.PI*rnd2))) * desv + media;
         return n2;
@@ -36,7 +45,14 @@ public class GeneradorNormal implements IGenerador {
 
     @Override
     public double nextDouble() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(generarAleatorios){
+            generarValoresRandom();
+            generarAleatorios = false;
+            return calcularN1();
+        } else {
+            generarAleatorios = true;
+            return calcularN2();
+        }
     }
     
 }
