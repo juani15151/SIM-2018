@@ -2,7 +2,7 @@ package pruebas;
 
 import generadores.IGenerador;
 
-public class PruebaChiCuadradoUniformeAB extends PruebaChiCuadradoAjustable {
+public class PruebaChiCuadradoUniformeAB extends PruebaChiCuadrado {
 
     public PruebaChiCuadradoUniformeAB(IGenerador generador, int cantidadIntervalos) {
         super(generador, cantidadIntervalos);

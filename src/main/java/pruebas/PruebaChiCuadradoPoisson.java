@@ -11,7 +11,7 @@ import generadores.IGenerador;
  *
  * @author Camila
  */
-public class PruebaChiCuadradoPoisson extends PruebaChiCuadradoAjustable {
+public class PruebaChiCuadradoPoisson extends PruebaChiCuadrado {
 
     public PruebaChiCuadradoPoisson(IGenerador generador, int cantidadIntervalos) {
         super(generador, cantidadIntervalos);
