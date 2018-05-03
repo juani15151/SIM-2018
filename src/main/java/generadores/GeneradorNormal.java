@@ -26,6 +26,16 @@ public class GeneradorNormal implements IGenerador {
         this.gen2 = new GeneradorUniforme();
         this.generarAleatorios = true;
     }
+
+    public double getDesv() {
+        return desv;
+    }
+
+    public double getMedia() {
+        return media;
+    }
+    
+    
     
     private void generarValoresRandom(){
         this.rnd1 = gen1.nextDouble();
