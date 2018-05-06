@@ -9,57 +9,55 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="252.0" prefWidth="493.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sim.simulacion.FXMLController">
+<AnchorPane id="AnchorPane" prefHeight="417.0" prefWidth="647.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sim.simulacion.FXMLController">
     <children>
-        <Button layoutX="122.0" layoutY="163.0" onAction="#generarPorConsola" text="Generar" />
-      <VBox layoutX="14.0" layoutY="55.0" prefWidth="274.0">
+        <Button layoutX="427.0" layoutY="373.0" onAction="#generarPorConsola" text="Generar" />
+      <VBox layoutX="468.0" layoutY="343.0" prefWidth="274.0">
          <children>
             <HBox prefWidth="165.0">
-               <children>
-                    <Label minHeight="26.0" minWidth="90.0" prefHeight="26.0" prefWidth="95.0" text="Constante A">
-                     <padding>
-                        <Insets right="10.0" />
-                     </padding>
-                  </Label>
-                  <TextField fx:id="fieldA" prefHeight="21.0" />
-               </children>
                <padding>
                   <Insets bottom="5.0" top="5.0" />
                </padding>
             </HBox>
             <HBox prefWidth="165.0">
-               <children>
-                  <Label minHeight="26.0" minWidth="90.0" prefHeight="21.0" prefWidth="95.0" text="Constante M">
-                     <padding>
-                        <Insets right="10.0" />
-                     </padding>
-                  </Label>
-                  <TextField fx:id="fieldM" prefHeight="21.0" />
-               </children>
                <padding>
                   <Insets bottom="5.0" top="5.0" />
                </padding>
             </HBox>
             <HBox>
-               <children>
-                  <Label minHeight="26.0" minWidth="90.0" prefHeight="26.0" prefWidth="95.0" text="Constante C">
-                     <padding>
-                        <Insets right="10.0" />
-                     </padding>
-                  </Label>
-                  <TextField fx:id="fieldC" prefHeight="21.0" />
-               </children>
                <padding>
                   <Insets bottom="5.0" top="5.0" />
                </padding>
             </HBox>
          </children>
       </VBox>
-      <Label layoutX="14.0" layoutY="30.0" text="Semilla" />
-      <TextField fx:id="semilla" layoutX="109.0" layoutY="26.0" />
-      <ListView fx:id="listView1" layoutX="268.0" layoutY="26.0" prefHeight="200.0" prefWidth="200.0" />
-      <Button layoutX="195.0" layoutY="163.0" mnemonicParsing="false" onAction="#siguienteNumero" text="Siguiente" />
-      <CheckBox fx:id="chkMetodo" layoutX="16.0" layoutY="200.0" onAction="#cambiarMetodo" mnemonicParsing="false" text="Metodo Congruencial Multiplicativo" />
+      <ListView fx:id="listView1" layoutX="427.0" layoutY="28.0" prefHeight="340.0" prefWidth="294.0" />
+      <Label alignment="CENTER" layoutX="22.0" layoutY="18.0" prefHeight="17.0" prefWidth="403.0" text="Distribución" textFill="#ee0e0e">
+         <font>
+            <Font name="Bell MT" size="27.0" />
+         </font>
+      </Label>
+      <CheckBox fx:id="chk_uniforme" layoutX="76.0" layoutY="63.0" mnemonicParsing="false" text="Uniforme" />
+      <CheckBox fx:id="chk_exp" layoutX="168.0" layoutY="63.0" mnemonicParsing="false" text="Exponencial neg." />
+      <CheckBox fx:id="chk_normbox" layoutX="289.0" layoutY="63.0" mnemonicParsing="false" text="Normal Box Muller" />
+      <CheckBox fx:id="chk_normconv" layoutX="105.0" layoutY="102.0" mnemonicParsing="false" text="Normal Convolucion" />
+      <CheckBox fx:id="chk_poisson" layoutX="258.0" layoutY="102.0" mnemonicParsing="false" text="Poisson" />
+      <Label alignment="CENTER" layoutX="7.0" layoutY="145.0" prefHeight="17.0" prefWidth="403.0" text="Parametros" textAlignment="CENTER" textFill="#f81111">
+         <font>
+            <Font name="Bell MT" size="27.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txt_a" alignment="TOP_LEFT" layoutX="187.0" layoutY="235.0" />
+      <TextField fx:id="txt_b" alignment="TOP_LEFT" layoutX="187.0" layoutY="274.0" />
+      <TextField fx:id="txt_media" alignment="TOP_LEFT" layoutX="187.0" layoutY="311.0" />
+      <TextField fx:id="txt_varianza" alignment="TOP_LEFT" layoutX="187.0" layoutY="343.0" />
+      <Label alignment="TOP_LEFT" layoutX="82.0" layoutY="239.0" text="Intervalo Inferior" />
+      <Label alignment="TOP_LEFT" layoutX="82.0" layoutY="278.0" text="Intervalo Superior" />
+      <Label alignment="TOP_LEFT" layoutX="82.0" layoutY="315.0" text="Media " />
+      <Label alignment="TOP_LEFT" layoutX="82.0" layoutY="343.0" text="Varianza" />
+      <Label alignment="TOP_LEFT" layoutX="79.0" layoutY="209.0" prefHeight="17.0" prefWidth="81.0" text="Tamaño Serie" />
+      <TextField fx:id="txt_n" alignment="TOP_LEFT" layoutX="187.0" layoutY="205.0" />
     </children>
 </AnchorPane>

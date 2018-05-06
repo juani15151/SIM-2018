@@ -22,123 +22,118 @@ import javafx.util.converter.NumberStringConverter;
 import javax.swing.JOptionPane;
 import utils.Round;
 import utils.Validaciones;
+import generadores.*;
 
 public class FXMLController implements Initializable {
 
-    private final IntegerProperty parametroA;
-    private final IntegerProperty parametroM;
-    private final IntegerProperty parametroC;
-    private final IntegerProperty semillaParam;
-    private ObservableList<Double> listaNumeros = FXCollections.observableArrayList();
-    private int c=20;
-
-    @FXML
-    private TextField fieldA;
-    @FXML
-    private TextField fieldM;
-    @FXML
-    private TextField fieldC;
-    @FXML
-    private TextField semilla;
+    
     @FXML
     private ListView<Double> listView1;
     @FXML
-    private CheckBox chkMetodo;
+    private CheckBox chk_uniforme;
+    @FXML
+    private CheckBox chk_exp;
+    @FXML
+    private CheckBox chk_normbox;
+    @FXML
+    private CheckBox chk_normconv;
+    @FXML
+    private CheckBox chk_poisson;
+    @FXML
+    private TextField txt_media;
+    @FXML
+    private TextField txt_a;
+    @FXML
+    private TextField txt_b;
+    @FXML
+    private TextField txt_varianza;
+    @FXML
+    private TextField txt_n;
+    private ObservableList<Double> listaNumeros = FXCollections.observableArrayList();
+    
 
     public FXMLController() {
-        this.parametroA = new SimpleIntegerProperty(0);
-        this.parametroM = new SimpleIntegerProperty(0);
-        this.parametroC = new SimpleIntegerProperty(0);
-        this.semillaParam = new SimpleIntegerProperty(0);
+        
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        fieldA.textProperty().bindBidirectional(this.parametroA, new NumberStringConverter());
-        fieldM.textProperty().bindBidirectional(this.parametroM, new NumberStringConverter());
-        fieldC.textProperty().bindBidirectional(this.parametroC, new NumberStringConverter());
-        semilla.textProperty().bindBidirectional(this.semillaParam, new NumberStringConverter());
+        
     }
 
     @FXML
     private void generarPorConsola(ActionEvent event) {
 
-        if (ValidarCamposNumericos()) {
-            if (ValidarNoNegativo()) {
+//        if (ValidarCamposNumericos()) {
+//            if (ValidarNoNegativo()) {
+                
                 listView1.getItems().clear();
                 listaNumeros.clear();
-                c=20;
-                cargarSerie();
-                listView1.setItems(cargarLista());                     
-            } else {
-                JOptionPane.showMessageDialog(null, "ERROR, INGRESE BIEN LOS DATOS, SOLO VALORES POSITIVOS");
-                limpiarCampos();
+                elegirGenerador();
+                listView1.setItems(listaNumeros);                     
+//            } else {
+//                JOptionPane.showMessageDialog(null, "ERROR, INGRESE BIEN LOS DATOS, SOLO VALORES POSITIVOS");
+//                limpiarCampos();
             }
-        } else {
-            JOptionPane.showMessageDialog(null, "ERROR, INGRESE BIEN LOS DATOS, SOLO VALORES NUMERICOS");
-            limpiarCampos();
-        }
+//        } else {
+//            JOptionPane.showMessageDialog(null, "ERROR, INGRESE BIEN LOS DATOS, SOLO VALORES NUMERICOS");
+//            limpiarCampos();
+//        }
 
+//    }
+    
+    
+    private void elegirGenerador() {
+       if(chk_uniforme.isSelected()){
+        IGenerador generador = new GeneradorUniformePersonalizado(Integer.parseInt(txt_a.getText()), Integer.parseInt(txt_b.getText()));
+        cargarSerie(generador);
+       }
+       if(chk_normbox.isSelected()){
+        IGenerador generador = new GeneradorNormal(Double.parseDouble(txt_varianza.getText()), Double.parseDouble(txt_media.getText()));
+        cargarSerie(generador);
+       }
+       if(chk_normconv.isSelected()){
+       IGenerador generador = new GeneradorNormalConvolucion(Double.parseDouble(txt_varianza.getText()), Double.parseDouble(txt_media.getText()));
+        cargarSerie(generador);
+       }
+       if(chk_poisson.isSelected()){
+         IGenerador generador = new GeneradorPoisson(Double.parseDouble(txt_media.getText()));
+        cargarSerie(generador);
+       }
+       if(chk_exp.isSelected()){
+            IGenerador generador = new GeneradorExponencial(Double.parseDouble(txt_media.getText()));
+            cargarSerie(generador);
+       }
+   
+   
     }
     
-    @FXML
-    private void cambiarMetodo(ActionEvent event){
-        if (chkMetodo.isSelected()){
-            fieldC.setText("0");
-            fieldC.setEditable(false);
+    private void cargarSerie(IGenerador generador){
+        int n = Integer.parseInt(txt_n.getText());
+        if(generador == null){
+            JOptionPane.showMessageDialog(null, "Porfavor seleccione un generador");
         }
-        else{
-            fieldC.setEditable(true);
-        }
-    }
-    private void cargarSerie() {
-        IGenerador generador = new GeneradorUniforme(this.semillaParam.get(), this.parametroA.get(), this.parametroC.get(), this.parametroM.get(),0,1);
-        for (int i = 0; i < 1000; i++) {
+            else{
+            for (int i = 0; i < n; i++) {
             listaNumeros.add(Round.truncate(generador.nextDouble(), 4));
-            System.out.println(listaNumeros.get(i));
-        }      
-    }
-    
-    private ObservableList<Double> cargarLista(){
-        ObservableList<Double> primerosVeinte = FXCollections.observableArrayList();
-        for (int i = 0; i < 20; i++) {
-            primerosVeinte.add(listaNumeros.get(i));         
-        }
-        return primerosVeinte;
-    }
-    @FXML
-    private void siguienteNumero(ActionEvent event){  
-        if (listaNumeros.size() > 0){
-            JOptionPane.showMessageDialog(null,"Valor numero " + (c +1) + ": " + listaNumeros.get(c));
-            c++;
+                    }
         }
         
-        else{
-            JOptionPane.showMessageDialog(null, "No hay valores en la serie");       
-        }
     }
+
+ 
 
     private void limpiarCampos() {
-        fieldA.setText("0");
-        fieldM.setText("0");
-        fieldC.setText("0");
-        semilla.setText("0");
-        listView1.getItems().clear();
-    }
-
-    private boolean ValidarCamposNumericos() {
-        return Validaciones.isNumeric(fieldA.getText())
-                && Validaciones.isNumeric(fieldM.getText()) && Validaciones.isNumeric(fieldC.getText()) 
-                && Validaciones.isNumeric(semilla.getText());
        
     }
 
-    private boolean ValidarNoNegativo() {
-        return (Validaciones.isPositive(Integer.parseInt(fieldA.getText()))
-                && Validaciones.isPositive(Integer.parseInt(fieldM.getText()))
-                && Integer.parseInt(fieldC.getText()) >= 0) && Validaciones.isPositive(Integer.parseInt(semilla.getText()));
-
-    }
+//    private boolean ValidarCamposNumericos() {
+//      
+//    }
+//
+//    private boolean ValidarNoNegativo() {
+//      
+//    }
 
  
 }

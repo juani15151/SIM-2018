@@ -58,4 +58,9 @@ public class GeneradorUniforme implements IGenerador {
         double val = (double) this.semilla / this.M;
         return val * (this.limB - this.limA)+ limA;
     }
+    
+    public GeneradorUniforme(int limA, int limB){
+        this.limA=limA;
+        this.limB=limB;
+    }
 }
