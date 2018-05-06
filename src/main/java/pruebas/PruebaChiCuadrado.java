@@ -7,6 +7,7 @@ package pruebas;
 
 import generadores.IGenerador;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -20,7 +21,7 @@ public abstract class PruebaChiCuadrado {
     protected final int tamañoMuestra;
 
     public PruebaChiCuadrado(IGenerador generador, int cantidadIntervalos) {
-        this(generador, cantidadIntervalos, 1000);
+        this(generador, cantidadIntervalos, 10000);
     }
 
     public PruebaChiCuadrado(IGenerador generador, int cantidadIntervalos, int tamañoMuestra) {
@@ -105,7 +106,8 @@ public abstract class PruebaChiCuadrado {
         return unificarIntervalosPequeños(intervalos, muestra);
     }
 
-    private List<Intervalo> unificarIntervalosPequeños(List<Intervalo> intervalos, Muestra muestra) {
+    private List<Intervalo> unificarIntervalosPequeños(List<Intervalo> intervalos, Muestra muestra) {        
+        Collections.sort(intervalos); // Hay que ordenarlos para que al unir sean contiguos.
         List<Intervalo> intervalosValidos = new ArrayList<>(intervalos.size());
         Intervalo paraUnir = null;
         for (Intervalo i : intervalos) {
@@ -127,20 +129,21 @@ public abstract class PruebaChiCuadrado {
                 paraUnir = i;
             }
         }
-        assert paraUnir == null;  // Si no, quedo un intervalo invalido.
+        assert paraUnir == null;
         return intervalosValidos;
     }
 
     private double calcularChi(List<Intervalo> intervalos, Muestra muestra, int[] frecuenciasObservadas) {
         double sumatoriaDesviacionesRelativas = 0.0;
-        double desviacionRelativa;
         for (int i = 0; i < intervalos.size(); i++) {
             // Seleccionar 1 intervalo
             Intervalo intervalo = intervalos.get(i);
             int frecuenciaObservada = frecuenciasObservadas[i];
             // Calcular desviacion relativa
-            desviacionRelativa = Math.pow(frecuenciaObservada - frecuenciaEsperada(intervalo, muestra), 2);
-            desviacionRelativa /= this.frecuenciaEsperada(intervalo, muestra);
+            double frecuenciaEsperada = frecuenciaEsperada(intervalo, muestra);
+            double numerador = Math.pow(frecuenciaObservada - frecuenciaEsperada, 2);
+            double desviacionRelativa = numerador / frecuenciaEsperada;
+            System.out.println(String.format("%s; %s esperados; %s observados ", intervalo, frecuenciaEsperada, frecuenciaObservada));
             sumatoriaDesviacionesRelativas += desviacionRelativa;
         }
         return sumatoriaDesviacionesRelativas;

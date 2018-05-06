@@ -10,12 +10,12 @@ package generadores;
  * @author eric
  */
 public class GeneradorNormal implements IGenerador {
-    
+
     private double desv;
     private double media;
     private IGenerador gen1;
     private double rnd1;
-    private IGenerador gen2;    
+    private IGenerador gen2;
     private double rnd2;
     private boolean generarAleatorios;
 
@@ -34,28 +34,27 @@ public class GeneradorNormal implements IGenerador {
     public double getMedia() {
         return media;
     }
-    
-    
-    
-    private void generarValoresRandom(){
+
+    private void generarValoresRandom() {
         this.rnd1 = gen1.nextDouble();
         this.rnd2 = gen2.nextDouble();
     }
-    
-    private double calcularN1(){
-        double n1 = ((Math.sqrt(-2* Math.log(rnd1)))
-                * (Math.cos(2*Math.PI*rnd2))) * desv + media;
+
+    private double calcularN1() {
+        double n1 = ((Math.sqrt(-2 * Math.log(rnd1)))
+                * (Math.cos(2 * Math.PI * rnd2))) * desv + media;
         return n1;
     }
-    private double calcularN2(){
-        double n2 = ((Math.sqrt(-2* Math.log(rnd1)))
-                * (Math.sin(2*Math.PI*rnd2))) * desv + media;
+
+    private double calcularN2() {
+        double n2 = ((Math.sqrt(-2 * Math.log(rnd1)))
+                * (Math.sin(2 * Math.PI * rnd2))) * desv + media;
         return n2;
     }
 
     @Override
     public double nextDouble() {
-        if(generarAleatorios){
+        if (generarAleatorios) {
             generarValoresRandom();
             generarAleatorios = false;
             return calcularN1();
@@ -64,5 +63,5 @@ public class GeneradorNormal implements IGenerador {
             return calcularN2();
         }
     }
-    
+
 }

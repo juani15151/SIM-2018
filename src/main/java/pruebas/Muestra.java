@@ -15,7 +15,7 @@ import java.util.ArrayList;
  */
 public class Muestra extends AbstractList<Double> {
     
-    private List<Double> valoresObservados;
+    private List<Double> valoresObservados = new ArrayList();
     
     private double maximoValor = Double.NEGATIVE_INFINITY;
     private double minimoValor = Double.POSITIVE_INFINITY;
@@ -45,6 +45,18 @@ public class Muestra extends AbstractList<Double> {
     
     public double media(){
         return sumatoria / size();
+    }
+    
+    public double varianza(){
+        double sumatoriaDesviaciones = 0.0;
+        for (double num : valoresObservados) {
+            sumatoriaDesviaciones += Math.pow(num - media(), 2);
+        }
+        return sumatoriaDesviaciones / size();
+    }
+    
+    public double desviacion(){
+        return Math.sqrt(varianza());
     }
     
     @Override

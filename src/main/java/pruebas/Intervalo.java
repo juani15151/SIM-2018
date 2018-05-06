@@ -51,10 +51,13 @@ public class Intervalo implements Comparable {
      * Une este intervalo con uno contiguo.
      * @param intervalo 
      */
-    public void join(Intervalo intervalo) {
-        if (this.fin == intervalo.inicio) {
-            this.fin = intervalo.inicio;
-        } else if (intervalo.fin == this.inicio) {
+    public void join(Intervalo intervalo) {        
+        assert this != intervalo; // No unir intervalos a si mismos.       
+        
+        // No se compara por == porque los double difieren en los ultimos decimales.
+        if (Math.abs(this.fin - intervalo.inicio) <= 0.000000000001) {
+            this.fin = intervalo.fin;
+        } else if (Math.abs(intervalo.fin - this.inicio) <= 0.000000000001) {
             this.inicio = intervalo.inicio;
         } else {
             throw new IllegalArgumentException("El intervalo debe ser contiguo");
@@ -73,5 +76,9 @@ public class Intervalo implements Comparable {
             // TODO: Si los inicios coinciden habria que comparar los finales.
             return 0;
         }
+    }
+    
+    public String toString(){
+        return String.format("Intervalo [%s - %s)", inicio, fin);
     }
 }
