@@ -70,7 +70,7 @@ public class PruebaChiCuadradoNormal extends PruebaChiCuadrado {
             acum = 0.9999; // Excede la tabla.
         }
         if (zEstandar < 0.0) {
-            acum -= 0.5; // Porque sacamos el valor por simetria.        
+            acum = 1 - acum; // Porque sacamos el valor por simetria.        
         }
         return acum;
     }
