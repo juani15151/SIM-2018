@@ -20,7 +20,7 @@ public class GeneradorNormalTest {
     int MUESTRAS = 10000;
     GeneradorNormal instance;
     int MEDIA = 0;
-    int DESVIACION = 10;
+    int DESVIACION = 100;
     
     public GeneradorNormalTest() {
     }
@@ -31,12 +31,12 @@ public class GeneradorNormalTest {
     }
     
     private double getVarianza(){
-        return Math.sqrt((double) DESVIACION);
+        return Math.pow((double) DESVIACION, 2);
     }
 
     @Test
     public void testMedia() {
-        double TOLERANCIA = 0.05;
+        double TOLERANCIA = 0.05 * DESVIACION;
 
         double suma = 0;
         for (int i = 0; i < this.MUESTRAS; i++) {
