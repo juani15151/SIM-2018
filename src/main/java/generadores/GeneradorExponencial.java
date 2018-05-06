@@ -14,7 +14,7 @@ import java.util.Random;
 public class GeneradorExponencial implements IGenerador {
 
     private IGenerador random;
-    private int media; // alias u
+    private double media; // alias u
 
     public GeneradorExponencial() {
         this(new Random().nextInt(1024));
@@ -24,7 +24,11 @@ public class GeneradorExponencial implements IGenerador {
         this(semilla, 1);
     }
     
-    public GeneradorExponencial(int semilla, int u) {
+    public GeneradorExponencial(double u){
+        this(new Random().nextInt(1024), u);
+    }
+    
+    public GeneradorExponencial(int semilla, double u) {
         this.random = new GeneradorUniforme(semilla);
         this.media = u;
     }

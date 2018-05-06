@@ -14,13 +14,12 @@ public class PruebaChiCuadradoExponencial extends PruebaChiCuadrado {
     }
 
     private double probabilidadAcumulada(double x, double media) {
-        return 1.0 - Math.exp(-1.0 / media * x);
+        if(x < 0) x = 0;
+        return 1.0 - Math.exp((-1.0 / media) * x);
     }
 
     private double probabilidadIntervalo(double inicio, double fin, double media) {
-        // Equivalente a probabilidadAcumulada(fin) - probabilidadAcumulada(inicio);
-        double lambda = 1.0 / media;
-        return Math.exp(-lambda * inicio) - Math.exp(-lambda * fin);
+        return probabilidadAcumulada(fin, media) - probabilidadAcumulada(inicio, media);
     }
 
     @Override
