@@ -21,7 +21,7 @@ public abstract class PruebaChiCuadrado {
     protected final int tamañoMuestra;
 
     public PruebaChiCuadrado(IGenerador generador, int cantidadIntervalos) {
-        this(generador, cantidadIntervalos, 10000);
+        this(generador, cantidadIntervalos, 1000);
     }
 
     public PruebaChiCuadrado(IGenerador generador, int cantidadIntervalos, int tamañoMuestra) {
@@ -183,7 +183,7 @@ public abstract class PruebaChiCuadrado {
      * @return la frecuencia esperada del intervalo indicado.
      */
     private double frecuenciaEsperada(Intervalo intervalo, Muestra muestra) {
-        return probabilidad(intervalo, muestra) * tamañoMuestra;
+        return probabilidad(intervalo, muestra) * (double) tamañoMuestra;
     }
 
     /**

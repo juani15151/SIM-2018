@@ -19,43 +19,35 @@ public class PruebaChiCuadradoPoisson extends PruebaChiCuadrado {
     }
 
     @Override
-    protected List<Intervalo> generarIntervalos(Muestra muestra, int cantidadIntervalos) {
-        List<Intervalo> intervalos = super.generarIntervalos(muestra, cantidadIntervalos);
-        intervalos.set(0, new Intervalo(0.01, intervalos.get(2).getInicio()));
-        return intervalos;
-    }
-
-    @Override
-    double probabilidad(Intervalo intervalo, Muestra muestra) {
-        // Calculamos la probabilidad puntual y la aproximamos al intervalo.
-        double marca = intervalo.marcaDeClase();
-        if (marca < 0) {
-            marca = intervalo.getFin() / 2.0;  // Para intervalos que empiezen antes del 0.
+    double probabilidad(Intervalo intervalo, Muestra muestra) {        
+        double inicio = intervalo.getInicio();
+        if(inicio < 0) inicio = 0.0;
+        double fin = intervalo.getFin();
+        if(fin == Double.POSITIVE_INFINITY) fin = inicio + 100.0;
+        
+        inicio = Math.ceil(inicio);  // Redondeo arriba.
+        // El fin no requiere redondeo porque x avanza de a 1.
+        double media = muestra.media();
+        double sumatoriaProbabilidadPuntuales = 0.0;
+        for (int x = (int) inicio; x < fin; x++){
+            double probabilidadPuntual = probabilidadPuntual(x, media);
+            sumatoriaProbabilidadPuntuales += probabilidadPuntual;
         }
-        if (marca == Double.POSITIVE_INFINITY) {
-            marca = intervalo.getInicio();
-        }
-
-        double p = probabilidadPuntual((int) marca, muestra.media());
-        double recorrido = intervalo.recorrido();
-        if (recorrido == Double.POSITIVE_INFINITY){
-            return p;
-        }
-        return p * recorrido;
+        
+        return sumatoriaProbabilidadPuntuales;
     }
 
     private double probabilidadPuntual(int x, double lambda) {
         if (x <= 0) {
-            return 0.0;  // En realidad en 0 tiende a infinito...
+            return 0.0;
         }        // En poisson lamba == media.
-        return ((Math.pow(lambda, x)) * Math.exp(-lambda)) / (factorial(x));
+        double probabilidad = ((Math.pow(lambda, x)) * Math.exp(-lambda)) / (factorial(x));
+        if (probabilidad == Double.NaN) probabilidad = 0.0;  // Muy cercano a 0.
+        return probabilidad;
     }
 
     private double factorial(int x) {
         assert x >= 0;  // No existe el factorial de numeros negativos (ni de fracciones).
-        if (x == Double.POSITIVE_INFINITY) {
-            return x;
-        }
         double resultado = x;
         for (double i = x - 1; i > 1; i--) {
             resultado *= i;
