@@ -8,25 +8,25 @@ package generadores;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.junit.Ignore;
-import pruebas.PruebaChiCuadradoExponencial;
+import pruebas.PruebaChiCuadradoPoisson;
 
 /**
  *
  * @author juani
  */
-public class GeneradorExponencialTest {
+public class GeneradorPoissonTest {
     
     int MUESTRAS = 10000;
-    GeneradorExponencial instance;
+    GeneradorPoisson instance;
     double MEDIA = 5.0;    
     
-    public GeneradorExponencialTest() {
-    }
+    
+    public GeneradorPoissonTest() {
+    }    
     
     @Before
     public void setUp() {
-        this.instance = new GeneradorExponencial(MEDIA);
+        this.instance = new GeneradorPoisson(MEDIA);
     }
 
     @Test
@@ -47,11 +47,10 @@ public class GeneradorExponencialTest {
     }
     
     @Test
-    @Ignore
     public void pruebaChiCuadrado() {
         // La prueba ChiCuadrado mide si los valores se aproximan lo suficiente a 
         // la distribucion indicada (uniforme en este caso).
-        PruebaChiCuadradoExponencial test = new PruebaChiCuadradoExponencial(instance, 10);
+        PruebaChiCuadradoPoisson test = new PruebaChiCuadradoPoisson(instance, 10);
         assertTrue(test.runTest());
     }
     

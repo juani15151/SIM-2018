@@ -67,9 +67,9 @@ public abstract class PruebaChiCuadrado {
                 System.out.println(String.format("%1.4f, ", valor));
             } else {
                 System.out.print(String.format("%1.4f, ", valor));
-            }
-
+            }           
         }
+        System.out.println("");
         return muestra;
     }
 
@@ -81,7 +81,7 @@ public abstract class PruebaChiCuadrado {
      * definido.
      * @return
      */
-    private List<Intervalo> generarIntervalos(Muestra muestra, int cantidadIntervalos) {
+    protected List<Intervalo> generarIntervalos(Muestra muestra, int cantidadIntervalos) {
         // Creamos los intervalos pedidos y agregamos 2 intervalos al inicio y final.
         List<Intervalo> intervalos = new ArrayList<>(cantidadIntervalos + 2);
 
@@ -105,7 +105,7 @@ public abstract class PruebaChiCuadrado {
         // Valida y une los intervalos pequeños.
         return unificarIntervalosPequeños(intervalos, muestra);
     }
-
+    
     private List<Intervalo> unificarIntervalosPequeños(List<Intervalo> intervalos, Muestra muestra) {        
         Collections.sort(intervalos); // Hay que ordenarlos para que al unir sean contiguos.
         List<Intervalo> intervalosValidos = new ArrayList<>(intervalos.size());

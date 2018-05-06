@@ -10,6 +10,8 @@ package pruebas;
  * @author juani
  */
 public class Intervalo implements Comparable {
+    
+    private static final double TOLERANCIA = 0.000000000001;
 
     private double inicio; // incluido
     private double fin; // no incluido
@@ -44,7 +46,7 @@ public class Intervalo implements Comparable {
     }
 
     public boolean contains(double value) {
-        return value >= inicio && value < fin;
+        return value >= inicio - TOLERANCIA && value < fin;
     }
 
     /**
@@ -55,9 +57,9 @@ public class Intervalo implements Comparable {
         assert this != intervalo; // No unir intervalos a si mismos.       
         
         // No se compara por == porque los double difieren en los ultimos decimales.
-        if (Math.abs(this.fin - intervalo.inicio) <= 0.000000000001) {
+        if (Math.abs(this.fin - intervalo.inicio) <= TOLERANCIA) {
             this.fin = intervalo.fin;
-        } else if (Math.abs(intervalo.fin - this.inicio) <= 0.000000000001) {
+        } else if (Math.abs(intervalo.fin - this.inicio) <= TOLERANCIA) {
             this.inicio = intervalo.inicio;
         } else {
             throw new IllegalArgumentException("El intervalo debe ser contiguo");

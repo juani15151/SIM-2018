@@ -6,6 +6,7 @@
 package pruebas;
 
 import generadores.IGenerador;
+import java.util.List;
 
 /**
  *
@@ -18,18 +19,43 @@ public class PruebaChiCuadradoPoisson extends PruebaChiCuadrado {
     }
 
     @Override
-    double probabilidad(Intervalo intervalo, Muestra muestra) {
-        // Calculamos la probabilidad puntual y la aproximamos al intervalo.
-        double p = probabilidadPuntual(intervalo.marcaDeClase(), muestra.media());
-        return p * intervalo.recorrido();
+    protected List<Intervalo> generarIntervalos(Muestra muestra, int cantidadIntervalos) {
+        List<Intervalo> intervalos = super.generarIntervalos(muestra, cantidadIntervalos);
+        intervalos.set(0, new Intervalo(0.01, intervalos.get(2).getInicio()));
+        return intervalos;
     }
 
-    private double probabilidadPuntual(double x, double lambda) {
-        // En poisson lamba == media.
+    @Override
+    double probabilidad(Intervalo intervalo, Muestra muestra) {
+        // Calculamos la probabilidad puntual y la aproximamos al intervalo.
+        double marca = intervalo.marcaDeClase();
+        if (marca < 0) {
+            marca = intervalo.getFin() / 2.0;  // Para intervalos que empiezen antes del 0.
+        }
+        if (marca == Double.POSITIVE_INFINITY) {
+            marca = intervalo.getInicio();
+        }
+
+        double p = probabilidadPuntual((int) marca, muestra.media());
+        double recorrido = intervalo.recorrido();
+        if (recorrido == Double.POSITIVE_INFINITY){
+            return p;
+        }
+        return p * recorrido;
+    }
+
+    private double probabilidadPuntual(int x, double lambda) {
+        if (x <= 0) {
+            return 0.0;  // En realidad en 0 tiende a infinito...
+        }        // En poisson lamba == media.
         return ((Math.pow(lambda, x)) * Math.exp(-lambda)) / (factorial(x));
     }
 
-    private double factorial(double x) {
+    private double factorial(int x) {
+        assert x >= 0;  // No existe el factorial de numeros negativos (ni de fracciones).
+        if (x == Double.POSITIVE_INFINITY) {
+            return x;
+        }
         double resultado = x;
         for (double i = x - 1; i > 1; i--) {
             resultado *= i;
