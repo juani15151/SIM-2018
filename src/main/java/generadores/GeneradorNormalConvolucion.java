@@ -33,9 +33,9 @@ public class GeneradorNormalConvolucion implements IGenerador {
     public double nextDouble() {
         double sumatoria = 0.0;
         for(int i = 0; i < 12; i++){
-            sumatoria += gen.nextDouble() - 6;
+            sumatoria += gen.nextDouble();
         }
-        return sumatoria * desv + media;
+        return (sumatoria - 6) * desv + media;
     }
 
 }
