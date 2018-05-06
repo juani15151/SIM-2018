@@ -41,27 +41,28 @@ public class GeneradorNormal implements IGenerador {
     }
 
     private double calcularN1() {
-        double n1 = ((Math.sqrt(-2 * Math.log(rnd1)))
-                * (Math.cos(2 * Math.PI * rnd2))) * desv + media;
+        double n1 = ((Math.sqrt(-2.0 * Math.log(rnd1)))
+                * (Math.cos(2.0 * Math.PI * rnd2))) * desv + media;
         return n1;
     }
 
     private double calcularN2() {
-        double n2 = ((Math.sqrt(-2 * Math.log(rnd1)))
-                * (Math.sin(2 * Math.PI * rnd2))) * desv + media;
+        double n2 = ((Math.sqrt(-2.0 * Math.log(rnd1)))
+                * (Math.sin(2.0 * Math.PI * rnd2))) * desv + media;
         return n2;
     }
 
     @Override
     public double nextDouble() {
+        double rnd;
         if (generarAleatorios) {
             generarValoresRandom();
-            generarAleatorios = false;
-            return calcularN1();
+            rnd = calcularN1();
         } else {
-            generarAleatorios = true;
-            return calcularN2();
+            rnd = calcularN2();
         }
+        generarAleatorios = !generarAleatorios; // Lo invierte.
+        return rnd;
     }
 
 }
