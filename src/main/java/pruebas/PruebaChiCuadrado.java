@@ -106,7 +106,7 @@ public abstract class PruebaChiCuadrado {
         return unificarIntervalosPequeños(intervalos, muestra);
     }
     
-    private List<Intervalo> unificarIntervalosPequeños(List<Intervalo> intervalos, Muestra muestra) {        
+    protected List<Intervalo> unificarIntervalosPequeños(List<Intervalo> intervalos, Muestra muestra) {        
         Collections.sort(intervalos); // Hay que ordenarlos para que al unir sean contiguos.
         List<Intervalo> intervalosValidos = new ArrayList<>(intervalos.size());
         Intervalo paraUnir = null;

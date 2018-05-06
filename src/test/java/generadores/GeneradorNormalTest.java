@@ -20,7 +20,7 @@ public class GeneradorNormalTest {
     int MUESTRAS = 10000;
     GeneradorNormal instance;
     int MEDIA = 0;
-    int DESVIACION = 100;
+    int DESVIACION = 1;
     
     public GeneradorNormalTest() {
     }
