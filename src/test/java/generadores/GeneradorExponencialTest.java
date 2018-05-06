@@ -47,7 +47,6 @@ public class GeneradorExponencialTest {
     }
     
     @Test
-    @Ignore
     public void pruebaChiCuadrado() {
         // La prueba ChiCuadrado mide si los valores se aproximan lo suficiente a 
         // la distribucion indicada (uniforme en este caso).

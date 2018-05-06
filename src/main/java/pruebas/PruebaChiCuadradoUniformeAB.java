@@ -21,11 +21,18 @@ public class PruebaChiCuadradoUniformeAB extends PruebaChiCuadrado {
     @Override
     double probabilidad(Intervalo intervalo, Muestra muestra) {
         // Si el intervalo esta fuera de A-B, no debe tener valores.
-        if (intervalo.getFin() <= muestra.minimo()) return 0;
-        if (intervalo.getInicio() >= muestra.maximo()) return 0;
+        double inicio = intervalo.getInicio();
+        double fin = intervalo.getFin();
         
-        double acumFin = probabilidadAcumulada(intervalo.getFin(), muestra.minimo(), muestra.maximo());
-        double acumInicio = probabilidadAcumulada(intervalo.getFin(), muestra.minimo(), muestra.maximo());
+        if (fin <= muestra.minimo()) return 0;
+        if (inicio >= muestra.maximo()) return 0;
+        
+        // Truncar los infinitos.
+        if(inicio == Double.NEGATIVE_INFINITY) inicio = muestra.minimo();
+        if(fin == Double.POSITIVE_INFINITY) fin = muestra.maximo();
+        
+        double acumFin = probabilidadAcumulada(fin, muestra.minimo(), muestra.maximo());
+        double acumInicio = probabilidadAcumulada(inicio, muestra.minimo(), muestra.maximo());
         
         return acumFin - acumInicio;
     }
