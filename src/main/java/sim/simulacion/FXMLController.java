@@ -23,22 +23,13 @@ import javax.swing.JOptionPane;
 import utils.Round;
 import utils.Validaciones;
 import generadores.*;
+import javafx.scene.control.ComboBox;
 
 public class FXMLController implements Initializable {
 
     
     @FXML
     private ListView<Double> listView1;
-    @FXML
-    private CheckBox chk_uniforme;
-    @FXML
-    private CheckBox chk_exp;
-    @FXML
-    private CheckBox chk_normbox;
-    @FXML
-    private CheckBox chk_normconv;
-    @FXML
-    private CheckBox chk_poisson;
     @FXML
     private TextField txt_media;
     @FXML
@@ -50,6 +41,8 @@ public class FXMLController implements Initializable {
     @FXML
     private TextField txt_n;
     private ObservableList<Double> listaNumeros = FXCollections.observableArrayList();
+    @FXML
+    private ComboBox<String> cmb_distribuciones;
     
 
     public FXMLController() {
@@ -58,54 +51,71 @@ public class FXMLController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+        cmb_distribuciones.getItems().add("Uniforme");
+        cmb_distribuciones.getItems().add("Normal Box Muller");
+        cmb_distribuciones.getItems().add("Normal Convolucion");
+        cmb_distribuciones.getItems().add("Exponencial Negativa");
+        cmb_distribuciones.getItems().add("Poisson");
     }
 
     @FXML
     private void generarPorConsola(ActionEvent event) {
 
-//        if (ValidarCamposNumericos()) {
-//            if (ValidarNoNegativo()) {
+        if(controlIntervalosUniforme()){
+        if (ValidarCamposNumericos()) {
+            if (ValidarNoNegativo()) {
                 
+            
                 listView1.getItems().clear();
                 listaNumeros.clear();
                 elegirGenerador();
                 listView1.setItems(listaNumeros);                     
-//            } else {
-//                JOptionPane.showMessageDialog(null, "ERROR, INGRESE BIEN LOS DATOS, SOLO VALORES POSITIVOS");
-//                limpiarCampos();
+            } else {
+                JOptionPane.showMessageDialog(null, "ERROR, INGRESE BIEN LOS DATOS, LA CANTIDAD ES POSITIVA");
+                limpiarCampos();
+                
             }
-//        } else {
-//            JOptionPane.showMessageDialog(null, "ERROR, INGRESE BIEN LOS DATOS, SOLO VALORES NUMERICOS");
-//            limpiarCampos();
-//        }
+        } else {
+            JOptionPane.showMessageDialog(null, "ERROR, INGRESE BIEN LOS DATOS, SOLO VALORES NUMERICOS");
+            limpiarCampos();
+        }
 
-//    }
+    }
+        else{
+            JOptionPane.showMessageDialog(null, "ERROR, INGRESE BIEN LOS INTERVALOS EN LA UNIFORME");
+            limpiarCampos();
+        }
+    }
     
     
     private void elegirGenerador() {
-       if(chk_uniforme.isSelected()){
+       if(cmb_distribuciones.getValue().equals(cmb_distribuciones.getItems().get(0))){
         IGenerador generador = new GeneradorUniformePersonalizado(Integer.parseInt(txt_a.getText()), Integer.parseInt(txt_b.getText()));
+        limpiarCamposUniforme();
         cargarSerie(generador);
        }
-       if(chk_normbox.isSelected()){
+       if(cmb_distribuciones.getValue().equals(cmb_distribuciones.getItems().get(1))){
         IGenerador generador = new GeneradorNormal(Double.parseDouble(txt_varianza.getText()), Double.parseDouble(txt_media.getText()));
         cargarSerie(generador);
        }
-       if(chk_normconv.isSelected()){
+       if(cmb_distribuciones.getValue().equals(cmb_distribuciones.getItems().get(2))){
        IGenerador generador = new GeneradorNormalConvolucion(Double.parseDouble(txt_varianza.getText()), Double.parseDouble(txt_media.getText()));
         cargarSerie(generador);
        }
-       if(chk_poisson.isSelected()){
+       if(cmb_distribuciones.getValue().equals(cmb_distribuciones.getItems().get(4))){
          IGenerador generador = new GeneradorPoisson(Double.parseDouble(txt_media.getText()));
         cargarSerie(generador);
        }
-       if(chk_exp.isSelected()){
+       if(cmb_distribuciones.getValue().equals(cmb_distribuciones.getItems().get(3))){
             IGenerador generador = new GeneradorExponencial(Double.parseDouble(txt_media.getText()));
             cargarSerie(generador);
        }
    
    
+    }
+    
+    private boolean controlIntervalosUniforme(){
+        return Integer.parseInt(txt_a.getText()) <= Integer.parseInt(txt_b.getText());
     }
     
     private void cargarSerie(IGenerador generador){
@@ -120,20 +130,95 @@ public class FXMLController implements Initializable {
         }
         
     }
-
- 
-
-    private void limpiarCampos() {
-       
+    @FXML
+    private void cambiarItem(ActionEvent event){
+        if(cmb_distribuciones.getValue().equals(cmb_distribuciones.getItems().get(0))){
+        activarCamposUniforme();
+        limpiarCamposUniforme();
+       }
+       if(cmb_distribuciones.getValue().equals(cmb_distribuciones.getItems().get(1))){
+           activarCamposNormal();
+           limpiarCamposNormal();
+       }
+       if(cmb_distribuciones.getValue().equals(cmb_distribuciones.getItems().get(2))){
+           activarCamposNormal();
+           limpiarCamposNormal();
+       }
+       if(cmb_distribuciones.getValue().equals(cmb_distribuciones.getItems().get(4))){
+        activarCamposPoissonExp();
+        limpiarCamposPoissonExp();
+       }
+       if(cmb_distribuciones.getValue().equals(cmb_distribuciones.getItems().get(3))){
+           activarCamposPoissonExp();
+            limpiarCamposPoissonExp();
+       }
+    }
+    private void limpiarCamposUniforme() {
+        txt_media.setDisable(true);
+        txt_varianza.setDisable(true);
+    }
+    
+    private void limpiarCamposNormal(){
+        txt_a.setDisable(true);
+        txt_b.setDisable(true);
+        txt_a.setText("0");
+        txt_b.setText("0");
     }
 
-//    private boolean ValidarCamposNumericos() {
-//      
-//    }
-//
-//    private boolean ValidarNoNegativo() {
-//      
-//    }
+    private void limpiarCamposPoissonExp(){
+        txt_a.setDisable(true);
+        txt_b.setDisable(true);
+        txt_varianza.setDisable(true);
+        txt_a.setText("0");
+        txt_b.setText("0");
+        txt_varianza.setText("0");
+        
+    }
+    
+    private void activarCamposUniforme(){
+        txt_a.setDisable(false);
+        txt_b.setDisable(false);
+        txt_varianza.setText("0");
+        txt_media.setText("0");
+    }
+    
+    private void activarCamposPoissonExp(){
+        txt_media.setDisable(false);
+        txt_a.setText("0");
+        txt_b.setText("0");
+    }
+    
+    private void activarCamposNormal(){
+        txt_media.setDisable(false);
+        txt_varianza.setDisable(false);
+        txt_a.setText("0");
+        txt_b.setText("0");
+    }
+    
+    private static boolean isNumeric(String cadena){
+	try {
+		Integer.parseInt(cadena);
+		return true;
+	} catch (NumberFormatException nfe){
+		return false;
+	}
+    }
+    
+    private boolean ValidarCamposNumericos() {
+      return isNumeric(txt_n.getText()) && isNumeric(txt_a.getText()) && isNumeric(txt_b.getText()) && 
+              isNumeric(txt_media.getText()) && isNumeric(txt_varianza.getText()) ;
+    }
 
+    private boolean ValidarNoNegativo() {
+      return Integer.parseInt(txt_n.getText()) >= 0;
+    }
+
+    private void limpiarCampos(){
+        txt_a.setText("0");
+        txt_b.setText("0");
+        txt_n.setText("0");
+        txt_varianza.setText("0");
+        txt_media.setText("0");
+    }
  
 }
