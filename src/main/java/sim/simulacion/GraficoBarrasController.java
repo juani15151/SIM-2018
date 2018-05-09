@@ -32,6 +32,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.util.converter.BooleanStringConverter;
 import javafx.util.converter.NumberStringConverter;
+import pruebas.Muestra;
 import pruebas.PruebaChiCuadradoUniformeAB;
 
 /**
@@ -93,34 +94,29 @@ public class GraficoBarrasController implements Initializable {
     private void generate(IGenerador generador) {
         resetChart();
         setXAxis();
-        /* Comentado hasta arreglar las Pruebas de Chi.
-        PruebaChiCuadrado test =  new PruebaChiCuadradoUniformeAB(generador, cantidadIntervalos.get());
-        test.setTamañoMuestra(tamañoMuestra.get());
-        int[] frecuencias = test.observarFrecuenciasPorIntervalo();
-        this.frecuenciaEsperada.set((double) tamañoMuestra.get() / cantidadIntervalos.get());
-        this.chiObservado.set(test.calcularChi(frecuencias));
-        this.pasoChi.set(test.runTest(frecuencias));
-
-        XYChart.Series<String, Double> barras = new XYChart.Series<>();
-        barras.setName("Distribucion Generada");
-        for (int i = 0; i < cantidadIntervalos.get(); i++) {
-            barras.getData().add(new XYChart.Data<>(chartXAxis.getCategories().get(i), (double) frecuencias[i]));
-        }
-
         
-        chart.getData().add(barras);
-        chart.getData().add(generarDistribucionUniforme());
-        */
-    }
-
-    private XYChart.Series<String, Double> generarDistribucionUniforme() {
-        XYChart.Series<String, Double> barras = new XYChart.Series<>();
-        barras.setName("Distribucion Uniforme");
+        PruebaChiCuadrado test =  new PruebaChiCuadradoUniformeAB(generador, cantidadIntervalos.get(), tamañoMuestra.get());
+        this.pasoChi.set(test.runTest());
+                
+        int[] frecuenciasObservadas = test.getFrecuenciasObservadas();
+        double[] frecuenciasEsperadas = test.getFrecuenciasEsperadas();
+        
+        this.frecuenciaEsperada.set((double) tamañoMuestra.get() / cantidadIntervalos.get());
+        this.chiObservado.set(test.getChiObservado());
+        
+        XYChart.Series<String, Double> graficoDistribucionGenerada = new XYChart.Series<>();
+        graficoDistribucionGenerada.setName("Distribucion Generada");
+        
+        XYChart.Series<String, Double> graficoDistribucionIdeal = new XYChart.Series<>();        
+        graficoDistribucionIdeal.setName("Distribucion Ideal");
         for (int i = 0; i < cantidadIntervalos.get(); i++) {
-            barras.getData().add(new XYChart.Data<>(chartXAxis.getCategories().get(i), frecuenciaEsperada.get()));
+            graficoDistribucionGenerada.getData().add(new XYChart.Data<>(chartXAxis.getCategories().get(i), (double) frecuenciasObservadas[i]));
+            graficoDistribucionIdeal.getData().add(new XYChart.Data<>(chartXAxis.getCategories().get(i), (double) frecuenciasEsperadas[i]));
         }
+        
+        chart.getData().add(graficoDistribucionGenerada);
+        chart.getData().add(graficoDistribucionIdeal);
 
-        return barras;
     }
 
     private void setXAxis() {

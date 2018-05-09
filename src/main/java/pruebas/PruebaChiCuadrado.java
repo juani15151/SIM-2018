@@ -19,6 +19,13 @@ public abstract class PruebaChiCuadrado {
     protected final IGenerador generador;
     protected final int cantidadIntervalos;
     protected final int tamañoMuestra;
+    
+    // Variables de la ultima prueba que se ejecuto.
+    List<Intervalo> intervalos;
+    int[] frecuenciasObservadas;
+    double[] frecuenciasEsperadas;
+    double chiObservado;
+    double chiMaximoAceptable;
 
     public PruebaChiCuadrado(IGenerador generador, int cantidadIntervalos) {
         this(generador, cantidadIntervalos, 1000);
@@ -30,6 +37,28 @@ public abstract class PruebaChiCuadrado {
         this.tamañoMuestra = tamañoMuestra;
     }
 
+    public List<Intervalo> getIntervalos() {
+        return intervalos;
+    }
+
+    public int[] getFrecuenciasObservadas() {
+        return frecuenciasObservadas;
+    }
+
+    public double[] getFrecuenciasEsperadas() {
+        return frecuenciasEsperadas;
+    }
+
+    public double getChiObservado() {
+        return chiObservado;
+    }
+
+    public double getChiMaximoAceptable() {
+        return chiMaximoAceptable;
+    }
+
+    
+    
     /**
      * Cada vez que se invoca, genera una serie de numeros aleatorios y hace la
      * prueba de ChiCuadrado sobre esos valores.
@@ -43,17 +72,18 @@ public abstract class PruebaChiCuadrado {
     }
 
     public boolean runTest(Muestra muestra) {
+        assert muestra.size() == this.tamañoMuestra; // Para muestras provistas por el usuario.
         // Generar intervalos
-        List<Intervalo> intervalos = generarIntervalos(muestra, this.cantidadIntervalos);
+        intervalos = generarIntervalos(muestra, this.cantidadIntervalos);
         // Calcular frecuenciasObservadas
-        int[] frecuenciasObservadas = muestra.frecuenciaPorIntervalo(intervalos);
+        frecuenciasObservadas = muestra.frecuenciaPorIntervalo(intervalos);
         // Calcular chi
-        double chiObservado = calcularChi(intervalos, muestra, frecuenciasObservadas);
-        double chiMaximoAceptable = chiAceptado(intervalos.size(), this.cantidadValoresEmpiricos());
+        chiObservado = calcularChi(intervalos, muestra, frecuenciasObservadas);
+        chiMaximoAceptable = chiAceptado(intervalos.size(), this.cantidadValoresEmpiricos());
         // Comparar
         return chiObservado <= chiMaximoAceptable;
     }
-
+    
     private Muestra generarMuestra(int tamaño) {
         Muestra muestra = new Muestra();
         System.out.println(String.format("Generando %d valores aleatorios", tamaño));
@@ -135,12 +165,14 @@ public abstract class PruebaChiCuadrado {
 
     private double calcularChi(List<Intervalo> intervalos, Muestra muestra, int[] frecuenciasObservadas) {
         double sumatoriaDesviacionesRelativas = 0.0;
+        frecuenciasEsperadas = new double[intervalos.size()];
         for (int i = 0; i < intervalos.size(); i++) {
             // Seleccionar 1 intervalo
             Intervalo intervalo = intervalos.get(i);
             int frecuenciaObservada = frecuenciasObservadas[i];
             // Calcular desviacion relativa
             double frecuenciaEsperada = frecuenciaEsperada(intervalo, muestra);
+            frecuenciasEsperadas[i] = frecuenciaEsperada;
             double numerador = Math.pow(frecuenciaObservada - frecuenciaEsperada, 2);
             double desviacionRelativa = numerador / frecuenciaEsperada;
             System.out.println(String.format("%s; %s esperados; %s observados ", intervalo, frecuenciaEsperada, frecuenciaObservada));
