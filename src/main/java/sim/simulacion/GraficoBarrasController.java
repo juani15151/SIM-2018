@@ -89,28 +89,30 @@ public class GraficoBarrasController implements Initializable {
     private void generateFromRandom(ActionEvent event) {
         this.generate(new GeneradorJava());
     }
-
+    
+    @FXML
+    private void graficar(ActionEvent onAction){
+    
+}
     private void generate(IGenerador generador) {
-        resetChart();
-        setXAxis();
-        /* Comentado hasta arreglar las Pruebas de Chi.
-        PruebaChiCuadrado test =  new PruebaChiCuadradoUniformeAB(generador, cantidadIntervalos.get());
-        test.setTamañoMuestra(tamañoMuestra.get());
-        int[] frecuencias = test.observarFrecuenciasPorIntervalo();
-        this.frecuenciaEsperada.set((double) tamañoMuestra.get() / cantidadIntervalos.get());
-        this.chiObservado.set(test.calcularChi(frecuencias));
-        this.pasoChi.set(test.runTest(frecuencias));
+//        resetChart();
+//        setXAxis();
+//        PruebaChiCuadrado test =  new PruebaChiCuadradoUniformeAB(generador, cantidadIntervalos.get());
+//        test.setTamañoMuestra(tamañoMuestra.get());
+//        int[] frecuencias = test.observarFrecuenciasPorIntervalo();
+//        this.frecuenciaEsperada.set((double) tamañoMuestra.get() / cantidadIntervalos.get());
+//        this.chiObservado.set(test.calcularChi(frecuencias));
+//        this.pasoChi.set(test.runTest(frecuencias));
+//
+//        XYChart.Series<String, Double> barras = new XYChart.Series<>();
+//        barras.setName("Distribucion Generada");
+//        for (int i = 0; i < cantidadIntervalos.get(); i++) {
+//            barras.getData().add(new XYChart.Data<>(chartXAxis.getCategories().get(i), (double) frecuencias[i]));
+//        }
 
-        XYChart.Series<String, Double> barras = new XYChart.Series<>();
-        barras.setName("Distribucion Generada");
-        for (int i = 0; i < cantidadIntervalos.get(); i++) {
-            barras.getData().add(new XYChart.Data<>(chartXAxis.getCategories().get(i), (double) frecuencias[i]));
-        }
-
-        
-        chart.getData().add(barras);
-        chart.getData().add(generarDistribucionUniforme());
-        */
+//        
+//        chart.getData().add(barras);
+//        chart.getData().add(generarDistribucionUniforme());
     }
 
     private XYChart.Series<String, Double> generarDistribucionUniforme() {
