@@ -91,11 +91,18 @@ public class GraficoBarrasController implements Initializable {
         this.generate(new GeneradorJava());
     }
 
-    private void generate(IGenerador generador) {
+    /**
+     * Puesto solo para no romper el codigo. TODO: BORRAR FUNCION.
+     * @param generador 
+     */
+    private void generate(IGenerador generador){
+        // NO USAR ESTE METODO
+        generate(new PruebaChiCuadradoUniformeAB(generador, cantidadIntervalos.get(), tamañoMuestra.get()));
+    }
+    
+    private void generate(PruebaChiCuadrado test) {
         resetChart();
-        setXAxis();
-        
-        PruebaChiCuadrado test =  new PruebaChiCuadradoUniformeAB(generador, cantidadIntervalos.get(), tamañoMuestra.get());
+        setXAxis();        
         this.pasoChi.set(test.runTest());
                 
         int[] frecuenciasObservadas = test.getFrecuenciasObservadas();
