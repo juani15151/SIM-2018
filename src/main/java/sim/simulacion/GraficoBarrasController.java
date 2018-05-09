@@ -5,7 +5,11 @@ package sim.simulacion;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import generadores.GeneradorExponencial;
 import generadores.GeneradorJava;
+import generadores.GeneradorNormal;
+import generadores.GeneradorNormalConvolucion;
+import generadores.GeneradorPoisson;
 import generadores.GeneradorUniforme;
 import generadores.IGenerador;
 import java.net.URL;
@@ -66,7 +70,7 @@ public class GraficoBarrasController implements Initializable {
     @FXML
     private Label pasoChiLabel;
     @FXML
-    private ComboBox<?> cmb_distribuciones;
+    private ComboBox<String> cmb_distribuciones;
     @FXML
     private Button btn_generar;
 
@@ -85,18 +89,44 @@ public class GraficoBarrasController implements Initializable {
         frecuenciaEsperadaLabel.textProperty().bindBidirectional(this.frecuenciaEsperada, new NumberStringConverter());
         chiObservadoLabel.textProperty().bindBidirectional(this.chiObservado, new NumberStringConverter());
         pasoChiLabel.textProperty().bindBidirectional(this.pasoChi, new BooleanStringConverter());
+        cmb_distribuciones.getItems().add("Uniforme");
+        cmb_distribuciones.getItems().add("Normal Box Muller");
+        cmb_distribuciones.getItems().add("Normal Convolucion");
+        cmb_distribuciones.getItems().add("Exponencial Negativa");
+        cmb_distribuciones.getItems().add("Poisson");
+        
     }
-
+    
+    @FXML
     private void generateFromGenerador(ActionEvent event) {
+        if(cmb_distribuciones.getItems().get(0).equals(cmb_distribuciones.getValue())){
         IGenerador generador = new GeneradorUniforme();
         this.generate(new PruebaChiCuadradoUniformeAB(generador, cantidadIntervalos.get(), tamañoMuestra.get()));
-    }
-
-    private void generateFromRandom(ActionEvent event) {
-        IGenerador generador = new GeneradorJava();
+        }
+         if(cmb_distribuciones.getItems().get(1).equals(cmb_distribuciones.getValue())){
+        IGenerador generador = new GeneradorNormal(10,100);
         this.generate(new PruebaChiCuadradoUniformeAB(generador, cantidadIntervalos.get(), tamañoMuestra.get()));
+        }
+          if(cmb_distribuciones.getItems().get(2).equals(cmb_distribuciones.getValue())){
+        IGenerador generador = new GeneradorNormalConvolucion(10,100);
+        this.generate(new PruebaChiCuadradoUniformeAB(generador, cantidadIntervalos.get(), tamañoMuestra.get()));
+        }
+           if(cmb_distribuciones.getItems().get(3).equals(cmb_distribuciones.getValue())){
+        IGenerador generador = new GeneradorExponencial();
+        this.generate(new PruebaChiCuadradoUniformeAB(generador, cantidadIntervalos.get(), tamañoMuestra.get()));
+        }
+            if(cmb_distribuciones.getItems().get(4).equals(cmb_distribuciones.getValue())){
+        IGenerador generador = new GeneradorPoisson(120);
+        this.generate(new PruebaChiCuadradoUniformeAB(generador, cantidadIntervalos.get(), tamañoMuestra.get()));
+        }
+        
     }
 
+   
+    private void lala(){
+        
+    }
+    
     private void generate(PruebaChiCuadrado test) {
         resetChart();
         setXAxis();

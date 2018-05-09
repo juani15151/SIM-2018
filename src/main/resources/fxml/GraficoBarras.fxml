@@ -46,6 +46,6 @@
       <HBox alignment="TOP_CENTER" layoutY="648.0" />
       <ComboBox fx:id="cmb_distribuciones" layoutX="153.0" layoutY="592.0" prefWidth="150.0" />
       <Label layoutX="14.0" layoutY="596.0" text="Distribución" />
-      <Button fx:id="btn_generar" layoutX="916.0" layoutY="639.0" mnemonicParsing="false" prefHeight="62.0" prefWidth="127.0" text="Ejecutar prueba" />
+      <Button fx:id="btn_generar" layoutX="916.0" layoutY="639.0" onAction="#generateFromGenerador" mnemonicParsing="false" prefHeight="62.0" prefWidth="127.0" text="Ejecutar prueba" />
    </children>
 </AnchorPane>
