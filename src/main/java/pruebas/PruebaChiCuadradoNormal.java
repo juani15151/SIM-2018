@@ -22,6 +22,10 @@ public class PruebaChiCuadradoNormal extends PruebaChiCuadrado {
         super(generador, cantidadIntervalos);
     }
 
+    public PruebaChiCuadradoNormal(IGenerador generador, int cantidadIntervalos, int tamañoMuestra) {
+        super(generador, cantidadIntervalos, tamañoMuestra);
+    }
+
     @Override
     int cantidadValoresEmpiricos() {
         return 2;
@@ -207,7 +211,7 @@ public class PruebaChiCuadradoNormal extends PruebaChiCuadrado {
         tabla.put(1.27, 0.8980);
         tabla.put(1.28, 0.8997);
         tabla.put(1.29, 0.9015);
-        tabla.put(1.30, 0.9032);        
+        tabla.put(1.30, 0.9032);
         tabla.put(1.31, 0.9049);
         tabla.put(1.32, 0.9066);
         tabla.put(1.33, 0.9082);
@@ -276,7 +280,7 @@ public class PruebaChiCuadradoNormal extends PruebaChiCuadrado {
         tabla.put(1.96, 0.9750);
         tabla.put(1.97, 0.9756);
         tabla.put(1.98, 0.9761);
-        tabla.put(1.99, 0.9767);        
+        tabla.put(1.99, 0.9767);
         tabla.put(2.00, 0.9772);
         tabla.put(2.01, 0.9778);
         tabla.put(2.02, 0.9783);
@@ -297,7 +301,7 @@ public class PruebaChiCuadradoNormal extends PruebaChiCuadrado {
         tabla.put(2.17, 0.9850);
         tabla.put(2.18, 0.9854);
         tabla.put(2.19, 0.9857);
-        tabla.put(2.20, 0.9861);        
+        tabla.put(2.20, 0.9861);
         tabla.put(2.21, 0.9864);
         tabla.put(2.22, 0.9868);
         tabla.put(2.23, 0.9871);
@@ -306,7 +310,7 @@ public class PruebaChiCuadradoNormal extends PruebaChiCuadrado {
         tabla.put(2.26, 0.9881);
         tabla.put(2.27, 0.9884);
         tabla.put(2.28, 0.9887);
-        tabla.put(2.29, 0.9890);        
+        tabla.put(2.29, 0.9890);
         tabla.put(2.30, 0.9893);
         tabla.put(2.31, 0.9896);
         tabla.put(2.32, 0.9898);
@@ -316,7 +320,7 @@ public class PruebaChiCuadradoNormal extends PruebaChiCuadrado {
         tabla.put(2.36, 0.9909);
         tabla.put(2.37, 0.9911);
         tabla.put(2.38, 0.9913);
-        tabla.put(2.39, 0.9916);        
+        tabla.put(2.39, 0.9916);
         tabla.put(2.40, 0.9918);
         tabla.put(2.41, 0.9920);
         tabla.put(2.42, 0.9922);
@@ -326,7 +330,7 @@ public class PruebaChiCuadradoNormal extends PruebaChiCuadrado {
         tabla.put(2.46, 0.9931);
         tabla.put(2.47, 0.9932);
         tabla.put(2.48, 0.9934);
-        tabla.put(2.49, 0.9936);        
+        tabla.put(2.49, 0.9936);
         tabla.put(2.50, 0.9938);
         tabla.put(2.51, 0.9940);
         tabla.put(2.52, 0.9941);
@@ -336,7 +340,7 @@ public class PruebaChiCuadradoNormal extends PruebaChiCuadrado {
         tabla.put(2.56, 0.9948);
         tabla.put(2.57, 0.9949);
         tabla.put(2.58, 0.9951);
-        tabla.put(2.59, 0.9952);        
+        tabla.put(2.59, 0.9952);
         tabla.put(2.60, 0.9953);
         tabla.put(2.61, 0.9955);
         tabla.put(2.62, 0.9956);
@@ -346,7 +350,7 @@ public class PruebaChiCuadradoNormal extends PruebaChiCuadrado {
         tabla.put(2.66, 0.9961);
         tabla.put(2.67, 0.9962);
         tabla.put(2.68, 0.9963);
-        tabla.put(2.69, 0.9964);        
+        tabla.put(2.69, 0.9964);
         tabla.put(2.70, 0.9965);
         tabla.put(2.71, 0.9966);
         tabla.put(2.72, 0.9967);
@@ -356,7 +360,7 @@ public class PruebaChiCuadradoNormal extends PruebaChiCuadrado {
         tabla.put(2.76, 0.9971);
         tabla.put(2.77, 0.9972);
         tabla.put(2.78, 0.9973);
-        tabla.put(2.79, 0.9974);        
+        tabla.put(2.79, 0.9974);
         tabla.put(2.80, 0.9974);
         tabla.put(2.81, 0.9975);
         tabla.put(2.82, 0.9976);
@@ -366,8 +370,8 @@ public class PruebaChiCuadradoNormal extends PruebaChiCuadrado {
         tabla.put(2.86, 0.9979);
         tabla.put(2.87, 0.9979);
         tabla.put(2.88, 0.9980);
-        tabla.put(2.89, 0.9981);        
-        tabla.put(2.90, 0.9981);        
+        tabla.put(2.89, 0.9981);
+        tabla.put(2.90, 0.9981);
         tabla.put(2.91, 0.9982);
         tabla.put(2.92, 0.9982);
         tabla.put(2.93, 0.9983);
@@ -376,10 +380,10 @@ public class PruebaChiCuadradoNormal extends PruebaChiCuadrado {
         tabla.put(2.96, 0.9985);
         tabla.put(2.97, 0.9985);
         tabla.put(2.98, 0.9986);
-        tabla.put(2.99, 0.9986);                
+        tabla.put(2.99, 0.9986);
         // A partir de aqui las probabilidades se repiten asique pongo
         // solo donde cambia.
-        tabla.put(3.00, 0.9987);        
+        tabla.put(3.00, 0.9987);
         tabla.put(3.03, 0.9988);
         tabla.put(3.05, 0.9989);
         tabla.put(3.08, 0.9990);
@@ -390,7 +394,7 @@ public class PruebaChiCuadradoNormal extends PruebaChiCuadrado {
         tabla.put(3.27, 0.9995);
         tabla.put(3.33, 0.9996);
         tabla.put(3.39, 0.9997);
-        tabla.put(3.49, 0.9998);        
+        tabla.put(3.49, 0.9998);
 
         return tabla;
     }

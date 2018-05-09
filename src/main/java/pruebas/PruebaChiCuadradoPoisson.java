@@ -18,22 +18,30 @@ public class PruebaChiCuadradoPoisson extends PruebaChiCuadrado {
         super(generador, cantidadIntervalos);
     }
 
+    public PruebaChiCuadradoPoisson(IGenerador generador, int cantidadIntervalos, int tamañoMuestra) {
+        super(generador, cantidadIntervalos, tamañoMuestra);
+    }
+
     @Override
-    double probabilidad(Intervalo intervalo, Muestra muestra) {        
+    double probabilidad(Intervalo intervalo, Muestra muestra) {
         double inicio = intervalo.getInicio();
-        if(inicio < 0) inicio = 0.0;
+        if (inicio < 0) {
+            inicio = 0.0;
+        }
         double fin = intervalo.getFin();
-        if(fin == Double.POSITIVE_INFINITY) fin = inicio + 100.0;
-        
+        if (fin == Double.POSITIVE_INFINITY) {
+            fin = inicio + 100.0;
+        }
+
         inicio = Math.ceil(inicio);  // Redondeo arriba.
         // El fin no requiere redondeo porque x avanza de a 1.
         double media = muestra.media();
         double sumatoriaProbabilidadPuntuales = 0.0;
-        for (int x = (int) inicio; x < fin; x++){
+        for (int x = (int) inicio; x < fin; x++) {
             double probabilidadPuntual = probabilidadPuntual(x, media);
             sumatoriaProbabilidadPuntuales += probabilidadPuntual;
         }
-        
+
         return sumatoriaProbabilidadPuntuales;
     }
 
@@ -42,7 +50,9 @@ public class PruebaChiCuadradoPoisson extends PruebaChiCuadrado {
             return 0.0;
         }        // En poisson lamba == media.
         double probabilidad = ((Math.pow(lambda, x)) * Math.exp(-lambda)) / (factorial(x));
-        if (probabilidad == Double.NaN) probabilidad = 0.0;  // Muy cercano a 0.
+        if (probabilidad == Double.NaN) {
+            probabilidad = 0.0;  // Muy cercano a 0.
+        }
         return probabilidad;
     }
 

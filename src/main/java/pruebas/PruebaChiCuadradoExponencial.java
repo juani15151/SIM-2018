@@ -8,13 +8,19 @@ public class PruebaChiCuadradoExponencial extends PruebaChiCuadrado {
         super(generador, cantidadIntervalos);
     }
 
+    public PruebaChiCuadradoExponencial(IGenerador generador, int cantidadIntervalos, int tamañoMuestra) {
+        super(generador, cantidadIntervalos, tamañoMuestra);
+    }
+
     @Override
     double probabilidad(Intervalo intervalo, Muestra muestra) {
         return probabilidadIntervalo(intervalo.getInicio(), intervalo.getFin(), muestra.media());
     }
 
     private double probabilidadAcumulada(double x, double media) {
-        if(x < 0) x = 0;
+        if (x < 0) {
+            x = 0;
+        }
         return 1.0 - Math.exp((-1.0 / media) * x);
     }
 
