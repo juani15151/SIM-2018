@@ -28,6 +28,8 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.XYChart;
 import pruebas.PruebaChiCuadrado;
 import javafx.collections.FXCollections;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.util.converter.BooleanStringConverter;
@@ -63,6 +65,10 @@ public class GraficoBarrasController implements Initializable {
     private Label chiObservadoLabel;
     @FXML
     private Label pasoChiLabel;
+    @FXML
+    private ComboBox<?> cmb_distribuciones;
+    @FXML
+    private Button btn_generar;
 
     /**
      * Initializes the controller class.
@@ -81,46 +87,37 @@ public class GraficoBarrasController implements Initializable {
         pasoChiLabel.textProperty().bindBidirectional(this.pasoChi, new BooleanStringConverter());
     }
 
-    @FXML
     private void generateFromGenerador(ActionEvent event) {
-        this.generate(new GeneradorUniforme());
+        IGenerador generador = new GeneradorUniforme();
+        this.generate(new PruebaChiCuadradoUniformeAB(generador, cantidadIntervalos.get(), tamañoMuestra.get()));
     }
 
-    @FXML
     private void generateFromRandom(ActionEvent event) {
-        this.generate(new GeneradorJava());
+        IGenerador generador = new GeneradorJava();
+        this.generate(new PruebaChiCuadradoUniformeAB(generador, cantidadIntervalos.get(), tamañoMuestra.get()));
     }
 
-    /**
-     * Puesto solo para no romper el codigo. TODO: BORRAR FUNCION.
-     * @param generador 
-     */
-    private void generate(IGenerador generador){
-        // NO USAR ESTE METODO
-        generate(new PruebaChiCuadradoUniformeAB(generador, cantidadIntervalos.get(), tamañoMuestra.get()));
-    }
-    
     private void generate(PruebaChiCuadrado test) {
         resetChart();
-        setXAxis();        
+        setXAxis();
         this.pasoChi.set(test.runTest());
-                
+
         int[] frecuenciasObservadas = test.getFrecuenciasObservadas();
         double[] frecuenciasEsperadas = test.getFrecuenciasEsperadas();
-        
+
         this.frecuenciaEsperada.set((double) tamañoMuestra.get() / cantidadIntervalos.get());
         this.chiObservado.set(test.getChiObservado());
-        
+
         XYChart.Series<String, Double> graficoDistribucionGenerada = new XYChart.Series<>();
         graficoDistribucionGenerada.setName("Distribucion Generada");
-        
-        XYChart.Series<String, Double> graficoDistribucionIdeal = new XYChart.Series<>();        
+
+        XYChart.Series<String, Double> graficoDistribucionIdeal = new XYChart.Series<>();
         graficoDistribucionIdeal.setName("Distribucion Ideal");
         for (int i = 0; i < cantidadIntervalos.get(); i++) {
             graficoDistribucionGenerada.getData().add(new XYChart.Data<>(chartXAxis.getCategories().get(i), (double) frecuenciasObservadas[i]));
             graficoDistribucionIdeal.getData().add(new XYChart.Data<>(chartXAxis.getCategories().get(i), (double) frecuenciasEsperadas[i]));
         }
-        
+
         chart.getData().add(graficoDistribucionGenerada);
         chart.getData().add(graficoDistribucionIdeal);
 
@@ -128,9 +125,9 @@ public class GraficoBarrasController implements Initializable {
 
     private void setXAxis() {
         List<String> labelList = new ArrayList(cantidadIntervalos.get());
-        double tamañoIntervalo =  1.0 / this.cantidadIntervalos.doubleValue();
+        double tamañoIntervalo = 1.0 / this.cantidadIntervalos.doubleValue();
         for (int i = 0; i < cantidadIntervalos.get(); i++) {
-            String limites = String.format("%1.2f-%1.2f", tamañoIntervalo * i, tamañoIntervalo * (i+1));
+            String limites = String.format("%1.2f-%1.2f", tamañoIntervalo * i, tamañoIntervalo * (i + 1));
             labelList.add(limites);
         }
 

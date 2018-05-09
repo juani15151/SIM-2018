@@ -1,110 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.net.URL?>
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="1200.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sim.simulacion.GraficoBarrasController">
+<AnchorPane id="AnchorPane" prefHeight="720.0" prefWidth="1200.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sim.simulacion.GraficoBarrasController">
     <stylesheets>
         <URL value="@/styles/Styles.css" />
     </stylesheets>
    <children>
-      <VBox maxHeight="0.0" maxWidth="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <BarChart fx:id="chart" animated="false" prefHeight="99999.0" prefWidth="600.0" title="Frecuencias observadas por intervalo">
-              <xAxis>
-                <CategoryAxis fx:id="chartXAxis" label="Intervalo (Etiqueta truncada a 2 decimales)" />
-              </xAxis>
-              <yAxis>
-                <NumberAxis side="LEFT" label="Frecuencia" />
-              </yAxis>
-            </BarChart>
-            <HBox>
-               <children>
-                  <VBox>
-                     <children>
-                        <Label prefHeight="26.0" text="Tamaño de Muestra">
-                           <VBox.margin>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </VBox.margin>
-                        </Label>
-                        <Label prefHeight="26.0" text="Cantidad de Intervalos">
-                           <VBox.margin>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </VBox.margin>
-                        </Label>
-                     </children>
-                     <HBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </HBox.margin>
-                  </VBox>
-                  <VBox prefHeight="72.0" prefWidth="207.0">
-                     <children>
-                        <TextField fx:id="fieldTamañoMuestra" prefHeight="26.0">
-                           <VBox.margin>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </VBox.margin>
-                        </TextField>
-                        <TextField fx:id="fieldCantidadIntervalos" prefHeight="26.0">
-                           <VBox.margin>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </VBox.margin>
-                        </TextField>
-                     </children>
-                     <HBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </HBox.margin>
-                  </VBox>
-                  <VBox prefHeight="82.0" prefWidth="247.0">
-                     <children>
-                        <Label fx:id="frecuenciaEsperadaLabel" prefHeight="25.0">
-                           <graphic>
-                              <Label text="Frecuencia Esperada:" />
-                           </graphic>
-                        </Label>
-                        <Label fx:id="chiObservadoLabel" prefHeight="25.0">
-                           <graphic>
-                              <Label text="Valor de Chi observado:" />
-                           </graphic>
-                        </Label>
-                        <Label fx:id="pasoChiLabel" prefHeight="25.0">
-                           <graphic>
-                              <Label text="Paso prueba ChiCuadrado:" />
-                           </graphic>
-                        </Label>
-                     </children>
-                     <HBox.margin>
-                        <Insets left="40.0" />
-                     </HBox.margin>
-                  </VBox>
-               </children>
-               <VBox.margin>
-                  <Insets left="10.0" right="10.0" />
-               </VBox.margin>
-            </HBox>
-            <HBox alignment="TOP_CENTER">
-               <children>
-                  <Button mnemonicParsing="false" onAction="#generateFromGenerador" text="Generador Propio">
-                     <HBox.margin>
-                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-                     </HBox.margin>
-                  </Button>
-                  <Button mnemonicParsing="false" onAction="#generateFromRandom" text="Generador de Java">
-                     <HBox.margin>
-                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-                     </HBox.margin>
-                  </Button>
-               </children>
-            </HBox>
-         </children>
-      </VBox>
+      <BarChart fx:id="chart" animated="false" prefHeight="566.0" prefWidth="1200.0" title="Frecuencias observadas por intervalo">
+        <xAxis>
+          <CategoryAxis fx:id="chartXAxis" label="Intervalo (Etiqueta truncada a 2 decimales)" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis label="Frecuencia" side="LEFT" />
+        </yAxis>
+      </BarChart>
+      <Label layoutX="14.0" layoutY="634.0" prefHeight="31.0" prefWidth="109.0" text="Tamaño de Muestra" />
+      <Label layoutX="14.0" layoutY="675.0" prefHeight="26.0" text="Cantidad de Intervalos" />
+      <TextField fx:id="fieldTamañoMuestra" layoutX="153.0" layoutY="634.0" prefHeight="26.0" />
+      <TextField fx:id="fieldCantidadIntervalos" layoutX="153.0" layoutY="670.0" prefHeight="26.0" />
+      <Label fx:id="frecuenciaEsperadaLabel" layoutX="400.0" layoutY="624.0" prefHeight="25.0">
+         <graphic>
+            <Label text="Frecuencia Esperada:" />
+         </graphic>
+      </Label>
+      <Label fx:id="chiObservadoLabel" layoutX="400.0" layoutY="649.0" prefHeight="25.0">
+         <graphic>
+            <Label text="Valor de Chi observado:" />
+         </graphic>
+      </Label>
+      <Label fx:id="pasoChiLabel" layoutX="400.0" layoutY="674.0" prefHeight="25.0">
+         <graphic>
+            <Label text="Paso prueba ChiCuadrado:" />
+         </graphic>
+      </Label>
+      <HBox alignment="TOP_CENTER" layoutY="648.0" />
+      <ComboBox fx:id="cmb_distribuciones" layoutX="153.0" layoutY="592.0" prefWidth="150.0" />
+      <Label layoutX="14.0" layoutY="596.0" text="Distribución" />
+      <Button fx:id="btn_generar" layoutX="916.0" layoutY="639.0" mnemonicParsing="false" prefHeight="62.0" prefWidth="127.0" text="Ejecutar prueba" />
    </children>
 </AnchorPane>
