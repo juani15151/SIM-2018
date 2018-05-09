@@ -134,7 +134,6 @@ public class GraficoBarrasController implements Initializable {
         int[] frecuenciasObservadas = test.getFrecuenciasObservadas();
         double[] frecuenciasEsperadas = test.getFrecuenciasEsperadas();
 
-        this.frecuenciaEsperada.set((double) tamañoMuestra.get() / cantidadIntervalos.get());
         this.chiObservado.set(test.getChiObservado());
 
         XYChart.Series<String, Double> graficoDistribucionGenerada = new XYChart.Series<>();
@@ -142,7 +141,7 @@ public class GraficoBarrasController implements Initializable {
 
         XYChart.Series<String, Double> graficoDistribucionIdeal = new XYChart.Series<>();
         graficoDistribucionIdeal.setName("Distribucion Ideal");
-        for (int i = 0; i < cantidadIntervalos.get(); i++) {
+        for (int i = 0; i < test.getIntervalos().size(); i++) {
             graficoDistribucionGenerada.getData().add(new XYChart.Data<>(chartXAxis.getCategories().get(i), (double) frecuenciasObservadas[i]));
             graficoDistribucionIdeal.getData().add(new XYChart.Data<>(chartXAxis.getCategories().get(i), (double) frecuenciasEsperadas[i]));
         }
