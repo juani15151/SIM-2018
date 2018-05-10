@@ -40,6 +40,7 @@ import javafx.util.converter.BooleanStringConverter;
 import javafx.util.converter.NumberStringConverter;
 import pruebas.Muestra;
 import pruebas.PruebaChiCuadradoUniformeAB;
+import pruebas.*;
 
 /**
  * FXML Controller class
@@ -105,27 +106,25 @@ public class GraficoBarrasController implements Initializable {
         }
          if(cmb_distribuciones.getItems().get(1).equals(cmb_distribuciones.getValue())){
         IGenerador generador = new GeneradorNormal(10,100);
-        this.generate(new PruebaChiCuadradoUniformeAB(generador, cantidadIntervalos.get(), tamañoMuestra.get()));
+        this.generate(new PruebaChiCuadradoNormal(generador, cantidadIntervalos.get(), tamañoMuestra.get()));
         }
           if(cmb_distribuciones.getItems().get(2).equals(cmb_distribuciones.getValue())){
         IGenerador generador = new GeneradorNormalConvolucion(10,100);
-        this.generate(new PruebaChiCuadradoUniformeAB(generador, cantidadIntervalos.get(), tamañoMuestra.get()));
+        this.generate(new PruebaChiCuadradoNormal(generador, cantidadIntervalos.get(), tamañoMuestra.get()));
         }
            if(cmb_distribuciones.getItems().get(3).equals(cmb_distribuciones.getValue())){
         IGenerador generador = new GeneradorExponencial();
-        this.generate(new PruebaChiCuadradoUniformeAB(generador, cantidadIntervalos.get(), tamañoMuestra.get()));
+        this.generate(new PruebaChiCuadradoExponencial(generador, cantidadIntervalos.get(), tamañoMuestra.get()));
         }
             if(cmb_distribuciones.getItems().get(4).equals(cmb_distribuciones.getValue())){
         IGenerador generador = new GeneradorPoisson(120);
-        this.generate(new PruebaChiCuadradoUniformeAB(generador, cantidadIntervalos.get(), tamañoMuestra.get()));
+        this.generate(new PruebaChiCuadradoPoisson(generador, cantidadIntervalos.get(), tamañoMuestra.get()));
         }
         
     }
 
    
-    private void lala(){
-        
-    }
+
     
     private void generate(PruebaChiCuadrado test) {
         resetChart();
