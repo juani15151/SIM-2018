@@ -170,6 +170,9 @@ public class GraficoBarrasController implements Initializable {
 
         // Definimos intervalos iguales.
         double tamañoIntervalo = muestra.recorrido() / cantidadIntervalos;
+        if(cmb_distribuciones.getItems().get(4).equals(cmb_distribuciones.getValue())){ // Poisson
+            tamañoIntervalo = Math.ceil(tamañoIntervalo);
+        }
         double limiteInferior = Math.floor(muestra.minimo());
 
         for (int i = 1; i <= cantidadIntervalos; i++) {
