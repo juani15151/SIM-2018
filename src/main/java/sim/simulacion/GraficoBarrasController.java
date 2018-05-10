@@ -128,9 +128,11 @@ public class GraficoBarrasController implements Initializable {
     private void generate(PruebaChiCuadrado test) {
         resetChart();
         this.pasoChi.set(test.runTest());
-        setXAxis(test.getIntervalos());
-        int[] frecuenciasObservadas = test.getFrecuenciasObservadas();
-        double[] frecuenciasEsperadas = test.getFrecuenciasEsperadas();
+        
+        List<Intervalo> intervalosUniformes = generarIntervalosUniformes(test.getMuestra(), cantidadIntervalos.get());        
+        setXAxis(intervalosUniformes);
+        int[] frecuenciasObservadas = test.getMuestra().frecuenciaPorIntervalo(intervalosUniformes);
+        double[] frecuenciasEsperadas = buscarFrecuenciasEsperadas(test.getMuestra(), intervalosUniformes, test);
 
         this.chiObservado.set(test.getChiObservado());
 
@@ -139,7 +141,7 @@ public class GraficoBarrasController implements Initializable {
 
         XYChart.Series<String, Double> graficoDistribucionIdeal = new XYChart.Series<>();
         graficoDistribucionIdeal.setName("Distribucion Ideal");
-        for (int i = 0; i < test.getIntervalos().size(); i++) {
+        for (int i = 0; i < intervalosUniformes.size(); i++) {
             graficoDistribucionGenerada.getData().add(new XYChart.Data<>(chartXAxis.getCategories().get(i), (double) frecuenciasObservadas[i]));
             graficoDistribucionIdeal.getData().add(new XYChart.Data<>(chartXAxis.getCategories().get(i), (double) frecuenciasEsperadas[i]));
         }
@@ -148,12 +150,48 @@ public class GraficoBarrasController implements Initializable {
         chart.getData().add(graficoDistribucionIdeal);
 
     }
+    
+    private double[] buscarFrecuenciasEsperadas(Muestra muestra, List<Intervalo> intervalos, PruebaChiCuadrado prueba){
+        double[] frecuenciasEsperadas = new double[intervalos.size()];
+        for (int i = 0; i < intervalos.size(); i++) {
+            // Seleccionar 1 intervalo
+            Intervalo intervalo = intervalos.get(i);
+            frecuenciasEsperadas[i] = prueba.frecuenciaEsperada(intervalo, muestra);             
+        }
+        return frecuenciasEsperadas;
+    }
+    
+    private List<Intervalo> generarIntervalosUniformes(Muestra muestra, int cantidadIntervalos){
+                // Creamos los intervalos pedidos y agregamos 2 intervalos al inicio y final.
+        List<Intervalo> intervalos = new ArrayList<>(cantidadIntervalos + 2);
+
+        // Agregamos intervalo desde el infinito negativo a la muestra.
+        intervalos.add(new Intervalo(Double.NEGATIVE_INFINITY, muestra.minimo()));
+
+        // Definimos intervalos iguales.
+        double tamañoIntervalo = muestra.recorrido() / cantidadIntervalos;
+        double limiteInferior = Math.floor(muestra.minimo());
+
+        for (int i = 1; i <= cantidadIntervalos; i++) {
+            double limiteSuperior = limiteInferior + tamañoIntervalo;
+            intervalos.add(new Intervalo(limiteInferior, limiteSuperior));
+            limiteInferior = limiteSuperior;
+        }
+
+        // Agregamos intervalos hasta el infinito positivo.  
+        intervalos.add(new Intervalo(muestra.maximo(), Double.POSITIVE_INFINITY));
+
+        // Valida y une los intervalos pequeños.
+        return intervalos;
+    }
 
     private void setXAxis(List<Intervalo> intervalos) {
         List<String> labelList = new ArrayList(intervalos.size());
+        Double j = 0.0;
         for(Intervalo i : intervalos){
             String limites = String.format("%1.2f-%1.2f", i.getInicio(), i.getFin());
             labelList.add(limites);
+            //labelList.add((j++).toString());
         }        
 
         ObservableList<String> labels = FXCollections.observableArrayList();

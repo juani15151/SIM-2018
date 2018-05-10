@@ -22,6 +22,7 @@ public abstract class PruebaChiCuadrado {
     
     // Variables de la ultima prueba que se ejecuto.
     List<Intervalo> intervalos;
+    Muestra muestra;
     int[] frecuenciasObservadas;
     double[] frecuenciasEsperadas;
     double chiObservado;
@@ -56,6 +57,10 @@ public abstract class PruebaChiCuadrado {
     public double getChiMaximoAceptable() {
         return chiMaximoAceptable;
     }
+    
+    public Muestra getMuestra(){
+        return muestra;
+    }
 
     
     
@@ -67,7 +72,7 @@ public abstract class PruebaChiCuadrado {
      */
     public boolean runTest() {
         // Tomar muestra
-        Muestra muestra = generarMuestra(this.tamañoMuestra);
+        muestra = generarMuestra(this.tamañoMuestra);
         return runTest(muestra);
     }
 
@@ -214,7 +219,7 @@ public abstract class PruebaChiCuadrado {
      * @param intervalo
      * @return la frecuencia esperada del intervalo indicado.
      */
-    private double frecuenciaEsperada(Intervalo intervalo, Muestra muestra) {
+    public double frecuenciaEsperada(Intervalo intervalo, Muestra muestra) {
         return probabilidad(intervalo, muestra) * (double) tamañoMuestra;
     }
 
