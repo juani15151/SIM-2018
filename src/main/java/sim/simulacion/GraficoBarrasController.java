@@ -38,6 +38,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.util.converter.BooleanStringConverter;
 import javafx.util.converter.NumberStringConverter;
+import javax.swing.JOptionPane;
 import pruebas.Muestra;
 import pruebas.PruebaChiCuadradoUniformeAB;
 import pruebas.*;
@@ -73,7 +74,9 @@ public class GraficoBarrasController implements Initializable {
     @FXML
     private ComboBox<String> cmb_distribuciones;
     @FXML
-    private Button btn_generar;
+    private Button btn_graficar;
+    @FXML
+    private Label txt_cantIntGraficar;
 
     /**
      * Initializes the controller class.
@@ -99,6 +102,7 @@ public class GraficoBarrasController implements Initializable {
     
     @FXML
     private void generateFromGenerador(ActionEvent event) {
+        if(!validarCantidadIntervalos()){
         if(cmb_distribuciones.getItems().get(0).equals(cmb_distribuciones.getValue())){
         IGenerador generador = new GeneradorUniforme();
         this.generate(new PruebaChiCuadradoUniformeAB(generador, cantidadIntervalos.get(), tamañoMuestra.get()));
@@ -118,12 +122,25 @@ public class GraficoBarrasController implements Initializable {
             if(cmb_distribuciones.getItems().get(4).equals(cmb_distribuciones.getValue())){
         IGenerador generador = new GeneradorPoisson(20);
         this.generate(new PruebaChiCuadradoPoisson(generador, cantidadIntervalos.get(), tamañoMuestra.get()));
+        }}
+        else{
+            JOptionPane.showMessageDialog(null, "Cantidad de intervalos debe ser mayor a 0 y menor a 28");
+            limpiarCampos();
         }
         
     }
 
    
 
+    private boolean validarCantidadIntervalos(){
+        return Integer.parseInt(fieldCantidadIntervalos.getText()) > 28 || Integer.parseInt(fieldCantidadIntervalos.getText()) <= 0;
+    }
+    
+    private void limpiarCampos(){
+        fieldCantidadIntervalos.setText("1");
+    }
+    
+    
     
     private void generate(PruebaChiCuadrado test) {
         resetChart();
