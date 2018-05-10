@@ -52,6 +52,7 @@ public class GraficoBarrasController implements Initializable {
 
     private final IntegerProperty tamañoMuestra = new SimpleIntegerProperty(1024);
     private final IntegerProperty cantidadIntervalos = new SimpleIntegerProperty(16);
+    private final IntegerProperty cantidadIntervalosGrafico = new SimpleIntegerProperty(16);
 
     private final DoubleProperty frecuenciaEsperada = new SimpleDoubleProperty();
     private final DoubleProperty chiObservado = new SimpleDoubleProperty();
@@ -77,6 +78,8 @@ public class GraficoBarrasController implements Initializable {
     private Button btn_graficar;
     @FXML
     private Label txt_cantIntGraficar;
+    @FXML
+    private TextField fieldCantidadIntervalosAGraficar;
 
     /**
      * Initializes the controller class.
@@ -89,6 +92,7 @@ public class GraficoBarrasController implements Initializable {
 
         fieldTamañoMuestra.textProperty().bindBidirectional(this.tamañoMuestra, new NumberStringConverter());
         fieldCantidadIntervalos.textProperty().bindBidirectional(this.cantidadIntervalos, new NumberStringConverter());
+        fieldCantidadIntervalosAGraficar.textProperty().bindBidirectional(this.cantidadIntervalosGrafico, new NumberStringConverter());
         frecuenciaEsperadaLabel.textProperty().bindBidirectional(this.frecuenciaEsperada, new NumberStringConverter());
         chiObservadoLabel.textProperty().bindBidirectional(this.chiObservado, new NumberStringConverter());
         pasoChiLabel.textProperty().bindBidirectional(this.pasoChi, new BooleanStringConverter());
@@ -146,7 +150,7 @@ public class GraficoBarrasController implements Initializable {
         resetChart();
         this.pasoChi.set(test.runTest());
         
-        List<Intervalo> intervalosUniformes = generarIntervalosUniformes(test.getMuestra(), cantidadIntervalos.get());        
+        List<Intervalo> intervalosUniformes = generarIntervalosUniformes(test.getMuestra(), cantidadIntervalosGrafico.get());        
         setXAxis(intervalosUniformes);
         int[] frecuenciasObservadas = test.getMuestra().frecuenciaPorIntervalo(intervalosUniformes);
         double[] frecuenciasEsperadas = buscarFrecuenciasEsperadas(test.getMuestra(), intervalosUniformes, test);

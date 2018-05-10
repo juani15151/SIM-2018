@@ -42,9 +42,9 @@
       <HBox alignment="TOP_CENTER" layoutY="648.0" />
       <ComboBox fx:id="cmb_distribuciones" layoutX="153.0" layoutY="592.0" prefWidth="150.0" />
       <Label layoutX="14.0" layoutY="596.0" text="Distribución" />
-      <Button fx:id="btn_graficar" layoutX="1031.0" onAction="#generateFromGenerador" layoutY="630.0" mnemonicParsing="false" prefHeight="62.0" prefWidth="127.0" text="Ejecutar prueba" />
+      <Button fx:id="btn_graficar" layoutX="1031.0" layoutY="630.0" mnemonicParsing="false" onAction="#generateFromGenerador" prefHeight="62.0" prefWidth="127.0" text="Ejecutar prueba" />
       <Label layoutX="647.0" layoutY="632.0" text="Frecuencia Esperada:" />
       <Label fx:id="txt_cantIntGraficar" layoutX="319.0" layoutY="641.0" text="Cantidad Intervalos a graficar" />
-      <TextField layoutX="481.0" layoutY="637.0" />
+      <TextField fx:id="fieldCantidadIntervalosAGraficar" layoutX="481.0" layoutY="637.0" />
    </children>
 </AnchorPane>
