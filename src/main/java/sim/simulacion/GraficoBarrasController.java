@@ -186,9 +186,6 @@ public class GraficoBarrasController implements Initializable {
                 // Creamos los intervalos pedidos y agregamos 2 intervalos al inicio y final.
         List<Intervalo> intervalos = new ArrayList<>(cantidadIntervalos + 2);
 
-        // Agregamos intervalo desde el infinito negativo a la muestra.
-        intervalos.add(new Intervalo(Double.NEGATIVE_INFINITY, muestra.minimo()));
-
         // Definimos intervalos iguales.
         double tamañoIntervalo = muestra.recorrido() / cantidadIntervalos;
         if(cmb_distribuciones.getItems().get(4).equals(cmb_distribuciones.getValue())){ // Poisson
@@ -196,6 +193,9 @@ public class GraficoBarrasController implements Initializable {
         }
         double limiteInferior = Math.floor(muestra.minimo());
 
+        // Agregamos intervalo desde el infinito negativo a la muestra.
+        intervalos.add(new Intervalo(Double.NEGATIVE_INFINITY, limiteInferior));
+        
         for (int i = 1; i <= cantidadIntervalos; i++) {
             double limiteSuperior = limiteInferior + tamañoIntervalo;
             intervalos.add(new Intervalo(limiteInferior, limiteSuperior));
@@ -203,7 +203,7 @@ public class GraficoBarrasController implements Initializable {
         }
 
         // Agregamos intervalos hasta el infinito positivo.  
-        intervalos.add(new Intervalo(muestra.maximo(), Double.POSITIVE_INFINITY));
+        intervalos.add(new Intervalo(limiteInferior, Double.POSITIVE_INFINITY));
 
         // Valida y une los intervalos pequeños.
         return intervalos;
