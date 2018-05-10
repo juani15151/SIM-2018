@@ -81,7 +81,6 @@ public class GraficoBarrasController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // Cambia el Ancho de las barras.
-        this.setXAxis();
         chart.categoryGapProperty().set(0);
         chart.barGapProperty().set(0);
 
@@ -128,9 +127,8 @@ public class GraficoBarrasController implements Initializable {
     
     private void generate(PruebaChiCuadrado test) {
         resetChart();
-        setXAxis();
         this.pasoChi.set(test.runTest());
-
+        setXAxis(test.getIntervalos());
         int[] frecuenciasObservadas = test.getFrecuenciasObservadas();
         double[] frecuenciasEsperadas = test.getFrecuenciasEsperadas();
 
@@ -151,13 +149,12 @@ public class GraficoBarrasController implements Initializable {
 
     }
 
-    private void setXAxis() {
-        List<String> labelList = new ArrayList(cantidadIntervalos.get());
-        double tamañoIntervalo = 1.0 / this.cantidadIntervalos.doubleValue();
-        for (int i = 0; i < cantidadIntervalos.get(); i++) {
-            String limites = String.format("%1.2f-%1.2f", tamañoIntervalo * i, tamañoIntervalo * (i + 1));
+    private void setXAxis(List<Intervalo> intervalos) {
+        List<String> labelList = new ArrayList(intervalos.size());
+        for(Intervalo i : intervalos){
+            String limites = String.format("%1.2f-%1.2f", i.getInicio(), i.getFin());
             labelList.add(limites);
-        }
+        }        
 
         ObservableList<String> labels = FXCollections.observableArrayList();
         labels.addAll(labelList);

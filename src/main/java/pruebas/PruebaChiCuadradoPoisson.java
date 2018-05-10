@@ -41,7 +41,7 @@ public class PruebaChiCuadradoPoisson extends PruebaChiCuadrado {
             double probabilidadPuntual = probabilidadPuntual(x, media);
             sumatoriaProbabilidadPuntuales += probabilidadPuntual;
         }
-
+        if(sumatoriaProbabilidadPuntuales == Double.NaN) sumatoriaProbabilidadPuntuales = 0.0;
         return sumatoriaProbabilidadPuntuales;
     }
 
@@ -50,7 +50,7 @@ public class PruebaChiCuadradoPoisson extends PruebaChiCuadrado {
             return 0.0;
         }        // En poisson lamba == media.
         double probabilidad = ((Math.pow(lambda, x)) * Math.exp(-lambda)) / (factorial(x));
-        if (probabilidad == Double.NaN) {
+        if (Double.isNaN(probabilidad) || probabilidad == Double.POSITIVE_INFINITY) {
             probabilidad = 0.0;  // Muy cercano a 0.
         }
         return probabilidad;
