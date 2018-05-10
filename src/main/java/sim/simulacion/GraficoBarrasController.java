@@ -105,11 +105,11 @@ public class GraficoBarrasController implements Initializable {
         this.generate(new PruebaChiCuadradoUniformeAB(generador, cantidadIntervalos.get(), tamañoMuestra.get()));
         }
          if(cmb_distribuciones.getItems().get(1).equals(cmb_distribuciones.getValue())){
-        IGenerador generador = new GeneradorNormal(10,100);
+        IGenerador generador = new GeneradorNormal(10,20);
         this.generate(new PruebaChiCuadradoNormal(generador, cantidadIntervalos.get(), tamañoMuestra.get()));
         }
           if(cmb_distribuciones.getItems().get(2).equals(cmb_distribuciones.getValue())){
-        IGenerador generador = new GeneradorNormalConvolucion(10,100);
+        IGenerador generador = new GeneradorNormalConvolucion(10,20);
         this.generate(new PruebaChiCuadradoNormal(generador, cantidadIntervalos.get(), tamañoMuestra.get()));
         }
            if(cmb_distribuciones.getItems().get(3).equals(cmb_distribuciones.getValue())){
@@ -117,7 +117,7 @@ public class GraficoBarrasController implements Initializable {
         this.generate(new PruebaChiCuadradoExponencial(generador, cantidadIntervalos.get(), tamañoMuestra.get()));
         }
             if(cmb_distribuciones.getItems().get(4).equals(cmb_distribuciones.getValue())){
-        IGenerador generador = new GeneradorPoisson(120);
+        IGenerador generador = new GeneradorPoisson(20);
         this.generate(new PruebaChiCuadradoPoisson(generador, cantidadIntervalos.get(), tamañoMuestra.get()));
         }
         
