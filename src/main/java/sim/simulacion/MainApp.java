@@ -1,32 +1,24 @@
 package sim.simulacion;
 
-import generadores.GeneradorUniforme;
-import java.text.DecimalFormat;
-import java.util.Scanner;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import utils.Round;
 
 public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        //this.consoleMode();
-
         // Codigo por defecto del proyecto JavaFX. Se usa para ventanas. 
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/Menu.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/Montecarlo.fxml"));
 
         Scene scene = new Scene(root);
-        scene.getStylesheets().add("/styles/Styles.css");
 
-        stage.setTitle("Trabajo Practico 1");
+        stage.setTitle("Trabajo Practico 4");
         stage.setScene(scene);
         stage.show();
-        // */
     }
 
     /**
