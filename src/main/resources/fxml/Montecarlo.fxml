@@ -1,14 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.net.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sim.simulacion.MontecarloController">
+<AnchorPane id="AnchorPane" prefHeight="503.0" prefWidth="597.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sim.simulacion.MontecarloController">
     <stylesheets>
-        <URL value="@/styles/Styles.css"/>
+        <URL value="@/styles/Styles.css" />
     </stylesheets>
+   <children>
+      <Label alignment="CENTER" layoutX="3.0" layoutY="27.0" prefHeight="17.0" prefWidth="594.0" text="Simulacion de venta de pasajes aereos" textFill="#ee0b0b">
+         <font>
+            <Font name="Bookshelf Symbol 7" size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="21.0" layoutY="94.0" text="Cantidad de simulaciones" />
+      <Label layoutX="21.0" layoutY="129.0" text="Mostrar Desde" />
+      <Label layoutX="24.0" layoutY="166.0" text="Mostrar hasta" />
+      <TextField fx:id="txt_n" layoutX="168.0" layoutY="90.0" text="1" />
+      <TextField fx:id="txt_desde" layoutX="168.0" layoutY="125.0" text="0" />
+      <TextField fx:id="txt_hasta" layoutX="168.0" layoutY="162.0" text="0" />
+      <Button fx:id="btn_simular" layoutX="336.0" layoutY="86.0" mnemonicParsing="false" onAction="#run" prefHeight="84.0" prefWidth="98.0" text="Simular" />
+      <Label layoutX="336.0" layoutY="200.0" text="Utilidad Promedio" />
+      <TextField fx:id="txt_promedio" editable="false" layoutX="434.0" layoutY="196.0" prefHeight="25.0" prefWidth="115.0" text="0" />
+      <ComboBox fx:id="cmb_generadores" layoutX="168.0" layoutY="196.0" prefWidth="150.0" />
+      <Label layoutX="24.0" layoutY="200.0" text="Cantidad reservas" />
+      <ListView fx:id="list_Vector" layoutX="18.0" layoutY="240.0" prefHeight="252.0" prefWidth="569.0" />
+   </children>
 </AnchorPane>
