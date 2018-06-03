@@ -39,30 +39,50 @@ public class Prueba {
         this.svCarniceria = new Servidor("Carniceria", "Libre");
         this.svFiambreria = new Servidor("Fiambreria", "Libre");
     }
+    
+    
+    private double getProximaLlegada(){
+        return proximaLlegada;
+    }
+    
+    /**
+     * El proximo fin atencion carniceria, o el máximo double si es null.
+     * @return 
+     */
+    private double getFinAtencionCarniceria(){
+        return finAtCarniceria == null ? Double.MAX_VALUE : finAtCarniceria;
+    }
+        
+    /**
+     * El proximo fin atencion fiambreria, o el máximo double si es null.
+     * @return 
+     */
+    private double getFinAtencionFiambreria(){
+        return finAtFiambreria == null ? Double.MAX_VALUE : finAtFiambreria;
+    }
+    
 
-    //esta es una especie de main que hace las simulaciones, le falta para contemplar todos los casos
+    /**
+     * Para cada linea, elige el evento más cercano y lo ejecuta.
+     */
     public void linea() {
-        //Pense en crear los generadores fuera del ciclo, pero dejo adentro para que entiendan mejor el codigo
-        //GeneradorExponencial generadorExp = new GeneradorExponencial(0.5);
-        //GeneradorUniformePersonalizado genFiambreria = new GeneradorUniformePersonalizado(1,3);
-        //GeneradorUniformePersonalizado genCarniceria = new GeneradorUniformePersonalizado(0.5,2.5);
-
+        // Es una especie de MAIN que hace las simulaciones.
         for (int i = 0; i < numeroPruebas; i++) {
-            //cuando el reloj esta en 0 no ejecutamos los fines de atencion para que no se atienda al cliente
-
-            if (proximaLlegada == reloj) {
+            // Avanzar reloj al menor evento:            
+            if(getProximaLlegada() <= getFinAtencionFiambreria() 
+                    && getProximaLlegada() <= getFinAtencionCarniceria()){
+                // El menor es proximaLlegada.
+                reloj = proximaLlegada;
                 llegaCliente();
-            }
-            if (finAtFiambreria == reloj && reloj != 0) //Evento fin atencion fiambreria
-            {
+            } else if (getFinAtencionFiambreria() <= getFinAtencionCarniceria()){
+                // El menor es finAtFiambreria.
+                reloj = finAtFiambreria;
                 atenderFiambreria();
-            }
-            if (finAtCarniceria == reloj && reloj != 0) {
+            } else {
+                // El menor es finAtCarniceria
+                reloj = finAtCarniceria;
                 atenderCarniceria();
-            }
-            //para el proximo evento ponemos el reloj en el menor de los 3            
-            reloj = Math.min(proximaLlegada, finAtFiambreria);
-            reloj = Math.min(reloj, finAtCarniceria);
+            }            
         }
     }
 
