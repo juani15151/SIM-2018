@@ -12,8 +12,6 @@ import generadores.*;
  * @author eric
  */
 public class Prueba {
-
-    private int numeroPruebas;
     private double reloj;
 
     private IGenerador generadorProximaLlegada;
@@ -23,10 +21,8 @@ public class Prueba {
     private Servidor svFiambreria;
     private Servidor svCarniceria;
 
-    public Prueba(int numeroPruebas) {
-        this.numeroPruebas = numeroPruebas;
+    public Prueba() {
         this.reloj = 0;
-
         this.generadorProximaLlegada = new GeneradorExponencial(0.5);
         this.proximaLlegada = generadorProximaLlegada.nextDouble();      
         this.svCarniceria = new Servidor("Carniceria", new GeneradorUniformePersonalizado(0.5, 2.5));
@@ -56,30 +52,37 @@ public class Prueba {
         return finAtFiambreria == null ? Double.MAX_VALUE : finAtFiambreria;
     }
     
-
+    
     /**
-     * Para cada linea, elige el evento más cercano y lo ejecuta. 
+     * Elige el evento más cercano y lo ejecuta. 
      * Cada evento es responsable de actualizar su proxima ejecucion.
      */
     public void linea() {
-        // Es una especie de MAIN que hace las simulaciones.
-        for (int i = 0; i < numeroPruebas; i++) {
-            // Avanzar reloj al menor evento:            
-            if(getProximaLlegada() <= getFinAtencionFiambreria() 
-                    && getProximaLlegada() <= getFinAtencionCarniceria()){
-                // El menor es proximaLlegada.
-                reloj = proximaLlegada;
-                llegaCliente();
-            } else if (getFinAtencionFiambreria() <= getFinAtencionCarniceria()){
-                // El menor es finAtFiambreria.
-                reloj = finAtFiambreria;
-                atenderFiambreria();
-            } else {
-                // El menor es finAtCarniceria
-                reloj = finAtCarniceria;
-                atenderCarniceria();
-            }            
-        }
+        // Avanzar reloj al menor evento:            
+        if(getProximaLlegada() <= getFinAtencionFiambreria() 
+                && getProximaLlegada() <= getFinAtencionCarniceria()){
+            // El menor es proximaLlegada.
+            reloj = proximaLlegada;
+            llegaCliente();
+        } else if (getFinAtencionFiambreria() <= getFinAtencionCarniceria()){
+            // El menor es finAtFiambreria.
+            reloj = finAtFiambreria;
+            atenderFiambreria();
+        } else {
+            // El menor es finAtCarniceria
+            reloj = finAtCarniceria;
+            atenderCarniceria();
+        }            
+
+    }
+    
+    /**
+     * Retorna el estado actual de la simulacion (la linea en curso).
+     * La idea es que la interfaz invoque a linea() y despues a getEstado() si lo
+     * quiere mostrar.
+     */
+    public void getEstado(){
+        // TODO.
     }
 
     /**
