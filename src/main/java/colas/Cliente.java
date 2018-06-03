@@ -12,7 +12,8 @@ package colas;
 public class Cliente {
     private String estado;
     private double horaInicioEspera;
-    private String tipoCliente;
+    private TipoCliente tipoCliente;
+    private boolean tieneVerdura;
 
     public Cliente(double horaInicioEspera) {
         this.horaInicioEspera = horaInicioEspera;
@@ -28,7 +29,7 @@ public class Cliente {
         return horaInicioEspera;
     }
 
-    public String getTipoCliente() {
+    public TipoCliente getTipoCliente() {
         return tipoCliente;
     }
 
@@ -39,38 +40,48 @@ public class Cliente {
     public void setHoraInicioEspera(double horaInicioEspera) {
         this.horaInicioEspera = horaInicioEspera;
     }
-
-    public void setTipoCliente(String tipoCliente) {
-        this.tipoCliente = tipoCliente;
+       
+    public boolean tieneVerdura(){
+        return tieneVerdura;
     }
     
-    
-    
     private void definirTipo(){
-        int rnd = (int) (Math.random() * 100);
-        if (rnd <= 29) 
+        int rnd = (int) (Math.random());
+        if (rnd <= 0.29) 
         {
-            this.tipoCliente = "Verduleria" ;
+            tipoCliente = TipoCliente.VERDULERIA;
+            tieneVerdura = true;
+            
         }
-        else if (rnd <= 55)
+        else if (rnd <= 0.55)
         {
-            this.tipoCliente = "Carniceria" ;
+            tipoCliente = TipoCliente.CARNICERIA;
+            tieneVerdura = Math.random() <= 0.49;
         }
         else 
         {
-            this.tipoCliente = "Fiambreria";
+            tipoCliente = TipoCliente.CARNICERIA;
+            tieneVerdura = Math.random() <= 0.24;
         }
     }
     
-    public boolean tieneVerdura(){
-        int rnd = (int) (Math.random() * 100);
-        if ("Verduleria".equals(this.tipoCliente)) return true;
-        else if ("Carniceria".equals(this.tipoCliente)){
-            return rnd <= 49;
-        }
-        else{
-            return rnd <= 24;
-        }      
+    
+    public boolean esParaVerduleria(){
+        return tipoCliente == TipoCliente.VERDULERIA;
+    }
+    
+    public boolean esParaCarniceria(){
+        return tipoCliente == TipoCliente.CARNICERIA;
+    }
+    
+    public boolean esParaFiambreria(){
+        return tipoCliente == TipoCliente.FIAMBRERIA;
+    }
+    
+    public enum TipoCliente{
+        VERDULERIA, 
+        CARNICERIA, 
+        FIAMBRERIA;
     }
     
 }
