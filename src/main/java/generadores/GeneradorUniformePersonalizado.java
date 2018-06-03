@@ -9,12 +9,13 @@ package generadores;
  *
  * @author Octavio
  */
+//le cambie el int a double para poder usarlo,no se si caga algo
 public class GeneradorUniformePersonalizado implements IGenerador {
-    private int limA;
-    private int limB;
+    private double limA;
+    private double limB;
     GeneradorUniforme g;
 
-    public GeneradorUniformePersonalizado(int limA, int limB) {
+    public GeneradorUniformePersonalizado(double limA, double limB) {
         this.limA = limA;
         this.limB = limB;
         this.g = new GeneradorUniforme();
