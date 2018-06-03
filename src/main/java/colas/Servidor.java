@@ -12,7 +12,7 @@ import generadores.IGenerador;
  */
 public class Servidor {
     private String nombre;
-    private String estado;
+    private Estado estado;
     public LinkedList<Cliente> cola;
     private double acumTiempoEspera;
     private int cantidadClientesAtendidos;
@@ -21,54 +21,69 @@ public class Servidor {
 
     
     
-    public Servidor(String nombre, String estado) {
+    public Servidor(String nombre, IGenerador generadorTiempoAtencion) {
         this.nombre = nombre;
-        this.estado = estado;
+        this.estado = Estado.LIBRE;
         this.cola = new LinkedList<>();
         this.acumTiempoEspera = 0;
-        this.cantidadClientesAtendidos = 0;
-    }
-    
+        this.cantidadClientesAtendidos = 0;  // Cantidad de cliente que se empezaron a atender.
+        this.generador = generadorTiempoAtencion;
+    }  
 
-    public String getEstado() {
+    public Estado getEstado() {
         return estado;
     }
 
     public double getAcumTiempoEspera() {
         return acumTiempoEspera;
     }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
-
-    public void setCola(LinkedList<Cliente> cola) {
-        this.cola = cola;
-    }
-
-    public void setAcumTiempoEspera(double acumTiempoEspera) {
-        this.acumTiempoEspera = acumTiempoEspera;
-    }
-
-    public void setGenerador(IGenerador generador) {
-        this.generador = generador;
-    }
-    
-    public void setCantidadClientesAtendidos(int cantidad){
-        this.cantidadClientesAtendidos = cantidad;
-    }
-    
-    
-    public void agregarCliente(Cliente cliente){
+            
+    public void agregarCliente(Cliente cliente, double reloj){
+        assert cliente.esParaCarniceria() || cliente.esParaVerduleria();
         cola.add(cliente);
+        if (estado == Estado.LIBRE){
+            atenderProximo(reloj);
+        } 
     }
     
-    public void acumularTiempo(double tiempo){
-        this.acumTiempoEspera += tiempo;
+    /**
+     * Empieza a atender al proximo cliente (si tiene) y retorna el proximo fin de atencion.
+     * @param reloj
+     * @return 
+     */
+    public Double atenderProximo(double reloj){
+        if(cola.isEmpty()){
+            assert estado == Estado.OCUPADO;  // Sino se invoco 2 veces.
+            estado = Estado.LIBRE;
+            return null; // No empezo a atender a nadie, asique no hay fin de at.
+        } else {
+           Cliente cliente = cola.remove();
+           cliente.setEstado("Siendo atendido");
+           acumularTiempo(reloj - cliente.getHoraInicioEspera());     
+           return calcularProximoFinAtencion(cliente, reloj);
+        }
+    }
+    
+    private Double calcularProximoFinAtencion(Cliente cliente, double reloj){
+        Double proximoFin = reloj;
+        if(cliente.esParaCarniceria()){
+            proximoFin += generador.nextDouble();
+        }
+        if(cliente.tieneVerdura()){
+            // Incluye tanto a los cliente de solo verduleria y a los de carniceria + verduleria.
+            proximoFin += 0.2;
+        }
+        return proximoFin;
+    }
+    
+    private void acumularTiempo(double tiempo){
+        acumTiempoEspera += tiempo;
+        cantidadClientesAtendidos++;
+    }
+    
+    public enum Estado {
+        LIBRE,
+        OCUPADO;
     }
     
 

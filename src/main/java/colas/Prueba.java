@@ -6,7 +6,6 @@
 package colas;
 
 import generadores.*;
-import java.util.LinkedList;
 
 /**
  *
@@ -19,9 +18,7 @@ public class Prueba {
 
     private IGenerador generadorProximaLlegada;
     private double proximaLlegada;
-    private IGenerador generadorFinAtencionFiambreria;
     private Double finAtFiambreria;
-    private IGenerador generadorFinAtencionCarniceria;
     private Double finAtCarniceria;
     private Servidor svFiambreria;
     private Servidor svCarniceria;
@@ -31,13 +28,11 @@ public class Prueba {
         this.reloj = 0;
 
         this.generadorProximaLlegada = new GeneradorExponencial(0.5);
-        this.proximaLlegada = generadorProximaLlegada.nextDouble();
-        this.generadorFinAtencionFiambreria = new GeneradorUniformePersonalizado(1, 3);
-        this.finAtFiambreria = null;
-        this.generadorFinAtencionCarniceria = new GeneradorUniformePersonalizado(0.5, 2.5);
+        this.proximaLlegada = generadorProximaLlegada.nextDouble();      
+        this.svCarniceria = new Servidor("Carniceria", new GeneradorUniformePersonalizado(0.5, 2.5));
         this.finAtCarniceria = null;
-        this.svCarniceria = new Servidor("Carniceria", "Libre");
-        this.svFiambreria = new Servidor("Fiambreria", "Libre");
+        this.svFiambreria = new Servidor("Fiambreria", new GeneradorUniformePersonalizado(1, 3));
+        this.finAtFiambreria = null;
     }
     
     
@@ -63,7 +58,8 @@ public class Prueba {
     
 
     /**
-     * Para cada linea, elige el evento más cercano y lo ejecuta.
+     * Para cada linea, elige el evento más cercano y lo ejecuta. 
+     * Cada evento es responsable de actualizar su proxima ejecucion.
      */
     public void linea() {
         // Es una especie de MAIN que hace las simulaciones.
@@ -86,89 +82,49 @@ public class Prueba {
         }
     }
 
+    /**
+     * Procesa el evento llegada de cliente.
+     */
     private void llegaCliente() {
         {
-            //Evento Llegada Cliente
+            // Registramos el evento.
             Evento eventoLlegada = new Evento("Llegada Cliente", reloj, this.generadorProximaLlegada);
-            //El tiempo entre llegada del evento llegada cliente
-            eventoLlegada.getTiempoDuracion();
-            //El tiempo de la proxima llegada
+            
+            // Seteamos la proxima llegada.
             this.proximaLlegada = eventoLlegada.getTiempoFin();
-            //Al principio de la simulacion siempre el evento es la proxima
-            //llegada de cliente, asi que no hay un cliente antes
-            if (reloj != 0) {
-                //Creacion de el cliente que recien llega
-                Cliente nuevoCliente = new Cliente(reloj);
-                //Lo ingresamos a la cola que le corresponda
-                meterClienteACola(nuevoCliente);
-            }
+            
+            // Instanciamos al cliente y lo enviamos a la cola o atencion correspondiente.
+            Cliente nuevoCliente = new Cliente(reloj);
+            meterClienteACola(nuevoCliente);            
         }
     }
 
-    private void atenderFiambreria() {
-        if (svFiambreria.cola.isEmpty()) {
-            //se termino de atender y no hay mas clientes en la cola
-            svFiambreria.setEstado("Libre");
-        } else //se termino de atender y hay clientes en la cola
-        {
-            Evento eventoFinAtFiambreria = new Evento("Fin de atencion Fiambreria", reloj, this.generadorFinAtencionFiambreria);
-            //tiempo de atencion
-            eventoFinAtFiambreria.getTiempoDuracion();
-            //cliente que se atiende
-            Cliente clienteEnAtencion = svFiambreria.cola.removeFirst();
-            clienteEnAtencion.setEstado("Siendo atendido");
-            //actualizamos el acumulador de tiempo de espera para este servidor
-            double tiempoEspera = reloj - clienteEnAtencion.getHoraInicioEspera();
-            svFiambreria.acumularTiempo(tiempoEspera);
-            //tiempo final
-            finAtFiambreria = eventoFinAtFiambreria.getTiempoFin();
-            if (clienteEnAtencion.tieneVerdura()) {
-                finAtFiambreria += 0.2;
+    
+    /**
+     * Ingresa al cliente a la cola correspondiente.
+     * @param cliente 
+     */
+    private void meterClienteACola(Cliente cliente) {
+        if (cliente.esParaVerduleria()) {
+            //si es de verdulera entra en la cola mas corta
+            if (svFiambreria.cola.size() <= svCarniceria.cola.size()) {
+                svFiambreria.agregarCliente(cliente, reloj);
+            } else {
+                svCarniceria.agregarCliente(cliente, reloj);
             }
-
+        } else if (cliente.esParaFiambreria()) {
+            svFiambreria.agregarCliente(cliente, reloj);
+        } // si no es de verduleria ni fiambreria entonces es de carniceria
+        else {
+            svCarniceria.agregarCliente(cliente, reloj);
         }
-
+    }
+    
+    private void atenderFiambreria() {
+        this.finAtFiambreria = svFiambreria.atenderProximo(reloj);      
     }
 
     private void atenderCarniceria() {
-        //Evento fin atencion Carniceria
-        if (svCarniceria.cola.isEmpty()) {
-            //se termino de atender y no hay mas clientes en la cola
-            svCarniceria.setEstado("Libre");
-        } else //se termino de atender y hay clientes en la cola
-        {
-            Evento eventoFinAtCarniceria = new Evento("Fin de atencion Carniceria", reloj, this.generadorFinAtencionCarniceria);
-            //tiempo de atencion
-            eventoFinAtCarniceria.getTiempoDuracion();
-            //cliente que se atiende
-            Cliente clienteEnAtencion = svCarniceria.cola.removeFirst();
-            clienteEnAtencion.setEstado("Siendo atendido");
-            //actualizamos el acumulador de tiempo de espera para este servidor
-            double tiempoEspera = reloj - clienteEnAtencion.getHoraInicioEspera();
-            svCarniceria.acumularTiempo(tiempoEspera);
-            //tiempo final
-            finAtCarniceria = eventoFinAtCarniceria.getTiempoFin();
-            if (clienteEnAtencion.tieneVerdura()) {
-                finAtCarniceria += 0.2;
-            }
-        }
+        this.finAtCarniceria = svCarniceria.atenderProximo(reloj);        
     }
-
-    private void meterClienteACola(Cliente cliente) {
-        //primero vemos si es de verduleria
-        if ("Verduleria".equals(cliente.getTipoCliente())) {
-            //si es de verdulera entra en la cola mas corta
-            if (svFiambreria.cola.size() <= svCarniceria.cola.size()) {
-                svFiambreria.cola.add(cliente);
-            } else {
-                svCarniceria.cola.add(cliente);
-            }
-        } else if ("Fiambreria".equals(cliente.getTipoCliente())) {
-            svFiambreria.cola.add(cliente);
-        } // si no es de verduleria ni fiambreria entonces es de carniceria
-        else {
-            svCarniceria.cola.add(cliente);
-        }
-    }
-
 }
