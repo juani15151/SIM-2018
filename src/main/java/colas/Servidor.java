@@ -37,6 +37,10 @@ public class Servidor {
     public double getAcumTiempoEspera() {
         return acumTiempoEspera;
     }
+
+    public int getCantidadClientesAtendidos() {
+        return cantidadClientesAtendidos;
+    }  
             
     public void agregarCliente(Cliente cliente, double reloj){
         assert cliente.esParaCarniceria() || cliente.esParaVerduleria();
