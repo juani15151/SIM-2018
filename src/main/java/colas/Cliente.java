@@ -10,78 +10,74 @@ package colas;
  * @author eric
  */
 public class Cliente {
-    private String estado;
+
+    private Estado estado;
     private double horaInicioEspera;
     private TipoCliente tipoCliente;
     private boolean tieneVerdura;
 
     public Cliente(double horaInicioEspera) {
         this.horaInicioEspera = horaInicioEspera;
-        this.estado = "Esperando atención";
+        this.estado = Estado.ESPERANDO;
         definirTipo();
     }
 
-    public String getEstado() {
-        return estado;
-    }
-
-    public double getHoraInicioEspera() {
-        return horaInicioEspera;
-    }
-
-    public TipoCliente getTipoCliente() {
-        return tipoCliente;
-    }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
-
-    public void setHoraInicioEspera(double horaInicioEspera) {
-        this.horaInicioEspera = horaInicioEspera;
-    }
-       
-    public boolean tieneVerdura(){
-        return tieneVerdura;
-    }
-    
-    private void definirTipo(){
-        int rnd = (int) (Math.random());
-        if (rnd <= 0.29) 
-        {
+    private void definirTipo() {
+        double rnd = (Math.random());
+        if (rnd <= 0.29) {
             tipoCliente = TipoCliente.VERDULERIA;
             tieneVerdura = true;
-            
-        }
-        else if (rnd <= 0.55)
-        {
+
+        } else if (rnd <= 0.55) {
             tipoCliente = TipoCliente.CARNICERIA;
             tieneVerdura = Math.random() <= 0.49;
-        }
-        else 
-        {
+        } else {
             tipoCliente = TipoCliente.CARNICERIA;
             tieneVerdura = Math.random() <= 0.24;
         }
     }
-    
-    
-    public boolean esParaVerduleria(){
+
+    public Estado estado() {
+        return estado;
+    }
+
+    public void inicioAtencion() {
+        assert estado == Estado.ESPERANDO;
+        this.estado = Estado.ATENDIDO;
+    }
+
+    public double horaInicioEspera() {
+        return horaInicioEspera;
+    }
+
+    public TipoCliente tipoCliente() {
+        return tipoCliente;
+    }
+
+    public boolean tieneVerdura() {
+        return tieneVerdura;
+    }
+
+    public boolean esParaVerduleria() {
         return tipoCliente == TipoCliente.VERDULERIA;
     }
-    
-    public boolean esParaCarniceria(){
+
+    public boolean esParaCarniceria() {
         return tipoCliente == TipoCliente.CARNICERIA;
     }
-    
-    public boolean esParaFiambreria(){
+
+    public boolean esParaFiambreria() {
         return tipoCliente == TipoCliente.FIAMBRERIA;
     }
-    
-    public enum TipoCliente{
-        VERDULERIA, 
-        CARNICERIA, 
+
+    public enum TipoCliente {
+        VERDULERIA,
+        CARNICERIA,
         FIAMBRERIA;
     }
-    
+
+    public enum Estado {
+        ESPERANDO,
+        ATENDIDO;
+    }
 }
