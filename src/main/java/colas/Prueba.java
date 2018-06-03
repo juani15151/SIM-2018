@@ -15,14 +15,9 @@ import java.util.List;
  */
 public class Prueba {
     private double reloj;
-
-    private IGenerador generadorProximaLlegada;
-    private double proximaLlegada;
-    private Double finAtFiambreria;
-    private Double finAtCarniceria;
     private Servidor svFiambreria;
     private Servidor svCarniceria;
-    private List<Evento> eventos = new LinkedList<Evento>();
+    private List<Evento> eventos = new LinkedList<>();
 
     public Prueba() {
         this.reloj = 0;        
