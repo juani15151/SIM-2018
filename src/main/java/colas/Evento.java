@@ -39,8 +39,5 @@ public class Evento {
 
     public double getTiempoFin() {
         return tiempoFin;
-    }
-
-   
-    
+    } 
 }

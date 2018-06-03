@@ -12,7 +12,8 @@ package colas;
 public class Cliente {
 
     private Estado estado;
-    private double horaInicioEspera;
+    private final double horaInicioEspera;
+    private double tiempoEspera;
     private TipoCliente tipoCliente;
     private boolean tieneVerdura;
 
@@ -41,11 +42,16 @@ public class Cliente {
         return estado;
     }
 
-    public void inicioAtencion() {
+    public void inicioAtencion(double reloj) {
         assert estado == Estado.ESPERANDO;
         this.estado = Estado.ATENDIDO;
+        tiempoEspera = reloj - horaInicioEspera;
     }
 
+    public double tiempoEspera(){
+        return tiempoEspera;
+    }
+    
     public double horaInicioEspera() {
         return horaInicioEspera;
     }

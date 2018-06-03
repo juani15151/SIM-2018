@@ -58,8 +58,8 @@ public class Servidor {
             return null; // No empezo a atender a nadie, asique no hay fin de at.
         } else {
            Cliente cliente = cola.remove();
-           cliente.inicioAtencion();
-           acumularTiempo(reloj - cliente.horaInicioEspera());     
+           cliente.inicioAtencion(reloj);
+           acumularTiempo(cliente.tiempoEspera());     
            return calcularProximoFinAtencion(cliente, reloj);
         }
     }
