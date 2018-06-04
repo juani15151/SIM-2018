@@ -48,7 +48,6 @@ public class Servidor {
     }
                     
     public void agregarCliente(Cliente cliente, double reloj){
-        assert cliente.esParaCarniceria() || cliente.esParaVerduleria();
         cola.add(cliente);
         if (estado == Estado.LIBRE){
             atenderProximo(reloj);
@@ -64,15 +63,15 @@ public class Servidor {
         if(cola.isEmpty()){
             assert estado == Estado.OCUPADO;  // Sino se invoco 2 veces.
             estado = Estado.LIBRE;
-            return null; // No empezo a atender a nadie, asique no hay fin de at.
+            finAtencion = null; // No empezo a atender a nadie, asique no hay fin de at.            
         } else {
            estado = Estado.OCUPADO;
            Cliente cliente = cola.remove();
            cliente.inicioAtencion(reloj);
            acumularTiempo(cliente.tiempoEspera());     
-           finAtencion = calcularProximoFinAtencion(cliente, reloj);
-           return finAtencion;
+           finAtencion = calcularProximoFinAtencion(cliente, reloj);           
         }
+        return finAtencion;
     }
     
     private Double calcularProximoFinAtencion(Cliente cliente, double reloj){
