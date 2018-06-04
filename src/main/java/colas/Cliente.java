@@ -25,16 +25,16 @@ public class Cliente {
 
     private void definirTipo() {
         double rnd = (Math.random());
-        if (rnd <= 0.29) {
+        if (rnd < 0.30) {
             tipoCliente = TipoCliente.VERDULERIA;
             tieneVerdura = true;
 
-        } else if (rnd <= 0.55) {
+        } else if (rnd < 0.56) {
             tipoCliente = TipoCliente.CARNICERIA;
-            tieneVerdura = Math.random() <= 0.49;
+            tieneVerdura = Math.random() < 0.50;
         } else {
-            tipoCliente = TipoCliente.CARNICERIA;
-            tieneVerdura = Math.random() <= 0.24;
+            tipoCliente = TipoCliente.FIAMBRERIA;
+            tieneVerdura = Math.random() < 0.25;
         }
     }
 
