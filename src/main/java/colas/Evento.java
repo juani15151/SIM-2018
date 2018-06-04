@@ -34,10 +34,10 @@ public abstract class Evento {
      * @return
      */
     public boolean before(Evento e) {
-        if (proximaEjecucion == null) {
-            return e.proximaEjecucion == null;
+        if (proximaEjecucion() == null) {
+            return e.proximaEjecucion() == null;
         } else {
-            return e.proximaEjecucion == null || this.proximaEjecucion <= e.proximaEjecucion;
+            return e.proximaEjecucion() == null || this.proximaEjecucion() <= e.proximaEjecucion();
         }
     }
     
@@ -46,7 +46,7 @@ public abstract class Evento {
      * Como reloj == proximaEjecucion, se pasa eso por parametro.
      */
     public void ejecutar(){
-        ejecutar(proximaEjecucion);
+        ejecutar(proximaEjecucion());
     }
     
     /**

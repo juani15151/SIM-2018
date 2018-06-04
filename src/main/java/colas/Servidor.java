@@ -17,6 +17,7 @@ public class Servidor {
     private double acumTiempoEspera;
     private int cantidadClientesAtendidos;
     public IGenerador generador;
+    private Double finAtencion;
 
 
     
@@ -27,7 +28,7 @@ public class Servidor {
         this.cola = new LinkedList<>();
         this.acumTiempoEspera = 0;
         this.cantidadClientesAtendidos = 0;  // Cantidad de cliente que se empezaron a atender.
-        this.generador = generadorTiempoAtencion;
+        this.generador = generadorTiempoAtencion;        
     }  
 
     public Estado getEstado() {
@@ -41,7 +42,11 @@ public class Servidor {
     public int getCantidadClientesAtendidos() {
         return cantidadClientesAtendidos;
     }  
-            
+
+    public Double getFinAtencion() {
+        return finAtencion;
+    }
+                    
     public void agregarCliente(Cliente cliente, double reloj){
         assert cliente.esParaCarniceria() || cliente.esParaVerduleria();
         cola.add(cliente);
@@ -61,10 +66,12 @@ public class Servidor {
             estado = Estado.LIBRE;
             return null; // No empezo a atender a nadie, asique no hay fin de at.
         } else {
+           estado = Estado.OCUPADO;
            Cliente cliente = cola.remove();
            cliente.inicioAtencion(reloj);
            acumularTiempo(cliente.tiempoEspera());     
-           return calcularProximoFinAtencion(cliente, reloj);
+           finAtencion = calcularProximoFinAtencion(cliente, reloj);
+           return finAtencion;
         }
     }
     

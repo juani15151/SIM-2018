@@ -25,4 +25,9 @@ public class EventoFinAtencion extends Evento {
         this.proximaEjecucion = servidor.atenderProximo(reloj);      
     }
     
+    @Override
+    public Double proximaEjecucion(){
+        return servidor.getFinAtencion();
+    }
+    
 }
