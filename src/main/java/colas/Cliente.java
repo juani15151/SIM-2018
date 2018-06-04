@@ -5,22 +5,44 @@
  */
 package colas;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  *
  * @author eric
  */
 public class Cliente {
 
+    private static final List<Cliente> pool = new LinkedList<>();
     private Estado estado;
-    private final double horaInicioEspera;
+    private double horaInicioEspera;
     private double tiempoEspera;
     private TipoCliente tipoCliente;
     private boolean tieneVerdura;
 
-    public Cliente(double horaInicioEspera) {
+    
+    private void initialize(double horaInicioEspera){
         this.horaInicioEspera = horaInicioEspera;
         this.estado = Estado.ESPERANDO;
-        definirTipo();
+        definirTipo();        
+    }
+    
+    /**
+     * Mantenemos una lista de Clientes eliminados para no crear tantas instancias.
+     * @param horaInicioEspera
+     * @return 
+     */
+    public static Cliente getCliente(double horaInicioEspera){
+        Cliente c;
+        if(pool.size() > 0){
+            c = pool.remove(0);            
+            assert c.estado == Estado.FIN;
+        } else {
+            c = new Cliente();            
+        }
+        c.initialize(horaInicioEspera);
+        return c;
     }
 
     private void definirTipo() {
@@ -46,6 +68,11 @@ public class Cliente {
         assert estado == Estado.ESPERANDO;
         this.estado = Estado.ATENDIDO;
         tiempoEspera = reloj - horaInicioEspera;
+    }
+    
+    public void finAtencion(){
+        estado = Estado.FIN;
+        pool.add(this);
     }
 
     public double tiempoEspera(){
@@ -75,6 +102,16 @@ public class Cliente {
     public boolean esParaFiambreria() {
         return tipoCliente == TipoCliente.FIAMBRERIA;
     }
+    
+    @Override
+    public String toString(){
+        if(tieneVerdura()){
+            return tipoCliente.toString().substring(0,1) + "V";
+        } else {
+            return tipoCliente.toString().substring(0,1) + "-";
+        }
+        
+    }
 
     public enum TipoCliente {
         VERDULERIA,
@@ -84,6 +121,7 @@ public class Cliente {
 
     public enum Estado {
         ESPERANDO,
-        ATENDIDO;
+        ATENDIDO,
+        FIN;
     }
 }

@@ -28,7 +28,7 @@ public class EventoLlegada extends Evento {
     @Override
     public void ejecutar(double reloj) {                   
         // Instanciamos al cliente y lo enviamos a la cola o atencion correspondiente.
-        Cliente nuevoCliente = new Cliente(reloj);
+        Cliente nuevoCliente = Cliente.getCliente(reloj);
         meterClienteACola(nuevoCliente, reloj);     
         
         // Seteamos la proxima llegada.

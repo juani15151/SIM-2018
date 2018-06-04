@@ -4,32 +4,35 @@
  * and open the template in the editor.
  */
 package colas;
+
 import java.util.LinkedList;
 import generadores.IGenerador;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author eric
  */
 public class Servidor {
+
     private String nombre;
     private Estado estado;
-    public LinkedList<Cliente> cola;
+    private Cliente clienteActual;
+    public List<Cliente> cola;
     private double acumTiempoEspera;
     private int cantidadClientesAtendidos;
     public IGenerador generador;
     private Double finAtencion;
 
-
-    
-    
     public Servidor(String nombre, IGenerador generadorTiempoAtencion) {
         this.nombre = nombre;
         this.estado = Estado.LIBRE;
-        this.cola = new LinkedList<>();
+        this.cola = new ArrayList<>(5);
         this.acumTiempoEspera = 0;
         this.cantidadClientesAtendidos = 0;  // Cantidad de cliente que se empezaron a atender.
-        this.generador = generadorTiempoAtencion;        
-    }  
+        this.generador = generadorTiempoAtencion;
+    }
 
     public Estado getEstado() {
         return estado;
@@ -41,60 +44,67 @@ public class Servidor {
 
     public int getCantidadClientesAtendidos() {
         return cantidadClientesAtendidos;
-    }  
+    }
 
     public Double getFinAtencion() {
         return finAtencion;
     }
-                    
-    public void agregarCliente(Cliente cliente, double reloj){
+
+    public void agregarCliente(Cliente cliente, double reloj) {
         cola.add(cliente);
-        if (estado == Estado.LIBRE){
+        if (estado == Estado.LIBRE) {
             atenderProximo(reloj);
-        } 
+        }
     }
-    
+
     /**
-     * Empieza a atender al proximo cliente (si tiene) y retorna el proximo fin de atencion.
+     * Empieza a atender al proximo cliente (si tiene) y retorna el proximo fin
+     * de atencion.
+     *
      * @param reloj
-     * @return 
+     * @return
      */
-    public Double atenderProximo(double reloj){
-        if(cola.isEmpty()){
+    public Double atenderProximo(double reloj) {
+        // Liberar al actual.
+        if (estado == Estado.OCUPADO) {
+            clienteActual.finAtencion();
+        }
+
+        if (cola.isEmpty()) {
             assert estado == Estado.OCUPADO;  // Sino se invoco 2 veces.
             estado = Estado.LIBRE;
+            clienteActual = null;
             finAtencion = null; // No empezo a atender a nadie, asique no hay fin de at.            
         } else {
-           estado = Estado.OCUPADO;
-           Cliente cliente = cola.remove();
-           cliente.inicioAtencion(reloj);
-           acumularTiempo(cliente.tiempoEspera());     
-           finAtencion = calcularProximoFinAtencion(cliente, reloj);           
+            estado = Estado.OCUPADO;
+            clienteActual = cola.remove(0);
+            clienteActual.inicioAtencion(reloj);
+            acumularTiempo(clienteActual.tiempoEspera()); // Acumula la espera.
+            finAtencion = calcularProximoFinAtencion(clienteActual, reloj);
         }
         return finAtencion;
     }
-    
-    private Double calcularProximoFinAtencion(Cliente cliente, double reloj){
+
+    private Double calcularProximoFinAtencion(Cliente cliente, double reloj) {
         Double proximoFin = reloj;
-        if(cliente.esParaCarniceria()){
+        if (cliente.esParaCarniceria()) {
             proximoFin += generador.nextDouble();
         }
-        if(cliente.tieneVerdura()){
+        if (cliente.tieneVerdura()) {
             // Incluye tanto a los cliente de solo verduleria y a los de carniceria + verduleria.
             proximoFin += 0.2;
         }
         return proximoFin;
     }
-    
-    private void acumularTiempo(double tiempo){
+
+    private void acumularTiempo(double tiempo) {
         acumTiempoEspera += tiempo;
         cantidadClientesAtendidos++;
     }
-    
+
     public enum Estado {
         LIBRE,
         OCUPADO;
     }
-    
 
 }
