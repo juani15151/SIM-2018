@@ -6,6 +6,7 @@
 package colas;
 
 import generadores.*;
+import java.text.DecimalFormat;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -54,23 +55,25 @@ public class Prueba {
      */
     public String getEstado(){
         // Retornar como sea más conveniente para la interfaz.
+        DecimalFormat f = new DecimalFormat("#0.0000");
         StringBuilder estado = new StringBuilder();
-        estado.append("Reloj: ").append(this.reloj);
-        estado.append("Prox. Llegada: ").append(eventos.get(0).proximaEjecucion());
-        estado.append("Prox. Fin At. (Fiambreria): ").append(eventos.get(1).proximaEjecucion());
-        estado.append("Prox. Fin At. (Carniceria): ").append(eventos.get(2).proximaEjecucion());                
+        estado.append("Reloj: ").append(f.format(this.reloj));
+        estado.append(" Prox. Llegada: ").append(
+                f.format(eventos.get(0).proximaEjecucion()));
+        estado.append(" Prox. Fin At. (Fiambreria): ").append(eventos.get(1).proximaEjecucion());
+        estado.append(" Prox. Fin At. (Carniceria): ").append(eventos.get(2).proximaEjecucion());                
         
-        estado.append("Estado Fiambreria: ").append(this.svFiambreria.getEstado());
-        estado.append("Cola Fiambreria: ").append(this.svFiambreria.cola.size());
+        estado.append(" Estado Fiambreria: ").append(this.svFiambreria.getEstado());
+        estado.append(" Cola Fiambreria: ").append(this.svFiambreria.cola.size());
         // Tambien se podrian listar los clientes de la cola..
-        estado.append("Acum. T. Espera Fiambreria: ").append(this.svFiambreria.getAcumTiempoEspera());
-        estado.append("Cant. Clientes Fiambreria: ").append(this.svFiambreria.getCantidadClientesAtendidos());
+        estado.append(" Acum. T. Espera Fiambreria: ").append(this.svFiambreria.getAcumTiempoEspera());
+        estado.append(" Cant. Clientes Fiambreria: ").append(this.svFiambreria.getCantidadClientesAtendidos());
         
-        estado.append("Estado Carniceria: ").append(this.svCarniceria.getEstado());
-        estado.append("Cola Carniceria: ").append(this.svCarniceria.cola.size());
+        estado.append(" Estado Carniceria: ").append(this.svCarniceria.getEstado());
+        estado.append(" Cola Carniceria: ").append(this.svCarniceria.cola.size());
         // Tambien se podrian listar los clientes de la cola..
-        estado.append("Acum. T. Espera Carniceria: ").append(this.svCarniceria.getAcumTiempoEspera());
-        estado.append("Cant. Clientes Carniceria: ").append(this.svCarniceria.getCantidadClientesAtendidos());
+        estado.append(" Acum. T. Espera Carniceria: ").append(this.svCarniceria.getAcumTiempoEspera());
+        estado.append(" Cant. Clientes Carniceria: ").append(this.svCarniceria.getCantidadClientesAtendidos());
         return estado.toString();
-    }    
+    }        
 }
