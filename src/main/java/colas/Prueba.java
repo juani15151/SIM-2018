@@ -20,26 +20,30 @@ public class Prueba {
     private Servidor svFiambreria;
     private Servidor svCarniceria;
     private List<Evento> eventos = new ArrayList<>();
+    private double promedioCarniceria;
+    private double promedioFiambreria;
 
     public Prueba() {
         this.reloj = 0;        
         this.svCarniceria = new Servidor("Carniceria", new GeneradorUniformePersonalizado(0.5, 2.5));        
         this.svFiambreria = new Servidor("Fiambreria", new GeneradorUniformePersonalizado(1, 3));        
         // Evento llegada.
-        eventos.add(new EventoLlegada("Llegada Cliente", new GeneradorExponencial(0.5), svFiambreria, svCarniceria));
+        eventos.add(new EventoLlegada("Llegada Cliente", new GeneradorExponencial(0.5), getSvFiambreria(), getSvCarniceria()));
         // Eventos Fin atencion.
-        eventos.add(new EventoFinAtencion("Fin At. Fiambreria", svFiambreria));
-        eventos.add(new EventoFinAtencion("Fin At. Carniceria", svCarniceria));
+        eventos.add(new EventoFinAtencion("Fin At. Fiambreria", getSvFiambreria()));
+        eventos.add(new EventoFinAtencion("Fin At. Carniceria", getSvCarniceria()));
     }
         
     /**
      * Elige el evento más cercano y lo ejecuta. 
      * Cada evento es responsable de actualizar su proxima ejecucion.
      */
+    
+ 
     public void linea() {
         // Determinar el evento que se ejecuta antes.
-        Evento menor = eventos.get(0);
-        for (Evento e : eventos){
+        Evento menor = getEventos().get(0);
+        for (Evento e : getEventos()){
             if(e.before(menor)){
                 menor = e;
             }
@@ -58,25 +62,80 @@ public class Prueba {
         // Retornar como sea más conveniente para la interfaz.
         DecimalFormat f = new DecimalFormat("#0.0000");
         StringBuilder estado = new StringBuilder();
-        estado.append("Reloj: ").append(f.format(this.reloj));
-        estado.append(" EVENTOS - Prox. Llegada: ").append(
-                f.format(eventos.get(0).proximaEjecucion()));
-        estado.append(" Prox. Fin At. (Fiambreria): ").append(eventos.get(1).proximaEjecucion());
-        estado.append(" Prox. Fin At. (Carniceria): ").append(eventos.get(2).proximaEjecucion());                
+        estado.append("Reloj: ").append(f.format(this.getReloj()));
+        estado.append(" - EVENTOS - Prox. Llegada: ").append(f.format(getEventos().get(0).proximaEjecucion()));
+        estado.append(" - Prox. Fin At. (Fiambreria): ").append(getEventos().get(1).proximaEjecucion());
+        estado.append(" - Prox. Fin At. (Carniceria): ").append(getEventos().get(2).proximaEjecucion());                
         estado.append("\n FIAMBRERIA -");
-        estado.append(" Estado: ").append(this.svFiambreria.getEstado());
-        estado.append(" Cola: ").append(this.svFiambreria.cola.size()).append("(");
-        for(Cliente c : this.svFiambreria.cola) estado.append(c).append(", ");
+        estado.append("  Estado: ").append(this.getSvFiambreria().getEstado());
+        estado.append("  Cola: ").append(this.getSvFiambreria().cola.size()).append("(");
+        for(Cliente c : this.getSvFiambreria().cola) estado.append(c).append(", ");
         estado.append(")");
-        estado.append(" T. Espera Ac. : ").append(this.svFiambreria.getAcumTiempoEspera());
-        estado.append(" Clientes ini.: ").append(this.svFiambreria.getCantidadClientesAtendidos());
+        estado.append(" - Tpo. Espera Acumulado : ").append(this.getSvFiambreria().getAcumTiempoEspera());
+        estado.append(" - Clientes con espera terminada: ").append(this.getSvFiambreria().getCantidadClientesAtendidos());
         estado.append("\n CARNICERIA -");
-        estado.append(" Estado: ").append(this.svCarniceria.getEstado());
-        estado.append(" Cola: ").append(this.svCarniceria.cola.size()).append("(");
-        for(Cliente c : this.svCarniceria.cola) estado.append(c).append(", ");
+        estado.append("  Estado: ").append(this.getSvCarniceria().getEstado());
+        estado.append("  Cola: ").append(this.getSvCarniceria().cola.size()).append("(");
+        for(Cliente c : this.getSvCarniceria().cola) estado.append(c).append(", ");
         estado.append(")");
-        estado.append(" T. Espera Ac.: ").append(this.svCarniceria.getAcumTiempoEspera());
-        estado.append(" Clientes ini.: ").append(this.svCarniceria.getCantidadClientesAtendidos());
+        estado.append(" - Tpo. Espera Acumulado: ").append(this.getSvCarniceria().getAcumTiempoEspera());
+        estado.append(" - Clientes con espera terminada: ").append(this.getSvCarniceria().getCantidadClientesAtendidos());
         return estado.toString();
-    }        
+    }    
+
+    /**
+     * @return the reloj
+     */
+    public double getReloj() {
+        return reloj;
+    }
+
+    /**
+     * @return the svFiambreria
+     */
+    public Servidor getSvFiambreria() {
+        return svFiambreria;
+    }
+
+    /**
+     * @return the svCarniceria
+     */
+    public Servidor getSvCarniceria() {
+        return svCarniceria;
+    }
+
+    /**
+     * @return the eventos
+     */
+    public List<Evento> getEventos() {
+        return eventos;
+    }
+
+    /**
+     * @return the promedioCarniceria
+     */
+    public double getPromedioCarniceria() {
+        if(svCarniceria.getCantidadClientesAtendidos() == 0){
+            promedioCarniceria=0;
+        }
+        else{
+        promedioCarniceria= svCarniceria.getAcumTiempoEspera()/svCarniceria.getCantidadClientesAtendidos();
+        }
+        return promedioCarniceria;
+    }
+
+    /**
+     * @return the promedioFiambreria
+     */
+    public double getPromedioFiambreria() {
+        if(svFiambreria.getCantidadClientesAtendidos() == 0){
+            promedioFiambreria =0;
+        }
+        else{
+        promedioFiambreria = svFiambreria.getAcumTiempoEspera() / svFiambreria.getCantidadClientesAtendidos();
+        }
+        return promedioFiambreria;
+    }
+
+    
 }

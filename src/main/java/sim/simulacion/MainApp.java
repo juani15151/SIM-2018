@@ -12,11 +12,11 @@ public class MainApp extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         // Codigo por defecto del proyecto JavaFX. Se usa para ventanas. 
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/Montecarlo.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/Colas.fxml"));
 
         Scene scene = new Scene(root);
 
-        stage.setTitle("Trabajo Practico 4");
+        stage.setTitle("Trabajo Practico 5");
         stage.setScene(scene);
         stage.show();
     }
