@@ -86,10 +86,7 @@ public class Servidor {
     }
 
     private Double calcularProximoFinAtencion(Cliente cliente, double reloj) {
-        Double proximoFin = reloj;
-        if (cliente.esParaCarniceria()) {
-            proximoFin += generador.nextDouble();
-        }
+        Double proximoFin = reloj + generador.nextDouble();        
         if (cliente.tieneVerdura()) {
             // Incluye tanto a los cliente de solo verduleria y a los de carniceria + verduleria.
             proximoFin += 0.2;
