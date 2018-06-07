@@ -25,10 +25,10 @@ public class Prueba {
 
     public Prueba() {
         this.reloj = 0;        
-        this.svCarniceria = new Servidor("Carniceria", new GeneradorUniformePersonalizado(0.5, 2.5));        
-        this.svFiambreria = new Servidor("Fiambreria", new GeneradorUniformePersonalizado(1, 3));        
+        this.svCarniceria = new Servidor("Carniceria", new GeneradorUniformePersonalizado(20, 30));        
+        this.svFiambreria = new Servidor("Fiambreria", new GeneradorUniformePersonalizado(20, 30));        
         // Evento llegada.
-        eventos.add(new EventoLlegada("Llegada Cliente", new GeneradorExponencial(0.5), getSvFiambreria(), getSvCarniceria()));
+        eventos.add(new EventoLlegada("Llegada Cliente", new GeneradorExponencial(100), getSvFiambreria(), getSvCarniceria()));
         // Eventos Fin atencion.
         eventos.add(new EventoFinAtencion("Fin At. Fiambreria", getSvFiambreria()));
         eventos.add(new EventoFinAtencion("Fin At. Carniceria", getSvCarniceria()));

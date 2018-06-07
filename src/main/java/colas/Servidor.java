@@ -84,15 +84,16 @@ public class Servidor {
         }
         return finAtencion;
     }
-
+    //CREO QUE ACA ESTABA EL ERROR, EN EL PRIMER IF NO ESTABA PROXIMOFIN +=
     private Double calcularProximoFinAtencion(Cliente cliente, double reloj) {
         Double proximoFin = reloj;
         if (!cliente.esParaVerduleria()) { // Si es de Carniceria o fiambreria.
-            generador.nextDouble();
+            proximoFin += generador.nextDouble();
         }
         if (cliente.tieneVerdura()) {
             // Incluye tanto a los cliente de solo verduleria y a los de carniceria + verduleria.
-            proximoFin += 0.2;
+            //  
+            proximoFin += 5;
         }
 
         return proximoFin;
