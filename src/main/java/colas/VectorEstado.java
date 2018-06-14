@@ -5,9 +5,7 @@
  */
 package colas;
 
-import java.util.ArrayList;
 import java.util.List;
-import javafx.beans.property.SimpleDoubleProperty;
 
 /**
  *
@@ -35,54 +33,6 @@ public class VectorEstado {
     private String carniceriaEstadoCliente2;
     private Double carniceriaHoraCliente2;
     private String carniceriaEstadoClienteN;
-
-    public String getCarniceriaEstadoCliente1() {
-        return carniceriaEstadoCliente1;
-    }
-
-    public Double getCarniceriaHoraCliente1() {
-        return carniceriaHoraCliente1;
-    }
-
-    public String getCarniceriaEstadoCliente2() {
-        return carniceriaEstadoCliente2;
-    }
-
-    public Double getCarniceriaHoraCliente2() {
-        return carniceriaHoraCliente2;
-    }
-
-    public String getCarniceriaEstadoClienteN() {
-        return carniceriaEstadoClienteN;
-    }
-
-    public Double getCarniceriaHoraClienteN() {
-        return carniceriaHoraClienteN;
-    }
-
-    public String getFiambreriaEstadoCliente1() {
-        return fiambreriaEstadoCliente1;
-    }
-
-    public Double getFiambreriaHoraCliente1() {
-        return fiambreriaHoraCliente1;
-    }
-
-    public String getFiambreriaEstadoCliente2() {
-        return fiambreriaEstadoCliente2;
-    }
-
-    public Double getFiambreriaHoraCliente2() {
-        return fiambreriaHoraCliente2;
-    }
-
-    public String getFiambreriaEstadoClienteN() {
-        return fiambreriaEstadoClienteN;
-    }
-
-    public Double getFiambreriaHoraClienteN() {
-        return fiambreriaHoraClienteN;
-    }
     private Double carniceriaHoraClienteN;
     private String fiambreriaEstadoCliente1;
     private Double fiambreriaHoraCliente1;
@@ -108,7 +58,7 @@ public class VectorEstado {
         switch (cola.size()) {
             default:
             case 3:
-                carniceriaEstadoClienteN = cola.get(cola.size() -1).estado().toString();
+                carniceriaEstadoClienteN = cola.get(cola.size() - 1).estado().toString();
                 carniceriaHoraClienteN = cola.get(cola.size() - 1).horaInicioEspera();
             case 2:
                 carniceriaEstadoCliente2 = cola.get(1).estado().toString();
@@ -117,7 +67,7 @@ public class VectorEstado {
                 carniceriaEstadoCliente1 = cola.get(0).estado().toString();
                 carniceriaHoraCliente1 = cola.get(0).horaInicioEspera();
             case 0:
-        }        
+        }
         // Fiambreria        
         fiambreriaEstado = fiambreriaServ.getEstado().toString();
         fiambreriaTamañoCola = fiambreriaServ.cola.size();
@@ -127,7 +77,7 @@ public class VectorEstado {
         switch (cola.size()) {
             default:
             case 3:
-                fiambreriaEstadoClienteN = cola.get(cola.size() -1).estado().toString();
+                fiambreriaEstadoClienteN = cola.get(cola.size() - 1).estado().toString();
                 fiambreriaHoraClienteN = cola.get(cola.size() - 1).horaInicioEspera();
             case 2:
                 fiambreriaEstadoCliente2 = cola.get(1).estado().toString();
@@ -186,6 +136,54 @@ public class VectorEstado {
 
     public int getFiambreriaClientesIniciados() {
         return fiambreriaClientesIniciados;
+    }
+
+    public String getCarniceriaEstadoCliente1() {
+        return carniceriaEstadoCliente1;
+    }
+
+    public Double getCarniceriaHoraCliente1() {
+        return carniceriaHoraCliente1;
+    }
+
+    public String getCarniceriaEstadoCliente2() {
+        return carniceriaEstadoCliente2;
+    }
+
+    public Double getCarniceriaHoraCliente2() {
+        return carniceriaHoraCliente2;
+    }
+
+    public String getCarniceriaEstadoClienteN() {
+        return carniceriaEstadoClienteN;
+    }
+
+    public Double getCarniceriaHoraClienteN() {
+        return carniceriaHoraClienteN;
+    }
+
+    public String getFiambreriaEstadoCliente1() {
+        return fiambreriaEstadoCliente1;
+    }
+
+    public Double getFiambreriaHoraCliente1() {
+        return fiambreriaHoraCliente1;
+    }
+
+    public String getFiambreriaEstadoCliente2() {
+        return fiambreriaEstadoCliente2;
+    }
+
+    public Double getFiambreriaHoraCliente2() {
+        return fiambreriaHoraCliente2;
+    }
+
+    public String getFiambreriaEstadoClienteN() {
+        return fiambreriaEstadoClienteN;
+    }
+
+    public Double getFiambreriaHoraClienteN() {
+        return fiambreriaHoraClienteN;
     }
 
 }
