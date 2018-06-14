@@ -93,7 +93,7 @@ public class Servidor {
         if (cliente.tieneVerdura()) {
             // Incluye tanto a los cliente de solo verduleria y a los de carniceria + verduleria.
             //  
-            proximoFin += 5;
+            proximoFin += 0.2;
         }
 
         return proximoFin;

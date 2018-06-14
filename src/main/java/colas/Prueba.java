@@ -8,7 +8,6 @@ package colas;
 import generadores.*;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -25,21 +24,19 @@ public class Prueba {
 
     public Prueba() {
         this.reloj = 0;        
-        this.svCarniceria = new Servidor("Carniceria", new GeneradorUniformePersonalizado(20, 30));        
-        this.svFiambreria = new Servidor("Fiambreria", new GeneradorUniformePersonalizado(20, 30));        
+        this.svCarniceria = new Servidor("Carniceria", new GeneradorUniformePersonalizado(0.5, 2.5));        
+        this.svFiambreria = new Servidor("Fiambreria", new GeneradorUniformePersonalizado(1, 3));        
         // Evento llegada.
-        eventos.add(new EventoLlegada("Llegada Cliente", new GeneradorExponencial(100), getSvFiambreria(), getSvCarniceria()));
+        eventos.add(new EventoLlegada("Llegada Cliente", new GeneradorExponencial(0.5), getSvFiambreria(), getSvCarniceria()));
         // Eventos Fin atencion.
-        eventos.add(new EventoFinAtencion("Fin At. Fiambreria", getSvFiambreria()));
         eventos.add(new EventoFinAtencion("Fin At. Carniceria", getSvCarniceria()));
+        eventos.add(new EventoFinAtencion("Fin At. Fiambreria", getSvFiambreria()));        
     }
         
     /**
      * Elige el evento más cercano y lo ejecuta. 
      * Cada evento es responsable de actualizar su proxima ejecucion.
-     */
-    
- 
+     */   
     public void linea() {
         // Determinar el evento que se ejecuta antes.
         Evento menor = getEventos().get(0);
@@ -58,29 +55,15 @@ public class Prueba {
      * La idea es que la interfaz invoque a linea() y despues a getEstado() si lo
      * quiere mostrar.
      */
-    public String getEstado(){
-        // Retornar como sea más conveniente para la interfaz.
-        DecimalFormat f = new DecimalFormat("#0.0000");
-        StringBuilder estado = new StringBuilder();
-        estado.append("Reloj: ").append(f.format(this.getReloj()));
-        estado.append(" - EVENTOS - Prox. Llegada: ").append(f.format(getEventos().get(0).proximaEjecucion()));
-        estado.append(" - Prox. Fin At. (Fiambreria): ").append(getEventos().get(1).proximaEjecucion());
-        estado.append(" - Prox. Fin At. (Carniceria): ").append(getEventos().get(2).proximaEjecucion());                
-        estado.append("\n FIAMBRERIA -");
-        estado.append("  Estado: ").append(this.getSvFiambreria().getEstado());
-        estado.append("  Cola: ").append(this.getSvFiambreria().cola.size()).append("(");
-        for(Cliente c : this.getSvFiambreria().cola) estado.append(c).append(", ");
-        estado.append(")");
-        estado.append(" - Tpo. Espera Acumulado : ").append(this.getSvFiambreria().getAcumTiempoEspera());
-        estado.append(" - Clientes con espera terminada: ").append(this.getSvFiambreria().getCantidadClientesAtendidos());
-        estado.append("\n CARNICERIA -");
-        estado.append("  Estado: ").append(this.getSvCarniceria().getEstado());
-        estado.append("  Cola: ").append(this.getSvCarniceria().cola.size()).append("(");
-        for(Cliente c : this.getSvCarniceria().cola) estado.append(c).append(", ");
-        estado.append(")");
-        estado.append(" - Tpo. Espera Acumulado: ").append(this.getSvCarniceria().getAcumTiempoEspera());
-        estado.append(" - Clientes con espera terminada: ").append(this.getSvCarniceria().getCantidadClientesAtendidos());
-        return estado.toString();
+    public VectorEstado getEstado(){
+        return new VectorEstado( 
+                this.getReloj(),
+                getEventos().get(0), // Llegada
+                getEventos().get(1), // Carniceria
+                getEventos().get(2), // Fiambreria
+                this.getSvCarniceria(),
+                this.getSvFiambreria()
+        );        
     }    
 
     /**

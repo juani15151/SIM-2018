@@ -62,7 +62,7 @@ public class ColasController implements Initializable {
                 for (int n = 0; n < limite_lineas; n++) {
                     simulacion.linea();
                     if (n >= mostrar_desde && n < mostrar_hasta) {
-                        cad = simulacion.getEstado();
+                        //cad = simulacion.getEstado(); // Se modifico el funcionamiento para el TP6.
                         vectorEstado.add(cad);
                     }
                 }
