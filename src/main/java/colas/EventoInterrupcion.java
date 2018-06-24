@@ -19,7 +19,6 @@ public class EventoInterrupcion extends Evento {
     private double generarProximaInterrupcion() {
         double rnd = random.nextDouble();
         double proxima = 0.0;
-        // TODO: Valores de prueba. Poner los resultados al resolver la ecuacion diferencial.
         if (rnd < 0.20) {
             proxima += 0.240;
         } else if (rnd < 0.5) {
