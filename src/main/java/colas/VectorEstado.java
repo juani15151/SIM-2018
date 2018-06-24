@@ -58,16 +58,17 @@ public class VectorEstado {
         List<Cliente> cola = carniceriaServ.cola;
         switch (cola.size()) {
             default:
-            case 3:
+            case 2:
                 carniceriaEstadoClienteN = cola.get(cola.size() - 1).estado().toString();
                 carniceriaHoraClienteN = cola.get(cola.size() - 1).horaInicioEspera();
-            case 2:
+            case 1:
                 carniceriaEstadoCliente2 = cola.get(0).estado().toString();
                 carniceriaHoraCliente2 = cola.get(0).horaInicioEspera();
-            case 1:
-                carniceriaEstadoCliente1 = carniceriaServ.getClienteActual().estado().toString();
-                carniceriaHoraCliente1 = carniceriaServ.getClienteActual().horaInicioEspera();
             case 0:
+                if (carniceriaServ.getClienteActual() != null) {
+                    carniceriaEstadoCliente1 = carniceriaServ.getClienteActual().estado().toString();
+                    carniceriaHoraCliente1 = carniceriaServ.getClienteActual().horaInicioEspera();
+                }
         }
         // Fiambreria        
         fiambreriaEstado = fiambreriaServ.getEstado().toString();
@@ -77,16 +78,17 @@ public class VectorEstado {
         cola = fiambreriaServ.cola;
         switch (cola.size()) {
             default:
-            case 3:
+            case 2:
                 fiambreriaEstadoClienteN = cola.get(cola.size() - 1).estado().toString();
                 fiambreriaHoraClienteN = cola.get(cola.size() - 1).horaInicioEspera();
-            case 2:
+            case 1:
                 fiambreriaEstadoCliente2 = cola.get(0).estado().toString();
                 fiambreriaHoraCliente2 = cola.get(0).horaInicioEspera();
-            case 1:
+            case 0:
+                if (fiambreriaServ.getClienteActual() != null) {
                 fiambreriaEstadoCliente1 = fiambreriaServ.getClienteActual().estado().toString();
                 fiambreriaHoraCliente1 = fiambreriaServ.getClienteActual().horaInicioEspera();
-            case 0:
+                }
         }
 
     }
