@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class EventoInterrupcion extends Evento {
 
-    private final double TIEMPO_PURGA = 5.0;
+    private final double TIEMPO_PURGA = 0.62;
 
     private Random random = new Random();
     private Servidor servidor; // El servidor que va a interrumpir.
@@ -21,11 +21,11 @@ public class EventoInterrupcion extends Evento {
         double proxima = 0.0;
         // TODO: Valores de prueba. Poner los resultados al resolver la ecuacion diferencial.
         if (rnd < 0.20) {
-            proxima += 2;
+            proxima += 0.240;
         } else if (rnd < 0.5) {
-            proxima += 7;
+            proxima += 0.275;
         } else {
-            proxima += 10;
+            proxima += 0.310;
         }
 
         return proxima;

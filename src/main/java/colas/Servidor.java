@@ -69,7 +69,7 @@ public class Servidor {
      */
     public Double atenderProximo(double reloj) {
         // Liberar al actual.
-        if (estado != Estado.LIBRE) {
+        if (estado == Estado.OCUPADO) {
             clienteActual.finAtencion();
         }
 
