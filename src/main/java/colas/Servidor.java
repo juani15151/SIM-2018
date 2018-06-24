@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
  * @author eric
  */
 public class Servidor {
@@ -125,6 +124,7 @@ public class Servidor {
         if (tiempoRestante != null) {
             estado = Estado.OCUPADO;
             finAtencion = reloj + tiempoRestante;
+            tiempoRestante = null;
         } else {
             estado = Estado.LIBRE;
             // Por si durante la interrupcion entro un cliente a cola.
