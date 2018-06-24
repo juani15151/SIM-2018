@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class EventoInterrupcion extends Evento {
 
-    private final double TIEMPO_PURGA = 0.62;
+    private final double TIEMPO_PURGA = 5;
 
     private Random random = new Random();
     private Servidor servidor; // El servidor que va a interrumpir.
@@ -20,11 +20,11 @@ public class EventoInterrupcion extends Evento {
         double rnd = random.nextDouble();
         double proxima = 0.0;
         if (rnd < 0.20) {
-            proxima += 0.240;
+            proxima += 7.1;
         } else if (rnd < 0.5) {
-            proxima += 0.275;
+            proxima += 8.5;
         } else {
-            proxima += 0.310;
+            proxima += 10;
         }
 
         return proxima;
