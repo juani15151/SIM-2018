@@ -62,11 +62,11 @@ public class VectorEstado {
                 carniceriaEstadoClienteN = cola.get(cola.size() - 1).estado().toString();
                 carniceriaHoraClienteN = cola.get(cola.size() - 1).horaInicioEspera();
             case 2:
-                carniceriaEstadoCliente2 = cola.get(1).estado().toString();
-                carniceriaHoraCliente2 = cola.get(1).horaInicioEspera();
+                carniceriaEstadoCliente2 = cola.get(0).estado().toString();
+                carniceriaHoraCliente2 = cola.get(0).horaInicioEspera();
             case 1:
-                carniceriaEstadoCliente1 = cola.get(0).estado().toString();
-                carniceriaHoraCliente1 = cola.get(0).horaInicioEspera();
+                carniceriaEstadoCliente1 = carniceriaServ.getClienteActual().estado().toString();
+                carniceriaHoraCliente1 = carniceriaServ.getClienteActual().horaInicioEspera();
             case 0:
         }
         // Fiambreria        
@@ -81,11 +81,11 @@ public class VectorEstado {
                 fiambreriaEstadoClienteN = cola.get(cola.size() - 1).estado().toString();
                 fiambreriaHoraClienteN = cola.get(cola.size() - 1).horaInicioEspera();
             case 2:
-                fiambreriaEstadoCliente2 = cola.get(1).estado().toString();
-                fiambreriaHoraCliente2 = cola.get(1).horaInicioEspera();
+                fiambreriaEstadoCliente2 = cola.get(0).estado().toString();
+                fiambreriaHoraCliente2 = cola.get(0).horaInicioEspera();
             case 1:
-                fiambreriaEstadoCliente1 = cola.get(0).estado().toString();
-                fiambreriaHoraCliente1 = cola.get(0).horaInicioEspera();
+                fiambreriaEstadoCliente1 = fiambreriaServ.getClienteActual().estado().toString();
+                fiambreriaHoraCliente1 = fiambreriaServ.getClienteActual().horaInicioEspera();
             case 0:
         }
 

@@ -53,6 +53,10 @@ public class Servidor {
         return finAtencion;
     }
 
+    public Cliente getClienteActual() {
+        return clienteActual;
+    }
+
     public void agregarCliente(Cliente cliente, double reloj) {
         cola.add(cliente);
         if (estado == Estado.LIBRE) {
@@ -107,6 +111,7 @@ public class Servidor {
     }
 
     public void interrumpir(double reloj) {
+        assert estado != Estado.INTERRUMPIDO;
         estado = Estado.INTERRUMPIDO;
         if (finAtencion != null) {
             tiempoRestante = finAtencion - reloj;
@@ -116,12 +121,13 @@ public class Servidor {
     }
 
     public void reanudar(double reloj) {
+        assert estado == Estado.INTERRUMPIDO;
         if (tiempoRestante != null) {
             estado = Estado.OCUPADO;
             finAtencion = reloj + tiempoRestante;
         } else {
             estado = Estado.LIBRE;
-            // Por si durante la interrumcion entro un cliente a cola.
+            // Por si durante la interrupcion entro un cliente a cola.
             if (!cola.isEmpty()) {
                 atenderProximo(reloj);
             }
