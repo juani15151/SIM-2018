@@ -7,8 +7,6 @@ package sim.simulacion;
 
 import colas.Prueba;
 import colas.VectorEstado;
-import java.net.URL;
-import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -19,8 +17,11 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javax.swing.JOptionPane;
 import utils.Round;
+
+import javax.swing.*;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 /**
  * FXML Controller class
@@ -65,6 +66,7 @@ public class ColasControllerTP6 implements Initializable {
         addColumn(colCompuesta.getColumns(), "Estado", "carniceriaEstado");
         addColumn(colCompuesta.getColumns(), "T. Cola", "carniceriaTamañoCola");
         addColumn(colCompuesta.getColumns(), "Prox. Fin. At.", "carniceriaFinAtencion");
+        addColumn(colCompuesta.getColumns(), "Prox. Interrupcion", "proximaInterrupcion");
         addColumn(colCompuesta.getColumns(), "Ac. t. Espera", "carniceriaTiempoEsperaAcumulado");
         addColumn(colCompuesta.getColumns(), "Clientes At.", "carniceriaClientesIniciados");
 

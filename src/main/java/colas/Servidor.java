@@ -5,8 +5,8 @@
  */
 package colas;
 
-import java.util.LinkedList;
 import generadores.IGenerador;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +24,9 @@ public class Servidor {
     private int cantidadClientesAtendidos;
     public IGenerador generador;
     private Double finAtencion;
+
+    // Para controlar interrupcion.
+    private Double tiempoRestante; // Lo que faltaba para terminar de atender.
 
     public Servidor(String nombre, IGenerador generadorTiempoAtencion) {
         this.nombre = nombre;
@@ -66,7 +69,7 @@ public class Servidor {
      */
     public Double atenderProximo(double reloj) {
         // Liberar al actual.
-        if (estado == Estado.OCUPADO) {
+        if (estado != Estado.LIBRE) {
             clienteActual.finAtencion();
         }
 
@@ -84,7 +87,7 @@ public class Servidor {
         }
         return finAtencion;
     }
-    //CREO QUE ACA ESTABA EL ERROR, EN EL PRIMER IF NO ESTABA PROXIMOFIN +=
+
     private Double calcularProximoFinAtencion(Cliente cliente, double reloj) {
         Double proximoFin = reloj;
         if (!cliente.esParaVerduleria()) { // Si es de Carniceria o fiambreria.
@@ -92,7 +95,6 @@ public class Servidor {
         }
         if (cliente.tieneVerdura()) {
             // Incluye tanto a los cliente de solo verduleria y a los de carniceria + verduleria.
-            //  
             proximoFin += 0.2;
         }
 
@@ -104,9 +106,32 @@ public class Servidor {
         cantidadClientesAtendidos++;
     }
 
+    public void interrumpir(double reloj) {
+        estado = Estado.INTERRUMPIDO;
+        if (finAtencion != null) {
+            tiempoRestante = finAtencion - reloj;
+            finAtencion = null;
+        }
+        // Sino, el fin de atencion y el restante siguen en null.
+    }
+
+    public void reanudar(double reloj) {
+        if (tiempoRestante != null) {
+            estado = Estado.OCUPADO;
+            finAtencion = reloj + tiempoRestante;
+        } else {
+            estado = Estado.LIBRE;
+            // Por si durante la interrumcion entro un cliente a cola.
+            if (!cola.isEmpty()) {
+                atenderProximo(reloj);
+            }
+        }
+    }
+
     public enum Estado {
         LIBRE,
-        OCUPADO;
+        OCUPADO,
+        INTERRUMPIDO;
     }
 
 }

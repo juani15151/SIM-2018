@@ -8,7 +8,6 @@ package colas;
 import java.util.List;
 
 /**
- *
  * @author juani
  */
 public class VectorEstado {
@@ -18,6 +17,7 @@ public class VectorEstado {
     private Double proximaLlegada;
     private Double carniceriaFinAtencion;
     private Double fiambreriaFinAtencion;
+    private Double proximaInterrupcion;
     // Servidores
     private String carniceriaEstado;
     private int carniceriaTamañoCola;
@@ -41,13 +41,14 @@ public class VectorEstado {
     private String fiambreriaEstadoClienteN;
     private Double fiambreriaHoraClienteN;
 
-    public VectorEstado(Double reloj, Evento llegada, Evento carniceria, Evento fiambreria,
-            Servidor carniceriaServ, Servidor fiambreriaServ) {
+    public VectorEstado(Double reloj, Evento llegada, Evento carniceria, Evento fiambreria, Evento interrupcion,
+                        Servidor carniceriaServ, Servidor fiambreriaServ) {
         this.reloj = reloj;
         // Eventos
         this.proximaLlegada = llegada.proximaEjecucion();
         this.carniceriaFinAtencion = carniceria.proximaEjecucion();
         this.fiambreriaFinAtencion = fiambreria.proximaEjecucion();
+        this.proximaInterrupcion = interrupcion.proximaEjecucion();
         // Carniceria
         carniceriaEstado = carniceriaServ.getEstado().toString();
         carniceriaTamañoCola = carniceriaServ.cola.size();
@@ -184,6 +185,10 @@ public class VectorEstado {
 
     public Double getFiambreriaHoraClienteN() {
         return fiambreriaHoraClienteN;
+    }
+
+    public Double getProximaInterrupcion() {
+        return proximaInterrupcion;
     }
 
 }

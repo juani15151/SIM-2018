@@ -5,8 +5,9 @@
  */
 package colas;
 
-import generadores.*;
-import java.text.DecimalFormat;
+import generadores.GeneradorExponencial;
+import generadores.GeneradorUniformePersonalizado;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +31,9 @@ public class Prueba {
         eventos.add(new EventoLlegada("Llegada Cliente", new GeneradorExponencial(0.5), getSvFiambreria(), getSvCarniceria()));
         // Eventos Fin atencion.
         eventos.add(new EventoFinAtencion("Fin At. Carniceria", getSvCarniceria()));
-        eventos.add(new EventoFinAtencion("Fin At. Fiambreria", getSvFiambreria()));        
+        eventos.add(new EventoFinAtencion("Fin At. Fiambreria", getSvFiambreria()));
+        // Evento Interrupcion
+        eventos.add(new EventoInterrupcion("Interrupcion", getSvCarniceria()));
     }
         
     /**
@@ -61,6 +64,7 @@ public class Prueba {
                 getEventos().get(0), // Llegada
                 getEventos().get(1), // Carniceria
                 getEventos().get(2), // Fiambreria
+                getEventos().get(3), // Interrupcion
                 this.getSvCarniceria(),
                 this.getSvFiambreria()
         );        
