@@ -7,6 +7,9 @@ package sim.simulacion;
 
 import colas.Prueba;
 import colas.VectorEstado;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
+import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -101,8 +104,21 @@ public class ColasControllerTP6 implements Initializable {
         // Bindear las filas.
         tablaEstado.setItems(filas);
         tablaColas.setItems(filas);
+
+
+        // Bindear los listener para el cambio de fila.
+        tablaEstado.getSelectionModel().selectedIndexProperty().addListener(new InvalidationListener() {
+            public void invalidated(Observable observable) {
+                int index = ((ReadOnlyIntegerProperty) observable).get();
+                tablaColas.getSelectionModel().select(index);
+            }
+
+            ;
+        });
+
     }
-    
+
+
     private TableColumn<VectorEstado, ?> addColumn(ObservableList<TableColumn<VectorEstado, ?>> columnas, String label, String propertyName){
         TableColumn col = new TableColumn(label);
         if(propertyName != null){
@@ -158,4 +174,5 @@ public class ColasControllerTP6 implements Initializable {
     private boolean validarNoNegativo() {
         return Integer.parseInt(txt_desde.getText()) >= 0 && Integer.parseInt(txt_hasta.getText()) >= 0 && Integer.parseInt(txt_n.getText()) > 0;
     }
+
 }
