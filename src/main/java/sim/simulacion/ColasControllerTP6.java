@@ -49,7 +49,7 @@ public class ColasControllerTP6 implements Initializable {
     private TableView<VectorEstado> tablaEstado;
     @FXML
     private TableView<VectorEstado> tablaColas;
-    
+
     private final ObservableList<VectorEstado> filas = FXCollections.observableArrayList();
 
     /**
@@ -58,10 +58,10 @@ public class ColasControllerTP6 implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         TableColumn<VectorEstado, ?> colCompuesta;
-        
+
         // Bindear columnas de la tablaEstado con valores del vector.
-        ObservableList<TableColumn<VectorEstado, ?>> columnas1 = tablaEstado.getColumns();        
-        
+        ObservableList<TableColumn<VectorEstado, ?>> columnas1 = tablaEstado.getColumns();
+
         addColumn(columnas1, "Reloj", "reloj");
         colCompuesta = addColumn(columnas1, "Llegada", null);
         addColumn(colCompuesta.getColumns(), "Prox. Llegada", "proximaLlegada");
@@ -79,11 +79,11 @@ public class ColasControllerTP6 implements Initializable {
         addColumn(colCompuesta.getColumns(), "Prox. Fin. At.", "fiambreriaFinAtencion");
         addColumn(colCompuesta.getColumns(), "Ac. t. Espera", "fiambreriaTiempoEsperaAcumulado");
         addColumn(colCompuesta.getColumns(), "Clientes At.", "fiambreriaClientesIniciados");
-        
+
         // Bindear columnas de la tablaColas con valores del vector.
         ObservableList<TableColumn<VectorEstado, ?>> columnas2 = tablaColas.getColumns();
 
-        
+
         addColumn(columnas2, "Reloj", "reloj");
         colCompuesta = addColumn(columnas2, "Cola Carniceria", null);
         addColumn(colCompuesta.getColumns(), "Estado", "carniceriaEstadoCliente1");
@@ -99,8 +99,8 @@ public class ColasControllerTP6 implements Initializable {
         addColumn(colCompuesta.getColumns(), "H Inicio Espera", "fiambreriaHoraCliente2");
         addColumn(colCompuesta.getColumns(), "Estado", "fiambreriaEstadoClienteN");
         addColumn(colCompuesta.getColumns(), "H Inicio Espera", "fiambreriaHoraClienteN");
-        
-        
+
+
         // Bindear las filas.
         tablaEstado.setItems(filas);
         tablaColas.setItems(filas);
@@ -111,20 +111,23 @@ public class ColasControllerTP6 implements Initializable {
             public void invalidated(Observable observable) {
                 int index = ((ReadOnlyIntegerProperty) observable).get();
                 tablaColas.getSelectionModel().select(index);
+                try {
+                    tablaColas.scrollTo(index - 4);
+                } catch (Exception e) {
+                    tablaColas.scrollTo(index);
+                }
             }
-
-            ;
         });
 
     }
 
 
-    private TableColumn<VectorEstado, ?> addColumn(ObservableList<TableColumn<VectorEstado, ?>> columnas, String label, String propertyName){
+    private TableColumn<VectorEstado, ?> addColumn(ObservableList<TableColumn<VectorEstado, ?>> columnas, String label, String propertyName) {
         TableColumn col = new TableColumn(label);
-        if(propertyName != null){
+        if (propertyName != null) {
             col.setCellValueFactory(new PropertyValueFactory<>(propertyName));
-        }        
-        columnas.add(col);        
+        }
+        columnas.add(col);
         return col;
     }
 
@@ -139,8 +142,8 @@ public class ColasControllerTP6 implements Initializable {
         int mostrar_desde = Integer.parseInt(txt_desde.getText());
         int mostrar_hasta = Integer.parseInt(txt_hasta.getText());
         String cad = "";
-        for (int n = 0; n < limite_lineas; n++) {            
-            if (n >= mostrar_desde && n < mostrar_hasta) {       
+        for (int n = 0; n < limite_lineas; n++) {
+            if (n >= mostrar_desde && n < mostrar_hasta) {
                 filas.add(simulacion.getEstado());
             }
             simulacion.linea();
@@ -151,9 +154,9 @@ public class ColasControllerTP6 implements Initializable {
     }
 
     private void reset() {
-        filas.clear();        
+        filas.clear();
     }
-    
+
     private boolean validarParametros() {
         boolean valido = true;
         if (!validarNoNegativo()) {
