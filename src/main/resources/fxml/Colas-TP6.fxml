@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.121"
+<AnchorPane id="AnchorPane" prefHeight="768.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/8.0.121"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="sim.simulacion.ColasControllerTP6">
    <children>
       <Label alignment="CENTER" layoutY="25.0" prefHeight="31.0" prefWidth="600.0" text="Gestion de colas en un supermercado" textAlignment="CENTER" textFill="#ee0606" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="20.0">
@@ -59,12 +59,15 @@
          <children>
             <VBox>
                <children>
-                  <TableView fx:id="tablaEstado" prefHeight="277.0" prefWidth="1200.0">
+                   <TableView fx:id="tablaEstado" prefHeight="255.0" prefWidth="1366.0">
                      <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                      </columnResizePolicy>
+                       <VBox.margin>
+                           <Insets/>
+                       </VBox.margin>
                   </TableView>
-                  <TableView fx:id="tablaColas" prefHeight="251.0" prefWidth="1200.0">
+                   <TableView fx:id="tablaColas" prefHeight="255.0" prefWidth="1366.0">
                      <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                      </columnResizePolicy>
