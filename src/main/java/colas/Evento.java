@@ -11,7 +11,7 @@ package colas;
  */
 public abstract class Evento {
 
-    protected String nombre;
+    private String nombre;
     protected Double proximaEjecucion;
 
     public Evento(String nombre) {

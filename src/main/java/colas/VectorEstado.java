@@ -13,6 +13,7 @@ import java.util.List;
 public class VectorEstado {
 
     private Double reloj;
+    private String evento; // El evento que se proceso en la linea.
     // Eventos
     private Double proximaLlegada;
     private Double carniceriaFinAtencion;
@@ -41,9 +42,10 @@ public class VectorEstado {
     private String fiambreriaEstadoClienteN;
     private Double fiambreriaHoraClienteN;
 
-    public VectorEstado(Double reloj, Evento llegada, Evento carniceria, Evento fiambreria, Evento interrupcion,
+    public VectorEstado(Double reloj, String evento, Evento llegada, Evento carniceria, Evento fiambreria, Evento interrupcion,
                         Servidor carniceriaServ, Servidor fiambreriaServ) {
         this.reloj = reloj;
+        this.evento = evento;
         // Eventos
         this.proximaLlegada = llegada.proximaEjecucion();
         this.carniceriaFinAtencion = carniceria.proximaEjecucion();
@@ -95,6 +97,10 @@ public class VectorEstado {
 
     public Double getReloj() {
         return reloj;
+    }
+
+    public String getEvento() {
+        return evento;
     }
 
     public Double getProximaLlegada() {

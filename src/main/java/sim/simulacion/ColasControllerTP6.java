@@ -63,6 +63,7 @@ public class ColasControllerTP6 implements Initializable {
         ObservableList<TableColumn<VectorEstado, ?>> columnas1 = tablaEstado.getColumns();
 
         addColumn(columnas1, "Reloj", "reloj");
+        addColumn(columnas1, "Evento", "evento");
         colCompuesta = addColumn(columnas1, "Llegada", null);
         addColumn(colCompuesta.getColumns(), "Prox. Llegada", "proximaLlegada");
         colCompuesta = addColumn(columnas1, "Carniceria", null);

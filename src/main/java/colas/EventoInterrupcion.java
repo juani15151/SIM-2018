@@ -43,6 +43,23 @@ public class EventoInterrupcion extends Evento {
         }
     }
 
+    @Override
+    public String nombre() {
+        // El Tipo actual es para la siguiente ejecución, hay que usar el anterior (se invierten)
+        String nombre;
+        switch (tipo) {
+            case INICIO:
+                nombre = String.format(super.nombre(), "Fin");
+                break;
+            case FIN:
+                nombre = String.format(super.nombre(), "Inicio");
+                break;
+            default:
+                nombre = super.nombre();
+        }
+        return nombre;
+    }
+
     private enum Tipo {
         INICIO,
         FIN

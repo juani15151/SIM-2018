@@ -17,6 +17,7 @@ import java.util.List;
  */
 public class Prueba {
     private double reloj;
+    private String ultimoEvento = "Inicio";
     private Servidor svFiambreria;
     private Servidor svCarniceria;
     private List<Evento> eventos = new ArrayList<>();
@@ -28,12 +29,12 @@ public class Prueba {
         this.svCarniceria = new Servidor("Carniceria", new GeneradorUniformePersonalizado(0.5, 2.5));        
         this.svFiambreria = new Servidor("Fiambreria", new GeneradorUniformePersonalizado(1, 3));        
         // Evento llegada.
-        eventos.add(new EventoLlegada("Llegada Cliente", new GeneradorExponencial(0.5), getSvFiambreria(), getSvCarniceria()));
+        eventos.add(new EventoLlegada("Llegada", new GeneradorExponencial(0.5), getSvFiambreria(), getSvCarniceria()));
         // Eventos Fin atencion.
         eventos.add(new EventoFinAtencion("Fin At. Carniceria", getSvCarniceria()));
         eventos.add(new EventoFinAtencion("Fin At. Fiambreria", getSvFiambreria()));
         // Evento Interrupcion
-        eventos.add(new EventoInterrupcion("Interrupcion", getSvCarniceria()));
+        eventos.add(new EventoInterrupcion("%s Interrupcion", getSvCarniceria()));
     }
         
     /**
@@ -50,7 +51,8 @@ public class Prueba {
         }
         // Avanzar el reloj a ese evento y ejecutarlo.
         reloj = menor.proximaEjecucion();
-        menor.ejecutar();                
+        menor.ejecutar();
+        ultimoEvento = menor.nombre();
     }
     
     /**
@@ -61,6 +63,7 @@ public class Prueba {
     public VectorEstado getEstado(){
         return new VectorEstado( 
                 this.getReloj(),
+                ultimoEvento,
                 getEventos().get(0), // Llegada
                 getEventos().get(1), // Carniceria
                 getEventos().get(2), // Fiambreria
